@@ -8,8 +8,8 @@ public class BeanCoupon extends BeanEntity {
 	private int shop_id;
 	private double coupon_amount;
 	private int coupon_ordered_number_requirement;
-	private Date coupon_start_date;
-	private Date coupon_end_date;
+	private Date coupon_start_time;
+	private Date coupon_end_time;
 	private Date coupon_delete_time;
 	public int getCoupon_id() {
 		return coupon_id;
@@ -35,17 +35,17 @@ public class BeanCoupon extends BeanEntity {
 	public void setCoupon_ordered_number_requirement(int coupon_ordered_number_requirement) {
 		this.coupon_ordered_number_requirement = coupon_ordered_number_requirement;
 	}
-	public Date getCoupon_start_date() {
-		return coupon_start_date;
+	public Date getCoupon_start_time() {
+		return coupon_start_time;
 	}
-	public void setCoupon_start_date(Date coupon_start_date) {
-		this.coupon_start_date = coupon_start_date;
+	public void setCoupon_start_time(Date coupon_start_time) {
+		this.coupon_start_time = coupon_start_time;
 	}
-	public Date getCoupon_end_date() {
-		return coupon_end_date;
+	public Date getCoupon_end_time() {
+		return coupon_end_time;
 	}
-	public void setCoupon_end_date(Date coupon_end_date) {
-		this.coupon_end_date = coupon_end_date;
+	public void setCoupon_end_time(Date coupon_end_time) {
+		this.coupon_end_time = coupon_end_time;
 	}
 	public Date getCoupon_delete_time() {
 		return coupon_delete_time;

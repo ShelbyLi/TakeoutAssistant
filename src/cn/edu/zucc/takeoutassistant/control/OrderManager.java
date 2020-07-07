@@ -17,7 +17,6 @@ public class OrderManager implements IEntityManager {
 
 	@Override
 	public void add(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
 		BeanOrderForm order = (BeanOrderForm) entity;
 		Connection conn = null;
 		try {
@@ -42,7 +41,6 @@ public class OrderManager implements IEntityManager {
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -51,10 +49,12 @@ public class OrderManager implements IEntityManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
+		
+		//  TODO ¸üÐÂuserholdcoupons±í
+		
 	}
 
 	@Override

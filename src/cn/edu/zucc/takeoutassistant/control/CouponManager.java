@@ -15,7 +15,6 @@ public class CouponManager implements IEntityManager {
 
 	@Override
 	public void add(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
 		BeanCoupon coupon = (BeanCoupon) entity;
 		Connection conn = null;
 		try {
@@ -26,12 +25,11 @@ public class CouponManager implements IEntityManager {
 			pst.setInt(1, coupon.getShop_id());
 			pst.setDouble(2, coupon.getCoupon_amount());
 			pst.setInt(3, coupon.getCoupon_ordered_number_requirement());
-			pst.setDate(4, new java.sql.Date(coupon.getCoupon_start_date().getTime()));
-			pst.setDate(5, new java.sql.Date(coupon.getCoupon_end_date().getTime()));
+			pst.setDate(4, new java.sql.Date(coupon.getCoupon_start_time().getTime()));
+			pst.setDate(5, new java.sql.Date(coupon.getCoupon_end_time().getTime()));
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -40,7 +38,6 @@ public class CouponManager implements IEntityManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -66,7 +63,6 @@ public class CouponManager implements IEntityManager {
 //			pst.execute();
 //			pst.close();
 //		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //			throw new DbException(e);
 //		}
@@ -75,7 +71,6 @@ public class CouponManager implements IEntityManager {
 //				try {
 //					conn.close();
 //				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //		}
@@ -101,8 +96,8 @@ public class CouponManager implements IEntityManager {
 		coupon.setShop_id(1);
 		coupon.setCoupon_amount(10);
 		coupon.setCoupon_ordered_number_requirement(5);
-		coupon.setCoupon_start_date(new java.util.Date());
-		coupon.setCoupon_end_date(new java.util.Date());
+		coupon.setCoupon_start_time(new java.util.Date());
+		coupon.setCoupon_end_time(new java.util.Date());
 		try {
 //			cm.add(coupon);
 			cm.update(coupon);
