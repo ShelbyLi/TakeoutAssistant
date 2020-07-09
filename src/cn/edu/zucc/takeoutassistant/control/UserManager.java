@@ -1,7 +1,6 @@
 package cn.edu.zucc.takeoutassistant.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class UserManager implements IPeopleManager {
 		user.setUser_pwd("testpwd");
 		user.setUser_phone_number("12345678901");
 		user.setRegistration_time(new java.util.Date());
-		user.setUser_is_vip(BeanUser.isnotVip);
+		user.setUser_is_vip(BeanUser.ISNOTVIP);
 		try {
 			um.register(user);
 //			user = (BeanUser)um.login("test", "testpwd3");
@@ -60,20 +59,20 @@ public class UserManager implements IPeopleManager {
 				pst2.close();
 			} else {
 				String sql2 = "INSERT INTO userinfo (user_name, user_gender, user_pwd, user_phone_number, user_mail, user_city, user_registration_time, user_is_vip) \r\n" + 
-						"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+						"VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);";
 				PreparedStatement pst2 = conn.prepareStatement(sql2);
 				pst2.setString(1, user.getUser_name());
-				pst2.setInt(2, 0);
+				pst2.setInt(2, user.getUser_gender());
 				pst2.setString(3, user.getUser_pwd());
 				pst2.setString(4, user.getUser_phone_number());
 				pst2.setString(5, user.getUser_mail());
 				pst2.setString(6, user.getUser_city());
-				pst2.setDate(7, new java.sql.Date(user.getRegistration_time().getTime()));
+//				pst2.setDate(7, new java.sql.Date(user.getRegistration_time().getTime()));
 				// vip的功能单独实现  若要在注册时直接注册 也直接调用注册vip的函数
-				pst2.setInt(8, user.getUser_is_vip());  //
-				if (user.getUser_is_vip() == 1) {
-					//注册vip
-				}
+				pst2.setInt(7, user.getUser_is_vip());  //
+//				if (user.getUser_is_vip() == 1) {
+//					//注册vip
+//				}
 	//					pst.setInt(8, user.getUser_is_vip());
 	//					System.out.println(user.getUser_vip_ddl());
 	//					if (user.getUser_vip_ddl() != null) 
@@ -120,6 +119,7 @@ public class UserManager implements IPeopleManager {
 				throw new BusinessException("用户已注销");
 			}
 			if (!rs.getString("user_pwd").equals(pwd)) {
+				result = null;
 				throw new BusinessException("密码错误");
 			}
 			// 若后期有 用户登陆后不需要读取的信息 再注释掉
@@ -135,7 +135,6 @@ public class UserManager implements IPeopleManager {
 			result.setUser_vip_ddl(rs.getDate(10));
 			rs.close();
 			pst.close();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

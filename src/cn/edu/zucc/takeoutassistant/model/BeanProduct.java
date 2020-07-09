@@ -8,6 +8,8 @@ public class BeanProduct extends BeanEntity {
 	private String product_name;
 	private double product_price;
 	private double product_discounted_price;
+	private String shop_name;
+	private String productcategory_name;
 	
 	public int getShop_id() {
 		return shop_id;
@@ -44,6 +46,18 @@ public class BeanProduct extends BeanEntity {
 	}
 	public void setProduct_discounted_price(double product_discounted_price) {
 		this.product_discounted_price = product_discounted_price;
+	}
+	public String getShop_name() {
+		return shop_name;
+	}
+	public void setShop_name(String shop_name) {
+		this.shop_name = shop_name;
+	}
+	public String getProductcategory_name() {
+		return productcategory_name;
+	}
+	public void setProductcategory_name(String productcategory_name) {
+		this.productcategory_name = productcategory_name;
 	}
 	
 }

@@ -10,7 +10,9 @@ public class BeanRiderDeliverOrder extends BeanEntity {
 	private int deliver_user_rate;
 	private double deliver_single_income;
 	
-	
+	public static final int NOREVIEW = 0;
+	public static final int GOODREVIEW = 1;
+	public static final int BADREVIEW = 2;
 	
 	public int getOrder_id() {
 		return order_id;

@@ -71,17 +71,17 @@ public class ShopManager implements IPeopleManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_per_capita_consumption, shop_total_sales, shop_logout_time \r\n" + 
+			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time \r\n" + 
 					"FROM shopinfo\r\n" + 
 					"WHERE shop_name = ?";
 			PreparedStatement pst = conn.prepareCall(sql);
 			pst.setString(1, name);
 			ResultSet rs = pst.executeQuery();
-//			if (!rs.next()) {
-//				throw new BusinessException("商家不存在");
-//			}  // 登陆后才可改密码 因此不存在账号不存在的情况
-			rs.next();
-			if (rs.getDate(7) != null) {
+			if (!rs.next()) {
+				throw new BusinessException("商家不存在");
+			}
+//			rs.next();
+			if (rs.getDate(5) != null) {
 				throw new BusinessException("商家已注销");
 			}
 			if (!rs.getString("shop_pwd").equals(pwd)) {
@@ -222,8 +222,8 @@ public class ShopManager implements IPeopleManager {
 //		product.setProduct_name("testproduct");
 //		product.setProduct_price(27.1);
 		try {
-			sp.register(shop);
-//			shop = (BeanShop)sp.login("testshop", "testpwd");
+//			sp.register(shop);
+			shop = (BeanShop)sp.login("q", "w");
 //			sp.changePwd("testshop", "testpwd", "testpwd2");
 //			sp.logout("testshop");
 //			sp.addProductCategory(productcategory);

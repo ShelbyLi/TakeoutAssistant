@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>骑手登录</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css"/>
+	<script src="jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+
+				<div class="row clearfix">
+					<div class="col-md-3 column">
+					</div>
+					<div class="col-md-6 column">
+						<div class="page-header">
+							<h1>
+								Example page header <small>Subtext for header</small>
+							</h1>
+						</div>
+						<div class="alert alert-success alert-dismissable">
+							 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4>
+								你好 骑手! <%-- ${attention} --%>
+							</h4> <strong>不是骑手? 请选择登录身份! </strong>若无账号 请 <a href="rider_register.jsp" class="alert-link">注册</a>
+						</div>
+						<div class="row clearfix">
+							<div class="col-md-2 column">
+							</div>
+							<div class="col-md-10 column">
+								<div class="btn-group">
+									 <button class="btn btn-default">骑手</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li>
+											 <a href="user_login.jsp">用户</a>
+										</li>
+										<li>
+											 <a href="shop_login.jsp">商家</a>
+										</li>
+										<!-- <li class="disabled">
+											 <a href="#">另一操作</a>
+										</li> -->
+										<li class="divider">
+										</li>
+										<li>
+											 <a href="admin_login.jsp">管理员</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<form action="Login" method="post" class="form-horizontal" role="form">
+							<div class="form-group">
+								 <label for="inputEmail3" class="col-sm-2 control-label">登录名</label>
+								<div class="col-sm-10">
+									<input class="form-control" id="inputEmail3" name="username" required="required" />
+								</div>
+							</div>
+							<div class="form-group">
+								 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-10">
+									<input type="password" class="form-control" id="inputPassword3" name="password" required="required"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<div class="checkbox">
+										 <label><input type="checkbox" />Remember me</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									 <button type="submit" class="btn btn-default">登录</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-md-3 column">
+					</div>
+				</div>
+				
+				
+</body>
+</html>

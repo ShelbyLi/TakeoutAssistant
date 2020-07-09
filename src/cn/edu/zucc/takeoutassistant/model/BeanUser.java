@@ -17,8 +17,10 @@ public class BeanUser extends BeanPeople {
 	private Date user_vip_ddl;
 	private Date user_logout_time;
 	
-	public static final int isnotVip = 0;
-	public static final int isVip = 1;
+	public static final int MALE = 0;
+	public static final int FEMALE = 1;
+	public static final int ISNOTVIP = 0;
+	public static final int ISVIP = 1;
 	
 	public Date getUser_logout_time() {
 		return user_logout_time;
