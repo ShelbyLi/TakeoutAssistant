@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
 
 import cn.edu.zucc.takeoutassistant.control.ShopManager;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
@@ -37,6 +40,7 @@ public class ShopLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
@@ -44,7 +48,8 @@ public class ShopLogin extends HttpServlet {
 		BeanShop shop = new BeanShop();
 		try {
 			shop = (BeanShop) sm.login(request.getParameter("shop_name"), request.getParameter("shop_pwd"));
-			request.setAttribute("cur_shop", shop);
+			session.setAttribute("cur_shop", shop);
+			
 			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block

@@ -1,30 +1,28 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import cn.edu.zucc.takeoutassistant.control.ProductManager;
-import cn.edu.zucc.takeoutassistant.model.BeanProduct;
+import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopProductdetails
+ * Servlet implementation class ShopLogout
  */
-@WebServlet("/ShopProductdetails")
-public class ShopProductdetails extends HttpServlet {
+@WebServlet("/ShopLogout")
+public class ShopLogout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopProductdetails() {
+    public ShopLogout() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,20 +38,24 @@ public class ShopProductdetails extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		ProductManager pm = new ProductManager();
-		List<BeanProduct> products = new ArrayList<BeanProduct>();
+		BeanShop cur_shop = new BeanShop();
+		ShopManager sm = new ShopManager();
+		
+		cur_shop = (BeanShop) session.getAttribute("cur_shop");
+		int id = cur_shop.getShop_id();
+		
 		try {
-			products = pm.loadAll();
-			request.setAttribute("products", products);
-			
+			sm.logout(id);
+			session.invalidate();
+			request.getRequestDispatcher("shop_login.jsp").forward(request,response);
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("shop_productdetails.jsp").forward(request, response);
 	}
 
 }

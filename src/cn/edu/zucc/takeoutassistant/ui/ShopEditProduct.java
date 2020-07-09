@@ -1,30 +1,24 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import cn.edu.zucc.takeoutassistant.control.ProductManager;
-import cn.edu.zucc.takeoutassistant.model.BeanProduct;
-import cn.edu.zucc.takeoutassistant.util.BaseException;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ShopProductdetails
+ * Servlet implementation class ShopEditProduct
  */
-@WebServlet("/ShopProductdetails")
-public class ShopProductdetails extends HttpServlet {
+@WebServlet("/ShopEditProduct")
+public class ShopEditProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopProductdetails() {
+    public ShopEditProduct() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,27 +27,19 @@ public class ShopProductdetails extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		
+		request.getRequestDispatcher("shop_edit_product.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		ProductManager pm = new ProductManager();
-		List<BeanProduct> products = new ArrayList<BeanProduct>();
-		try {
-			products = pm.loadAll();
-			request.setAttribute("products", products);
-			
-		} catch (BaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher("shop_productdetails.jsp").forward(request, response);
+		request.getRequestDispatcher("shop_edit_product.jsp").forward(request, response);
 	}
 
 }

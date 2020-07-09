@@ -69,9 +69,31 @@ public class ProductManager implements IEntityManager {
 
 
 	@Override
-	public void delete(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-		
+	public void delete(int id) throws BaseException {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE productdetails\r\n" + 
+					"SET product_delete_time = NOW()\r\n" + 
+					"WHERE product_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 
 
@@ -84,7 +106,8 @@ public class ProductManager implements IEntityManager {
 			String sql="SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price\r\n" + 
 					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
 					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
-					"AND a.shop_id = c.shop_id";
+					"AND a.shop_id = c.shop_id\r\n" + 
+					"AND product_delete_time IS NULL";
 			PreparedStatement pst = conn.prepareStatement(sql);				
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()){
@@ -124,12 +147,12 @@ public class ProductManager implements IEntityManager {
 		product.setProduct_price(27);
 		product.setProduct_discounted_price(25);
 		try {
-//			pm.add(product);
-			List<BeanProduct> products = new ArrayList<BeanProduct>();
-			products = pm.loadAll();
-			for (BeanProduct item: products) {
-				System.out.println(item.getProduct_name());
-			}
+			pm.add(product);
+//			List<BeanProduct> products = new ArrayList<BeanProduct>();
+//			products = pm.loadAll();
+//			for (BeanProduct item: products) {
+//				System.out.println(item.getProduct_name());
+//			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

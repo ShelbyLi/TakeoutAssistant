@@ -2,7 +2,9 @@ package cn.edu.zucc.takeoutassistant.control;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
 import cn.edu.zucc.takeoutassistant.model.BeanEntity;
@@ -78,31 +80,46 @@ public class ProductcategoryManager implements IEntityManager {
 	}
 
 	@Override
-	public void delete(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-		// 选中删 因此也不会出现不存在的问题
-//		BeanProductCategory productcategory = (BeanProductCategory) entity;
-//		Connection conn = null;
-//		try {
-//			String sql = "";
-//			conn = DBUtil.getConnection();
-//			PreparedStatement pst = conn.prepareStatement(sql);
-////			pst.setString(1, x);
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		
-	}
-
-	@Override
-	public void load(BeanEntity entity) throws BaseException {
+	public void delete(int id) throws BaseException {
 		// TODO Auto-generated method stub
 		
 	}
 
+
+
+	public BeanProductCategory search(String name) throws BaseException {
+		BeanProductCategory result = new BeanProductCategory();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT productcategory_id, shop_id, productcategory_name\r\n" + 
+					"FROM productcategory\r\n" + 
+					"WHERE productcategory_name =?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, name);
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) {
+				throw new BaseException("商品类别不存在");
+			}
+			result.setProductcategory_id(rs.getInt(1));
+			result.setShop_id(2);
+			result.setProductcategory_name(name);
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ProductcategoryManager pcm = new ProductcategoryManager();
@@ -118,5 +135,8 @@ public class ProductcategoryManager implements IEntityManager {
 			e.printStackTrace();
 		}
 	}
+
+
+
 
 }

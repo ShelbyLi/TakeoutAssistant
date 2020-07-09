@@ -18,7 +18,6 @@ public class ShopManager implements IPeopleManager {
 	
 	@Override
 	public void register(BeanPeople people) throws BaseException {
-		// TODO Auto-generated method stub
 		BeanShop shop = (BeanShop)people;
 		Connection conn = null;
 		try {
@@ -114,20 +113,20 @@ public class ShopManager implements IPeopleManager {
 	}
 
 	@Override
-	public void changePwd(String name, String oldPwd, String newPwd) throws BaseException {
-		// TODO Auto-generated method stub
+	public void changePwd(int id, String oldPwd, String newPwd) throws BaseException {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			String sql = "SELECT shop_pwd\r\n" + 
 					"FROM shopinfo\r\n" + 
-					"WHERE shop_name = ?";
+					"WHERE shop_id = ?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
+			pst.setInt(1, id);
 			java.sql.ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				throw new BusinessException("该商家不存在");
-			}
+//			if (!rs.next()) {
+//				throw new BusinessException("该商家不存在");
+//			}
+			rs.next();
 			if (!oldPwd.equals(rs.getString(1))) {
 				throw new BusinessException("原密码错误");
 			}
@@ -136,10 +135,10 @@ public class ShopManager implements IPeopleManager {
 			
 			sql = "UPDATE shopinfo\r\n" + 
 					"SET shop_pwd = ?\r\n" + 
-					"WHERE shop_name = ?";
+					"WHERE shop_id = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, newPwd);
-			pst.setString(2, name);
+			pst.setInt(2, id);
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
@@ -159,35 +158,35 @@ public class ShopManager implements IPeopleManager {
 	}
 
 	@Override
-	public void logout(String name) throws BaseException {
+	public void logout(int id) throws BaseException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT shop_name, shop_logout_time\r\n" + 
-					"FROM shopinfo\r\n" + 
-					"WHERE shop_name = ?";
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
-			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				throw new BusinessException("商家不存在");
-			}
-			if (rs.getDate(2) != null) {
-				throw new BusinessException("商家已注销");
-			}
-			rs.close();
-			pst.close();
+//			String sql = "SELECT shop_name, shop_logout_time\r\n" + 
+//					"FROM shopinfo\r\n" + 
+//					"WHERE shop_id = ?";
+//			PreparedStatement pst = conn.prepareStatement(sql);
+//			pst.setInt(1, id);
+//			ResultSet rs = pst.executeQuery();
+//			// XXX 已注销就无法登录 因此冗余...
+//			if (!rs.next()) {
+//				throw new BusinessException("商家不存在");
+//			}
+//			if (rs.getDate(2) != null) {
+//				throw new BusinessException("商家已注销");
+//			}
+//			rs.close();
+//			pst.close();
 			
-			sql = "UPDATE shopinfo\r\n" + 
+			String sql = "UPDATE shopinfo\r\n" + 
 					"SET shop_logout_time = NOW()\r\n" + 
-					"WHERE shop_name = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
+					"WHERE shop_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -207,8 +206,9 @@ public class ShopManager implements IPeopleManager {
 		// TODO Auto-generated method stub
 		ShopManager sp = new ShopManager();
 		BeanShop shop = new BeanShop();
-		shop.setShop_name("testshop");
-		shop.setShop_pwd("testpwd");
+		shop.setShop_id(2);
+		shop.setShop_name("qwe");
+		shop.setShop_pwd("w");
 		shop.setShop_level(1);
 //		
 //		BeanProductCategory productcategory = new BeanProductCategory();
@@ -223,16 +223,49 @@ public class ShopManager implements IPeopleManager {
 //		product.setProduct_price(27.1);
 		try {
 //			sp.register(shop);
-			shop = (BeanShop)sp.login("q", "w");
-//			sp.changePwd("testshop", "testpwd", "testpwd2");
+//			shop = (BeanShop)sp.login("q", "w");
+			sp.changePwd(2, "w", "e");
 //			sp.logout("testshop");
 //			sp.addProductCategory(productcategory);
 //			sp.addProduct(product);
+			sp.updateInfo(shop);
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public void updateInfo(BeanPeople people) throws BaseException {
+		BeanShop shop = (BeanShop)people;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			// ....
+			String sql = "UPDATE shopinfo\r\n" + 
+					"SET shop_name=?, shop_level=? \r\n" + 
+					"WHERE shop_id = ?\r\n";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, shop.getShop_name());
+			pst.setInt(2, shop.getShop_level());
+			pst.setInt(3, shop.getShop_id());
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 
 }

@@ -23,7 +23,7 @@
 </head>
 <body>
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white">
+       <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -41,7 +41,7 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item ">
+          <li class="nav-item active  ">
             <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
@@ -76,7 +76,7 @@
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item active  ">
+		  <li class="nav-item ">
 		    <a class="nav-link" href="shop_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
@@ -87,7 +87,7 @@
         </ul>
       </div>
     </div>
-	
+    
 	
 	
     <div class="main-panel">
@@ -120,135 +120,69 @@
         <div class="container-fluid">
           <!-- your content here -->
 		  <div class="row">
+			  <div class="col-md-3">
+			      
+			    </div>
+			    <div class="col-md-6">
+			      
+				  <div class="card">
+				      <div class="card-header card-header-primary">
+				        <h4 class="card-title">添加产品</h4>
+				        <p class="card-category">Complete your profile</p>
+				      </div>
+				      <div class="card-body">
+				        
+				        <form action="ShopAddProduct" method="post"> 
+				          <div class="row">
+				            <div class="col-md-12">
+				              <div class="form-group">
+				                <label class="bmd-label-floating">所属类别</label>
+				                <input type="text" class="form-control"  name="productcategory_name">
+				              </div>
+				            </div>
+				          </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">产品名称</label>
+						        <input type="text" class="form-control" name="product_name">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">产品价格</label>
+						        <input type="text" class="form-control" name="product_price">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">优惠价格</label>
+						        <input type="text" class="form-control" name = "product_discounted_price">
+						      </div>
+						    </div>
+						  </div>
+				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
+				          <div class="clearfix"></div>
+				        </form>
+				      </div>
+				  </div>
+				  
+				  
+				  
+			    </div>
+			    <div class="col-md-3">
+			      
+			  </div>
 		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">基本信息</h4>
-		            <p class="card-category">完善你的信息</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopBasicinfoSubmitUpdate" method="post">
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家ID</label>
-		                    <input type="text" class="form-control" disabled name="shop_id" value="${cur_shop.shop_id }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家名称</label>
-		                    <input type="text" class="form-control" value="${cur_shop.shop_name }" name="shop_name">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">星级</label>
-		                    <input type="text" class="form-control" name="shop_level" value="${cur_shop.shop_level }">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row" >
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">地址</label>
-		                    <input type="text" class="form-control">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">人均消费</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">总销量</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">邮政编码</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label>简介</label>
-		                    <div class="form-group">
-		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
-		                      <textarea class="form-control" rows="5"></textarea>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
-		              
-					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
-		              
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		      </div>
-		      
-			  
+		     
 			  
 			  <!-- </div> -->
 		    </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">修改密码</h4>
-		            <p class="card-category">提高保密性</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopChangepwd" method="post">		              
-		              <div class="row">
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">旧密码</label>
-		                    <input type="password" class="form-control" name="old_pwd">
-		                  </div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">新密码</label>
-		                    <input type="password" class="form-control" name="new_pwd">
-		                  </div>
-		                </div>
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
 		  </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopLogout" method="post">		              
-		              <div class="row">
-		                
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
-		  
         </div>
       <footer class="footer">
         <div class="container-fluid">

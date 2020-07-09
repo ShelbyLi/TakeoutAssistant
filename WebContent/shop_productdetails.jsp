@@ -80,7 +80,7 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="<%=request.getContextPath() %>/ShopBasicinfo">
+		    <a class="nav-link" href="shop_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -122,13 +122,32 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+          
+          <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		          <div class="card-header card-header-primary">
+		            <!-- <h4 class="card-title">注销</h4> -->
+		            <p class="card-category">增加你的新产品吧</p>
+		          </div>
+		          <div class="card-body">
+		            <!-- <form> -->		              
+		              
+		              	<a href="shop_add_product.jsp"><button type="submit" class="btn btn-primary pull-left">添加产品</button></a>
+					
+		            <!-- </form> -->
+		          </div>
+		    </div>
+		  </div>
+          
 		  <div class="row">
 		    <!-- <div class="col-lg-6 col-md-12"> -->
 		      <div class="card">
 		        <div class="card-header card-header-tabs card-header-primary">
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
-		              <span class="nav-tabs-title">产品详情:</span>
+		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
+		              <h4 class="card-title">产品详情</h4>
 		              <!-- <ul class="nav nav-tabs" data-tabs="tabs">
 		                <li class="nav-item">
 		                  <a class="nav-link active" href="#profile" data-toggle="tab">
@@ -174,12 +193,17 @@
 								<td>${item.product_price }</td>
 								<td>${item.product_discounted_price }</td>
 			                    <td class="td-actions text-right">
-			                      <button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">
-			                        <i class="material-icons">edit</i>
-			                      </button>
-			                      <button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
-			                        <i class="material-icons">close</i>
-			                      </button>
+			                      <%-- <a href="ShopEditProduct?product_id=${item.product_id }"> --%>
+			                      <a href="ShopEditProduct">
+			                      	<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">	
+			                        	<i class="material-icons">edit</i>
+			                      	</button>
+			                      </a>
+			                      <a href="<%=request.getContextPath() %>/ShopRemoveProduct?product_id=${item.product_id }">
+			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
+			                        	<i class="material-icons">close</i>
+			                      	</button>
+			                      </a>
 			                    </td>
 			                  </tr>
 		                  </c:forEach>

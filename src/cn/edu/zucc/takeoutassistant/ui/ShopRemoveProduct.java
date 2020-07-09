@@ -7,19 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.zucc.takeoutassistant.model.BeanShop;
+import cn.edu.zucc.takeoutassistant.control.ProductManager;
+import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopBasicinfo
+ * Servlet implementation class ShopRemoveProduct
  */
-@WebServlet("/ShopBasicinfo")
-public class ShopBasicinfo extends HttpServlet {
+@WebServlet("/ShopRemoveProduct")
+public class ShopRemoveProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopBasicinfo() {
+    public ShopRemoveProduct() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,19 +29,29 @@ public class ShopBasicinfo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		request.setCharacterEncoding("utf-8");	//设置请求的字符集
+		response.setContentType("text/html;charset=utf-8");		//设置文本类型
+		
+		ProductManager pm = new ProductManager();
+//		System.out.println("*" + request.getParameter("product_id"));
+		int id = Integer.parseInt(request.getParameter("product_id"));
+		try {
+//			System.out.println(id);
+			pm.delete(id);
+			request.getRequestDispatcher("ShopProductdetails").forward(request, response);
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");	//设置请求的字符集
-		response.setContentType("text/html;charset=utf-8");		//设置文本类型
-		
-		BeanShop shop = new BeanShop();
-		
-		request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

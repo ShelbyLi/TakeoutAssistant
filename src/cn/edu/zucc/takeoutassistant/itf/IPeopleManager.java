@@ -9,7 +9,9 @@ public interface IPeopleManager {
 	
 	public BeanPeople login(String name, String pwd) throws BaseException;
 	
-	public void changePwd(String name, String oldPwd, String newPwd) throws BaseException;
+	public void changePwd(int id, String oldPwd, String newPwd) throws BaseException;
 	
-	public void logout(String name) throws BaseException;
+	public void logout(int id) throws BaseException;
+	
+	public void updateInfo(BeanPeople people) throws BaseException;
 }
