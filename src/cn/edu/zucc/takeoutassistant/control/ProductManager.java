@@ -63,8 +63,34 @@ public class ProductManager implements IEntityManager {
 
 	@Override
 	public void update(BeanEntity entity)  throws BaseException{
-		// TODO Auto-generated method stub
-		
+		// 商家登录后修改 因此商家id不用改
+		BeanProduct product = (BeanProduct) entity;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE productdetails\r\n" + 
+					"SET productcategory_id=?, product_name=?, product_price=?, product_discounted_price=?\r\n" + 
+					"WHERE product_id=?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, product.getProductcategory_id());
+			pst.setString(2, product.getProduct_name());
+			pst.setDouble(3, product.getProduct_price());
+			pst.setDouble(4, product.getProduct_discounted_price());
+			pst.setInt(5, product.getProduct_id());
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 
 
@@ -98,7 +124,7 @@ public class ProductManager implements IEntityManager {
 
 
 	
-	public List<BeanProduct> loadAll() throws BaseException {
+	public List<BeanProduct> loadAll(int shop_id) throws BaseException {
 		List<BeanProduct> result = new ArrayList<BeanProduct>();
 		Connection conn=null;
 		try {
@@ -107,8 +133,10 @@ public class ProductManager implements IEntityManager {
 					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
 					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
 					"AND a.shop_id = c.shop_id\r\n" + 
-					"AND product_delete_time IS NULL";
-			PreparedStatement pst = conn.prepareStatement(sql);				
+					"AND product_delete_time IS NULL\r\n" + 
+					"AND a.shop_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, shop_id);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()){
 				BeanProduct p = new BeanProduct();
@@ -136,16 +164,59 @@ public class ProductManager implements IEntityManager {
 		return result;
 	}
 
+	public List<BeanProduct> fuzzySearch(String keyWord, int shop_id) throws BaseException {
+		List<BeanProduct> result = new ArrayList<BeanProduct>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price\r\n" + 
+					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
+					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
+					"AND a.shop_id = c.shop_id\r\n" + 
+					"AND a.shop_id = ?\r\n" + 
+					"AND product_delete_time IS NULL\r\n" + 
+					"AND (productcategory_name LIKE ? OR product_name LIKE ? OR shop_name LIKE ?)";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, shop_id);
+			pst.setString(2, "%"+keyWord+"%");
+			pst.setString(3, "%"+keyWord+"%");
+			pst.setString(4, "%"+keyWord+"%");
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanProduct p = new BeanProduct();
+				p.setProduct_id(rs.getInt(1));
+				p.setProductcategory_name(rs.getString(2));
+				p.setProduct_name(rs.getString(3));
+				p.setShop_name(rs.getString(4));
+				p.setProduct_price(rs.getDouble(5));
+				p.setProduct_discounted_price(rs.getDouble(6));
+				result.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ProductManager pm = new ProductManager();
 		BeanProduct product = new BeanProduct();
-		product.setProductcategory_id(1);
+//		product.setProduct_id(6);
+		product.setProductcategory_id(6);
+		product.setProduct_name("肉串");
+		product.setProduct_price(5);
+		product.setProduct_discounted_price(4);
 		product.setShop_id(1);
-		product.setProduct_name("test");
-		product.setProduct_price(27);
-		product.setProduct_discounted_price(25);
 		try {
 			pm.add(product);
 //			List<BeanProduct> products = new ArrayList<BeanProduct>();
@@ -153,17 +224,50 @@ public class ProductManager implements IEntityManager {
 //			for (BeanProduct item: products) {
 //				System.out.println(item.getProduct_name());
 //			}
+//			pm.update(product);
 		} catch (BaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-
-	@Override
-	public List<BeanEntity> load(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public BeanProduct searchDetailInfo(int id) throws BaseException {
+		BeanProduct result = new BeanProduct();
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price\r\n" + 
+					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
+					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
+					"AND a.shop_id = c.shop_id\r\n" + 
+					"AND product_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result.setProduct_id(rs.getInt(1));
+			result.setProductcategory_name(rs.getString(2));
+			result.setProduct_name(rs.getString(3));
+			result.setShop_name(rs.getString(4));
+			result.setProduct_price(rs.getDouble(5));
+			result.setProduct_discounted_price(rs.getDouble(6));
+			
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}		
+		return result;
+		
 	}
 
+	
 }

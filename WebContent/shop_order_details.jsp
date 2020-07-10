@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>shop-order details</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -23,7 +21,7 @@
 </head>
 <body>
   <div class="wrapper ">
-       <div class="sidebar" data-color="purple" data-background-color="white">
+    <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -41,8 +39,8 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item active  ">
-            <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
+          <li class="nav-item ">
+            <a class="nav-link" href="ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
             </a>
@@ -55,8 +53,8 @@
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="./tables.html">
+		  <li class="nav-item active  ">
+		    <a class="nav-link" href="ShopOrder">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看订单</p>
 		    </a>
@@ -87,7 +85,7 @@
         </ul>
       </div>
     </div>
-    
+	
 	
 	
     <div class="main-panel">
@@ -119,70 +117,53 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+		  
 		  <div class="row">
-			  <div class="col-md-3">
-			      
-			    </div>
-			    <div class="col-md-6">
-			      
-				  <div class="card">
-				      <div class="card-header card-header-primary">
-				        <h4 class="card-title">编辑产品</h4>
-				        <p class="card-category">Complete your profile</p>
-				      </div>
-				      <div class="card-body">
-				        
-				        <form action="ShopEditProduct" method="post"> 
-				          <div class="row">
-				            <div class="col-md-12">
-				              <div class="form-group">
-				                <label class="bmd-label-floating">所属类别</label>
-				                <input type="text" class="form-control"  name="productcategory_name" value="${product.productcategory_name }">
-				              </div>
-				            </div>
-				          </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">产品名称</label>
-						        <input type="text" class="form-control" name="product_name" value="${product.product_name }">
-						      </div>
-						    </div>
-						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">产品价格</label>
-						        <input type="text" class="form-control" name="product_price" value="${product.product_price }">
-						      </div>
-						    </div>
-						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">优惠价格</label>
-						        <input type="text" class="form-control" name = "product_discounted_price" value="${product.product_discounted_price }">
-						      </div>
-						    </div>
-						  </div>
-				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
-				          <div class="clearfix"></div>
-				        </form>
-				      </div>
-				  </div>
-				  
-				  
-				  
-			    </div>
-			    <div class="col-md-3">
-			      
-			  </div>
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		     
-			  
-			  <!-- </div> -->
-		    </div>
-		  </div>
+				<div class="col-md-12">
+				  <div class="card card-plain">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title mt-0"> 查看订单详情</h4>
+                  <p class="card-category"> (出于对用户隐私的保密性 商家无权限查看用户信息和地址信息)</p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>产品ID</th>
+                        <th>产品名称</th>
+                        <th>订购数量</th>
+                        <th>价格</th>
+                      </thead>
+                      <tbody>			              
+			              <c:forEach items="${orderdetails }" var="item" varStatus="i">
+			                  <tr>
+			                  	<td>${item.product_name }</td>
+								<td>${item.amount }</td>
+								<td>${item.price }</td>								
+			                    <%-- <td class="td-actions text-right">
+			                      <a href="ShopRemoveCoupon?order_id=${item.order_id }">
+			                      	<button type="button" rel="tooltip" title="查看详情" class="btn btn-primary btn-link btn-sm">
+			                        	<i class="material-icons">search</i>
+			                      	</button>
+			                      </a>
+			                    </td> --%>
+			                    
+			                  </tr>
+		                  </c:forEach>
+                          
+                      </tbody>
+                    </table>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+		  
+		  
         </div>
       <footer class="footer">
         <div class="container-fluid">
@@ -207,6 +188,7 @@
       </footer>
     </div>
   </div>
+	</div>
 </body>
 
   <!--   Core JS Files   -->

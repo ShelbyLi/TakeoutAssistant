@@ -3,14 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>user-basic info</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -23,7 +20,7 @@
 </head>
 <body>
   <div class="wrapper ">
-       <div class="sidebar" data-color="purple" data-background-color="white">
+    <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -31,53 +28,40 @@
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
-          外卖小助手
+          	外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 商家!
+          	你好 用户 ${cur_user.user_name }!
         </a>
       </div>
 	  
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item active  ">
-            <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
               <i class="material-icons">dashboard</i>
-              <p>产品管理</p>
+              <p>去下单</p>
             </a>
           </li>
           <!-- your sidebar here -->
+		  		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./typography.html">
-		      <i class="material-icons">library_books</i>
-		      <p>产品分类管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="./tables.html">
+		    <a class="nav-link" href="#">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看订单</p>
 		    </a>
 		  </li>
-		  
+		  		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="#">
 		      <i class="material-icons">bubble_chart</i>
-		      <p>满减方案管理</p>
+		      <p>我的优惠券管理</p>
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>优惠券管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		  <li class="nav-item active  ">
+		    <a class="nav-link" href="user_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -87,7 +71,7 @@
         </ul>
       </div>
     </div>
-    
+	
 	
 	
     <div class="main-panel">
@@ -120,69 +104,141 @@
         <div class="container-fluid">
           <!-- your content here -->
 		  <div class="row">
-			  <div class="col-md-3">
-			      
-			    </div>
-			    <div class="col-md-6">
-			      
-				  <div class="card">
-				      <div class="card-header card-header-primary">
-				        <h4 class="card-title">编辑产品</h4>
-				        <p class="card-category">Complete your profile</p>
-				      </div>
-				      <div class="card-body">
-				        
-				        <form action="ShopEditProduct" method="post"> 
-				          <div class="row">
-				            <div class="col-md-12">
-				              <div class="form-group">
-				                <label class="bmd-label-floating">所属类别</label>
-				                <input type="text" class="form-control"  name="productcategory_name" value="${product.productcategory_name }">
-				              </div>
-				            </div>
-				          </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">产品名称</label>
-						        <input type="text" class="form-control" name="product_name" value="${product.product_name }">
-						      </div>
-						    </div>
-						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">产品价格</label>
-						        <input type="text" class="form-control" name="product_price" value="${product.product_price }">
-						      </div>
-						    </div>
-						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">优惠价格</label>
-						        <input type="text" class="form-control" name = "product_discounted_price" value="${product.product_discounted_price }">
-						      </div>
-						    </div>
-						  </div>
-				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
-				          <div class="clearfix"></div>
-				        </form>
-				      </div>
-				  </div>
-				  
-				  
-				  
-			    </div>
-			    <div class="col-md-3">
-			      
-			  </div>
 		    <!-- <div class="col-lg-6 col-md-12"> -->
-		     
+		      <div class="card">
+		          <div class="card-header card-header-primary">
+		            <h4 class="card-title">基本信息</h4>
+		            <p class="card-category">尽量完善你的信息</p>
+		          </div>
+		          <div class="card-body">
+		            <form action="UserEditBasicInfo" method="post">
+		              <div class="row">
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">用户ID</label>
+		                    <input type="text" class="form-control" disabled name="user_id" value="${cur_user.user_id }">
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">用户名</label>
+		                    <input type="text" class="form-control" value="${cur_user.user_name }" name="user_name">
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">性别</label>
+		                    <input type="text" class="form-control" name="user_gender" value="${cur_user.user_gender }">
+		                  </div>
+		                </div>
+		              </div>
+		              <div class="row" >
+		                <div class="col-md-6">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">联系方式</label>
+		                    <input type="text" class="form-control" name="user_phone_number" value="${cur_user.user_phone_number }">
+		                  </div>
+		                </div>
+		                <div class="col-md-6">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">E-mail</label>
+		                    <input type="email" class="form-control" name="user_mail" value="${cur_user.user_mail }">
+		                  </div>
+		                </div>
+		              </div>
+		              <div class="row">
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">所在城市</label>
+		                    <input type="text" class="form-control" name="user_city" value="${cur_user.user_city }">
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">是否是VIP(是/否)</label>
+		                    <input type="text" class="form-control" name="user_is_vip" value="${cur_user.user_is_vip }">
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">VIP截止时间 (当前: ${cur_user.user_vip_ddl })</label>
+		                    <input type="date" class="form-control" name="user_vip_ddl" value="${cur_user.user_vip_ddl }">
+		                  </div>
+		                </div>
+		              </div>
+		              <div class="row">
+		                <div class="col-md-12">
+		                  <div class="form-group">
+		                    <label>简介</label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
+		                      <textarea class="form-control" rows="5"></textarea>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
+		              
+		              <div class="clearfix"></div>
+		            </form>
+		          </div>
+		      </div>
+		      
+			  
 			  
 			  <!-- </div> -->
 		    </div>
+		  
+		  <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		          <div class="card-header card-header-primary">
+		            <h4 class="card-title">修改密码</h4>
+		            <p class="card-category">提高保密性</p>
+		          </div>
+		          <div class="card-body">
+		            <form action="UserChangepwd" method="post">		              
+		              <div class="row">
+		                <div class="col-md-6">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">旧密码</label>
+		                    <input type="password" class="form-control" name="old_pwd">
+		                  </div>
+		                </div>
+		                <div class="col-md-6">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">新密码</label>
+		                    <input type="password" class="form-control" name="new_pwd">
+		                  </div>
+		                </div>
+		              </div>
+		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
+		              <div class="clearfix"></div>
+		            </form>
+		          </div>
+		    </div>
 		  </div>
+		  
+		  <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		          <div class="card-header card-header-primary">
+		            <h4 class="card-title">注销</h4>
+		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
+		          </div>
+		          <div class="card-body">
+		            <form action="ShopLogout" method="post">		              
+		              <div class="row">
+		                
+		              </div>
+		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
+		              <div class="clearfix"></div>
+		            </form>
+		          </div>
+		    </div>
+		  </div>
+		  
         </div>
       <footer class="footer">
         <div class="container-fluid">
@@ -206,6 +262,8 @@
         </div>
       </footer>
     </div>
+  </div>
+
   </div>
 </body>
 

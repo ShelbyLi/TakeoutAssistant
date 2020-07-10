@@ -1,12 +1,15 @@
 package cn.edu.zucc.takeoutassistant.control;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import cn.edu.zucc.takeoutassistant.itf.IPeopleManager;
 import cn.edu.zucc.takeoutassistant.model.BeanPeople;
+import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.model.BeanUser;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 import cn.edu.zucc.takeoutassistant.util.BusinessException;
@@ -153,7 +156,7 @@ public class UserManager implements IPeopleManager {
 		return result;
 	}
 
-	@Override
+//	@Override
 	public void changePwd(String name, String oldPwd, String newPwd) throws BaseException {
 		// TODO Auto-generated method stub
 		// 默认输入符合要求
@@ -200,7 +203,7 @@ public class UserManager implements IPeopleManager {
 		
 	}
 
-	@Override
+//	@Override
 	public void logout(String name) throws BaseException{
 		// TODO Auto-generated method stub
 		Connection conn = null;
@@ -243,6 +246,93 @@ public class UserManager implements IPeopleManager {
 				}
 		}
 		
+	}
+
+	@Override
+	public void changePwd(int id, String oldPwd, String newPwd) throws BaseException {
+		Connection conn = null;
+		try {
+//			conn = DBUtil.getConnection();
+//			String sql = "SELECT shop_pwd\r\n" + 
+//					"FROM shopinfo\r\n" + 
+//					"WHERE shop_id = ?";
+//			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+//			pst.setInt(1, id);
+//			java.sql.ResultSet rs = pst.executeQuery();
+////			if (!rs.next()) {
+////				throw new BusinessException("该商家不存在");
+////			}
+//			rs.next();
+//			if (!oldPwd.equals(rs.getString(1))) {
+//				throw new BusinessException("原密码错误");
+//			}
+//			rs.close();
+//			pst.close();
+//			
+//			sql = "UPDATE shopinfo\r\n" + 
+//					"SET shop_pwd = ?\r\n" + 
+//					"WHERE shop_id = ?";
+//			pst = conn.prepareStatement(sql);
+//			pst.setString(1, newPwd);
+//			pst.setInt(2, id);
+//			pst.execute();
+//			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+	}
+
+	@Override
+	public void logout(int id) throws BaseException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateInfo(BeanPeople people) throws BaseException {
+		BeanUser user = (BeanUser) people;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE userinfo\r\n" + 
+					"SET user_name=?, user_gender=?, user_phone_number=?, user_mail=?, user_city=?, user_is_vip=?, user_vip_ddl=?\r\n" + 
+					"WHERE user_id=?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, user.getUser_name());
+			pst.setInt(2, user.getUser_gender());
+			pst.setString(3, user.getUser_phone_number());
+			pst.setString(4, user.getUser_mail());
+			pst.setString(5, user.getUser_city());
+			pst.setInt(6, user.getUser_is_vip());
+			if (user.getUser_vip_ddl() != null) 
+				pst.setDate(7, new java.sql.Date(user.getUser_vip_ddl().getTime()));
+			else
+				pst.setNull(7, Types.DATE);
+			pst.setInt(8, user.getUser_id());
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 
 }

@@ -1,9 +1,6 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,22 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.edu.zucc.takeoutassistant.control.ProductManager;
-import cn.edu.zucc.takeoutassistant.model.BeanProduct;
+import cn.edu.zucc.takeoutassistant.control.FullreductionSchemeManager;
+import cn.edu.zucc.takeoutassistant.control.ProductcategoryManager;
+import cn.edu.zucc.takeoutassistant.model.BeanFullReductionScheme;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopProductdetails
+ * Servlet implementation class ShopAddFullReduction
  */
-@WebServlet("/ShopProductdetails")
-public class ShopProductdetails extends HttpServlet {
+@WebServlet("/ShopAddFullReduction")
+public class ShopAddFullReduction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopProductdetails() {
+    public ShopAddFullReduction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,25 +44,27 @@ public class ShopProductdetails extends HttpServlet {
 		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
-		
-		ProductManager pm = new ProductManager();
-		List<BeanProduct> products = new ArrayList<BeanProduct>();
 		BeanShop cur_shop = new BeanShop();
+		BeanFullReductionScheme fullreduction = new BeanFullReductionScheme();
+		FullreductionSchemeManager frm = new FullreductionSchemeManager();
+//		System.out.println("hr");
+		
 		cur_shop = (BeanShop) session.getAttribute("cur_shop");
+		fullreduction.setShop_id(cur_shop.getShop_id());
+		fullreduction.setFullreduction_amount(Double.parseDouble(request.getParameter("fullreduction_amount")));
+		fullreduction.setFullreduction_discounted_price(Double.parseDouble(request.getParameter("fullreduction_discounted_price")));
+		if ("是".equals(request.getParameter("fullreduction_can_superimposed_with_coupons"))) {
+			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.can_superimosed_with_coupons);
+		} else {
+			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.cannot_superimosed_with_coupons);
+		}
 		
 		try {
-			String keyWord = request.getParameter("keyWord");
-			if (keyWord != null) {
-				// 模糊查找
-				products = pm.fuzzySearch(keyWord, cur_shop.getShop_id());
-			} else {
-				products = pm.loadAll(cur_shop.getShop_id());
-			}
-			request.setAttribute("products", products);
+			frm.add(fullreduction);
+			request.getRequestDispatcher("ShopFullReduction").forward(request, response);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("shop_productdetails.jsp").forward(request, response);
 	}
 
 }

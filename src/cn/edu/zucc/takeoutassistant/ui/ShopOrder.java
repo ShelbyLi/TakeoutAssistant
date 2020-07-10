@@ -1,6 +1,9 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,23 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-
-import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.control.CouponManager;
+import cn.edu.zucc.takeoutassistant.control.OrderManager;
+import cn.edu.zucc.takeoutassistant.model.BeanCoupon;
+import cn.edu.zucc.takeoutassistant.model.BeanOrderForm;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopLogin
+ * Servlet implementation class ShopOrder
  */
-@WebServlet("/ShopLogin")
-public class ShopLogin extends HttpServlet {
+@WebServlet("/ShopOrder")
+public class ShopOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopLogin() {
+    public ShopOrder() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,20 +48,23 @@ public class ShopLogin extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		ShopManager sm = new ShopManager();
-		BeanShop shop = new BeanShop();
+		OrderManager om = new OrderManager();
+		List<BeanOrderForm> orders = new ArrayList<BeanOrderForm>();
+		for (BeanOrderForm item: orders) {
+			System.out.println(item.getOrder_actual_amount());
+			System.out.println(item.getOrder_original_amount());
+			System.out.println(item.getOrder_time());
+		}
+		BeanShop cur_shop = new BeanShop();
+		cur_shop = (BeanShop) session.getAttribute("cur_shop");
 		try {
-			shop = (BeanShop) sm.login(request.getParameter("shop_name"), request.getParameter("shop_pwd"));
-			session.setAttribute("cur_shop", shop);
-			
-			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
+			System.out.println(cur_shop.getShop_id());
+			orders = om.loadAll(cur_shop.getShop_id());
+			request.setAttribute("orders", orders);
 		} catch (BaseException e) {
 			e.printStackTrace();
-			request.setAttribute("hint", e.getMessage());
-			request.getRequestDispatcher("shop_login.jsp").forward(request,response);
-
 		}
-		
+		request.getRequestDispatcher("shop_order.jsp").forward(request, response);
 	}
 
 }

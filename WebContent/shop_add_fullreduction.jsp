@@ -3,14 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>shop-full reduction</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -23,7 +20,7 @@
 </head>
 <body>
   <div class="wrapper ">
-       <div class="sidebar" data-color="purple" data-background-color="white">
+        <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -41,15 +38,15 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item active  ">
-            <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
+          <li class="nav-item ">
+            <a class="nav-link" href="ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./typography.html">
+		    <a class="nav-link" href="ShopProductCategory">
 		      <i class="material-icons">library_books</i>
 		      <p>产品分类管理</p>
 		    </a>
@@ -62,8 +59,8 @@
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		  <li class="nav-item active ">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
@@ -127,44 +124,39 @@
 			      
 				  <div class="card">
 				      <div class="card-header card-header-primary">
-				        <h4 class="card-title">编辑产品</h4>
+				        <h4 class="card-title">添加满减方案</h4>
 				        <p class="card-category">Complete your profile</p>
 				      </div>
 				      <div class="card-body">
 				        
-				        <form action="ShopEditProduct" method="post"> 
-				          <div class="row">
-				            <div class="col-md-12">
-				              <div class="form-group">
-				                <label class="bmd-label-floating">所属类别</label>
-				                <input type="text" class="form-control"  name="productcategory_name" value="${product.productcategory_name }">
-				              </div>
-				            </div>
-				          </div>
+				        <form action="ShopAddFullReduction" method="post"> 
+				          
 						  <div class="row">
 						    <div class="col-md-12">
 						      <div class="form-group">
-						        <label class="bmd-label-floating">产品名称</label>
-						        <input type="text" class="form-control" name="product_name" value="${product.product_name }">
+						        <label class="bmd-label-floating">满减金额</label>
+						        <input type="text" class="form-control" name="fullreduction_amount">
 						      </div>
 						    </div>
 						  </div>
 						  <div class="row">
 						    <div class="col-md-12">
 						      <div class="form-group">
-						        <label class="bmd-label-floating">产品价格</label>
-						        <input type="text" class="form-control" name="product_price" value="${product.product_price }">
+						        <label class="bmd-label-floating">满减优惠</label>
+						        <input type="text" class="form-control" name="fullreduction_discounted_price">
 						      </div>
 						    </div>
 						  </div>
 						  <div class="row">
 						    <div class="col-md-12">
 						      <div class="form-group">
-						        <label class="bmd-label-floating">优惠价格</label>
-						        <input type="text" class="form-control" name = "product_discounted_price" value="${product.product_discounted_price }">
+						        <label class="bmd-label-floating">是否能与优惠券叠加(是/否)</label>
+						        <input type="text" class="form-control" name="fullreduction_can_superimposed_with_coupons">
 						      </div>
 						    </div>
 						  </div>
+						  
+						  
 				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
 				          <div class="clearfix"></div>
 				        </form>

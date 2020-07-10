@@ -6,7 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import cn.edu.zucc.takeoutassistant.control.ProductManager;
 import cn.edu.zucc.takeoutassistant.control.ProductcategoryManager;
@@ -15,17 +14,17 @@ import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopEditProduct
+ * Servlet implementation class ShopEditProductCategory
  */
-@WebServlet("/ShopEditProduct")
-public class ShopEditProduct extends HttpServlet {
+@WebServlet("/ShopEditProductCategory")
+public class ShopEditProductCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private int product_id;
+	private int productcategory_id;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopEditProduct() {
+    public ShopEditProductCategory() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,52 +35,39 @@ public class ShopEditProduct extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
-		product_id = Integer.parseInt(request.getParameter("product_id"));
-		System.out.println(product_id);
-		
-		ProductManager pm = new ProductManager();
-		BeanProduct product = new BeanProduct();
+		productcategory_id = Integer.parseInt(request.getParameter("productcategory_id"));
+		System.out.println(productcategory_id);
+//		
+		ProductcategoryManager pcm = new ProductcategoryManager();
+		BeanProductCategory productcategory = new BeanProductCategory();
 		try {
-			product = pm.searchDetailInfo(product_id);
-			request.setAttribute("product", product);
+			productcategory = pcm.searchDetailInfo(productcategory_id);
+			request.setAttribute("productcategory", productcategory);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		
-		request.getRequestDispatcher("shop_edit_product.jsp").forward(request, response);
-//		doPost(request, response);
+//		
+		request.getRequestDispatcher("shop_edit_productcategory.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		ProductManager pm = new ProductManager();
-		BeanProduct product = new BeanProduct();
-		
-		product.setProduct_id(product_id);
-		product.setProduct_name(request.getParameter("product_name"));
-		product.setProduct_price(Double.parseDouble(request.getParameter("product_price")));
-		product.setProduct_discounted_price(Double.parseDouble(request.getParameter("product_discounted_price")));
-		
-		BeanProductCategory productcategory = new BeanProductCategory();
 		ProductcategoryManager pcm = new ProductcategoryManager();
+		BeanProductCategory productcategory = new BeanProductCategory();
+		
+		productcategory.setProductcategory_id(productcategory_id);
+		productcategory.setProductcategory_name(request.getParameter("productcategory_name"));
 		try {
-			productcategory = pcm.search(request.getParameter("productcategory_name"));
-			product.setProductcategory_id(productcategory.getProductcategory_id());
-			pm.update(product);
-			request.getRequestDispatcher("ShopProductdetails").forward(request, response);
+			pcm.update(productcategory);
+			request.getRequestDispatcher("ShopProductCategory").forward(request, response);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 
 }

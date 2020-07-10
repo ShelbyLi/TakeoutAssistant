@@ -5,14 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>shop-coupon</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -44,7 +41,7 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item active  ">
+          <li class="nav-item ">
             <a class="nav-link" href="ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
@@ -66,14 +63,14 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		  <li class="nav-item active ">
+		    <a class="nav-link" href="ShopCoupon">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>优惠券管理</p>
 		    </a>
@@ -107,7 +104,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form" method="post">
+            <!-- <form class="navbar-form" method="post">
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search..." name="keyWord">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -116,7 +113,7 @@
                 </button>
               </div>
             </form>
-            <ul class="navbar-nav">
+             --><ul class="navbar-nav">
 
 
               <li class="nav-item dropdown">
@@ -147,14 +144,12 @@
 		      <div class="card">
 		          <div class="card-header card-header-primary">
 		            <!-- <h4 class="card-title">注销</h4> -->
-		            <p class="card-category">增加你的新产品吧</p>
+		            <p class="card-category">增加你的新优惠券类型吧</p>
 		          </div>
 		          <div class="card-body">
-		            <!-- <form> -->		              
-		              
-		              	<a href="shop_add_product.jsp"><button type="submit" class="btn btn-primary pull-left">添加产品</button></a>
-					
-		            <!-- </form> -->
+		              <a href="shop_add_coupon.jsp">
+		              	<button type="submit" class="btn btn-primary pull-left">添加优惠券类型</button>
+		              </a>
 		          </div>
 		          
 		          
@@ -169,28 +164,9 @@
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
 		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
-		              <h4 class="card-title">产品详情</h4>
-		              <!-- <ul class="nav nav-tabs" data-tabs="tabs">
-		                <li class="nav-item">
-		                  <a class="nav-link active" href="#profile" data-toggle="tab">
-		                    <i class="material-icons">bug_report</i> Bugs
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		                <li class="nav-item">
-		                  <a class="nav-link" href="#messages" data-toggle="tab">
-		                    <i class="material-icons">code</i> Website
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		                <li class="nav-item">
-		                  <a class="nav-link" href="#settings" data-toggle="tab">
-		                    <i class="material-icons">cloud</i> Server
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		              </ul>
-		            --></div>
+		              <h4 class="card-title">优惠券类型</h4>
+
+					</div>
 		          </div>
 		        </div>
 		        <div class="card-body">
@@ -199,127 +175,34 @@
 		              <table class="table">
 		                <tbody>
 						  <tr>
-						  	<td>产品ID</td>
-							<td>产品类别</td>
-							<td>产品名称</td>
-							<td>价格</td>
-							<td>折扣价</td>
+						  	<td>优惠券类型ID</td>
+							<td>优惠券金额</td>
+							<td>用户订购多少订单可获得</td>
+							<td>开始时间</td>
+							<td>结束时间</td>
 						  </tr>
 						  <%-- <tr><td>${hint }</td></tr> --%>
-						  <c:forEach items="${products }" var="item" varStatus="i">
+						  <c:forEach items="${coupons }" var="item" varStatus="i">
 						  
 			                  <tr>
-			                  	<td>${item.product_id }</td>
-								<td>${item.productcategory_name }</td>
-								<td>${item.product_name }</td>
-								<td>${item.product_price }</td>
-								<td>${item.product_discounted_price }</td>
+			                  	<td>${item.coupon_id }</td>
+								<td>${item.coupon_amount }</td>
+								<td>${item.coupon_ordered_number_requirement }</td>
+								<td>${item.coupon_start_time }</td>
+								<td>${item.coupon_end_time }</td>
 			                    <td class="td-actions text-right">
-			                      <%-- <a href="ShopEditProduct?product_id=${item.product_id }"> --%>
-			                      <!-- <a href="ShopEditProduct">
-			                      	<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">	
-			                        	<i class="material-icons">edit</i>
-			                      	</button>
-			                      </a> -->
 			                      
-			                     <a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }">
-									<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">
+			                       <%-- <a href="ShopEditProductCategory?productcategory_id=${item.productcategory_id }"> --%>
+									<!-- <button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">
 										<i class="material-icons">edit</i>
-									</button>
-								</a>
-								
-								
-			                      <%-- <a id="modal-${item.product_id }" href="#modal-container-${item.product_id }" role="button"  data-toggle="modal">
-			                      	<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">	
-			                        	<i class="material-icons">edit</i>
-			                      	</button>
-			                      </a> --%>
-			
-									<%-- <div class="modal fade" id="modal-container-${item.product_id }" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												</div>
-												<!-- <div class="modal-body"> -->
-												<div>
-												
-												
-													<div class="card">
-												      <div class="card-header card-header-primary">
-												        <h4 class="card-title">编辑产品</h4>
-												        <p class="card-category">Complete your profile</p>
-												      </div>
-												      <div class="card-body">
-												        
-												        <form action="ShopEditProduct" method="get"> 
-												          <div class="row">
-												            <div class="col-md-12">
-												              <div class="form-group">
-												                <label>所属类别</label>
-												                <input type="text" class="form-control" value=${item.productcategory_name }  name="productcategory_name_${item.product_id }">
-												              </div>
-												            </div>
-												          </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>产品名称</label>
-														        <input type="text" class="form-control" value=${item.product_name } name="product_name">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>产品价格</label>
-														        <input type="text" class="form-control" value=${item.product_price } name="product_price">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>优惠价格</label>
-														        <input type="text" class="form-control"  value=${item.product_discounted_price } name = "product_discounted_price">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-															  <button type="submit" class="btn btn-primary pull-right btn-block">修改</button>
-																<a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }&pro">
-																	<button type="submit" class="btn btn-primary pull-left">保存</button>
-																</a>
-														  </div>
-														  
-								
-												        </form>
-												      </div>
-												  </div>
-												</div>
-												<div class="modal-footer">
-													<div class="row">
-														<a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }">
-															<button type="submit" class="btn btn-primary pull-left">保存</button>
-														</a>
-													</div>
-													<div class="row">
-														<button type="submit" class="btn btn-primary pull-left" data-dismiss="modal">bu关闭</button>
-														<button type="submit" class="btn btn-primary pull-left" data-dismiss="modal">关闭</button>
-													</div>
-												</div>
-											</div>
-											
-										</div>
-										
-									</div> --%>
-			                      
-			                      
-			                      <a href="<%=request.getContextPath() %>/ShopRemoveProduct?product_id=${item.product_id }">
+									</button> -->
+								  <%-- </a> --%>
+			                      <a href="ShopRemoveCoupon?coupon_id=${item.coupon_id }">
 			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
 			                        	<i class="material-icons">close</i>
 			                      	</button>
 			                      </a>
+			                      
 			                    </td>
 			                  </tr>
 		                  </c:forEach>
@@ -454,6 +337,8 @@
 		   </div>
         </div>
       </div>
+      
+      
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -476,6 +361,7 @@
         </div>
       </footer>
     </div>
+  
   </div>
 
 </body>

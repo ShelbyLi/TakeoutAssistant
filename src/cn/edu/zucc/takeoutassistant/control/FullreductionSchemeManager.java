@@ -2,11 +2,15 @@
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
 import cn.edu.zucc.takeoutassistant.model.BeanEntity;
 import cn.edu.zucc.takeoutassistant.model.BeanFullReductionScheme;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
 import cn.edu.zucc.takeoutassistant.util.DbException;
@@ -79,19 +83,68 @@ public class FullreductionSchemeManager implements IEntityManager {
 	}
 
 	@Override
-	public void delete(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-
+	public void delete(int id) throws BaseException {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE fullreductionscheme\r\n" + 
+					"SET fullreduction_delete_time = NOW()\r\n" + 
+					"WHERE fullreduction_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 
-	@Override
-	public void load(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-
+	public List<BeanFullReductionScheme> loadAll(int shop_id) throws BaseException {
+		List<BeanFullReductionScheme> result = new ArrayList<BeanFullReductionScheme>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT fullreduction_id, fullreduction_amount, fullreduction_discounted_price, fullreduction_can_superimposed_with_coupons\r\n" + 
+					"FROM fullreductionscheme\r\n" + 
+					"WHERE shop_id = ?\r\n" + 
+					"AND fullreduction_delete_time IS NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, shop_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanFullReductionScheme fr = new BeanFullReductionScheme();
+				fr.setFullreduction_id(rs.getInt(1));
+				fr.setFullreduction_amount(rs.getDouble(2));
+				fr.setFullreduction_discounted_price(rs.getDouble(3));
+				fr.setFullreduction_can_superimposed_with_coupons(rs.getInt(4));
+				result.add(fr);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
+
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		BeanFullReductionScheme fullreduction = new BeanFullReductionScheme();
 		FullreductionSchemeManager fsm = new FullreductionSchemeManager();
 		fullreduction.setFullreduction_id(1);
@@ -102,11 +155,18 @@ public class FullreductionSchemeManager implements IEntityManager {
 		
 		try {
 //			fsm.add(fullreduction);
-			fsm.update(fullreduction);
+//			fsm.update(fullreduction);
+			List<BeanFullReductionScheme> fullreductions = new ArrayList<BeanFullReductionScheme>();
+			fullreductions = fsm.loadAll(2);
+			for (BeanFullReductionScheme item: fullreductions) {
+				System.out.println(item.getFullreduction_id());
+			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+
 
 }

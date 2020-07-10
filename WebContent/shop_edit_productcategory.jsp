@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>shop-product category</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -42,14 +42,14 @@
         <ul class="nav">
 			
           <li class="nav-item active  ">
-            <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
+            <a class="nav-link" href="ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./typography.html">
+		    <a class="nav-link" href="ShopProductCategory">
 		      <i class="material-icons">library_books</i>
 		      <p>产品分类管理</p>
 		    </a>
@@ -127,45 +127,23 @@
 			      
 				  <div class="card">
 				      <div class="card-header card-header-primary">
-				        <h4 class="card-title">编辑产品</h4>
+				        <h4 class="card-title">编辑产品类别</h4>
 				        <p class="card-category">Complete your profile</p>
 				      </div>
 				      <div class="card-body">
 				        
-				        <form action="ShopEditProduct" method="post"> 
-				          <div class="row">
-				            <div class="col-md-12">
-				              <div class="form-group">
-				                <label class="bmd-label-floating">所属类别</label>
-				                <input type="text" class="form-control"  name="productcategory_name" value="${product.productcategory_name }">
-				              </div>
-				            </div>
-				          </div>
+				        <form action="ShopEditProductCategory" method="post"> 
+				          
 						  <div class="row">
 						    <div class="col-md-12">
 						      <div class="form-group">
-						        <label class="bmd-label-floating">产品名称</label>
-						        <input type="text" class="form-control" name="product_name" value="${product.product_name }">
+						        <label class="bmd-label-floating">产品类别名称</label>
+						        <input type="text" class="form-control" name="productcategory_name" value="${productcategory.productcategory_name }">
 						      </div>
 						    </div>
 						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">产品价格</label>
-						        <input type="text" class="form-control" name="product_price" value="${product.product_price }">
-						      </div>
-						    </div>
-						  </div>
-						  <div class="row">
-						    <div class="col-md-12">
-						      <div class="form-group">
-						        <label class="bmd-label-floating">优惠价格</label>
-						        <input type="text" class="form-control" name = "product_discounted_price" value="${product.product_discounted_price }">
-						      </div>
-						    </div>
-						  </div>
-				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
+						  
+				          <button type="submit" class="btn btn-primary pull-right btn-block">修改</button>
 				          <div class="clearfix"></div>
 				        </form>
 				      </div>
@@ -184,6 +162,8 @@
 		    </div>
 		  </div>
         </div>
+      
+      
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">

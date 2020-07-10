@@ -11,11 +11,11 @@ public class BeanOrderForm extends BeanEntity {
 	private int rider_id;
 	private int coupon_id;
 	private int fullreduction_id;
-	private double order_original_amout;
-	private double order_actul_amount;
+	private double order_original_amount;
+	private double order_actual_amount;
 	private Date order_time;
 	private Date order_request_delivery_time;
-	private int order_statuse;
+	private int order_status;
 	private Date order_cancle_time;
 	
 	public static final int delivering = 0;
@@ -65,17 +65,17 @@ public class BeanOrderForm extends BeanEntity {
 	public void setFullreduction_id(int fullreduction_id) {
 		this.fullreduction_id = fullreduction_id;
 	}
-	public double getOrder_original_amout() {
-		return order_original_amout;
+	public double getOrder_original_amount() {
+		return order_original_amount;
 	}
-	public void setOrder_original_amout(double order_original_amout) {
-		this.order_original_amout = order_original_amout;
+	public void setOrder_original_amount(double order_original_amount) {
+		this.order_original_amount = order_original_amount;
 	}
-	public double getOrder_actul_amount() {
-		return order_actul_amount;
+	public double getOrder_actual_amount() {
+		return order_actual_amount;
 	}
-	public void setOrder_actul_amount(double order_actul_amount) {
-		this.order_actul_amount = order_actul_amount;
+	public void setOrder_actual_amount(double order_actual_amount) {
+		this.order_actual_amount = order_actual_amount;
 	}
 	public Date getOrder_time() {
 		return order_time;
@@ -89,11 +89,11 @@ public class BeanOrderForm extends BeanEntity {
 	public void setOrder_request_delivery_time(Date order_request_delivery_time) {
 		this.order_request_delivery_time = order_request_delivery_time;
 	}
-	public int getOrder_statuse() {
-		return order_statuse;
+	public int getOrder_status() {
+		return order_status;
 	}
-	public void setOrder_statuse(int order_statuse) {
-		this.order_statuse = order_statuse;
+	public void setOrder_status(int order_status) {
+		this.order_status = order_status;
 	}
 	public Date getOrder_cancle_time() {
 		return order_cancle_time;

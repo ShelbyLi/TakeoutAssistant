@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
 import cn.edu.zucc.takeoutassistant.model.BeanEntity;
+import cn.edu.zucc.takeoutassistant.model.BeanProduct;
 import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
@@ -81,8 +83,28 @@ public class ProductcategoryManager implements IEntityManager {
 
 	@Override
 	public void delete(int id) throws BaseException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE productcategory\r\n" + 
+					"SET productcategory_delete_time = NOW()\r\n" + 
+					"WHERE productcategory_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 
 
@@ -129,11 +151,116 @@ public class ProductcategoryManager implements IEntityManager {
 		productcategory.setShop_id(1);
 		try {
 //			pcm.add(productcategory);
-			pcm.update(productcategory);
+//			pcm.update(productcategory);
+			List<BeanProductCategory> productcategorys = new ArrayList<BeanProductCategory>();
+			productcategorys = pcm.loadAll(1);
+			for (BeanProductCategory item: productcategorys) {
+				System.out.println(item.getProductcategory_name());
+			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public List<BeanProductCategory> fuzzySearch(String keyWord, int shop_id) throws BaseException {
+		List<BeanProductCategory> result = new ArrayList<BeanProductCategory>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT productcategory_id, productcategory_name\r\n" + 
+					"FROM productcategory\r\n" + 
+					"WHERE shop_id = ?\r\n" + 
+					"AND productcategory_delete_time IS NULL\r\n" + 
+					"AND productcategory_name LIKE ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, shop_id);
+			pst.setString(2, "%"+keyWord+"%");
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanProductCategory pc = new BeanProductCategory();
+				pc.setProductcategory_id(rs.getInt(1));
+				pc.setProductcategory_name(rs.getString(2));
+				result.add(pc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public List<BeanProductCategory> loadAll(int shop_id) throws BaseException {
+		List<BeanProductCategory> result = new ArrayList<BeanProductCategory>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT productcategory_id, productcategory_name\r\n" + 
+					"FROM productcategory\r\n" + 
+					"WHERE shop_id = ?\r\n" + 
+					"AND productcategory_delete_time IS NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, shop_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanProductCategory pc = new BeanProductCategory();
+				pc.setProductcategory_id(rs.getInt(1));
+				pc.setProductcategory_name(rs.getString(2));
+				result.add(pc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public BeanProductCategory searchDetailInfo(int id) throws BaseException {
+		BeanProductCategory result = new BeanProductCategory();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT productcategory_id, productcategory_name\r\n" + 
+					"FROM productcategory\r\n" + 
+					"WHERE productcategory_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result.setProductcategory_id(rs.getInt(1));
+			result.setProductcategory_name(rs.getString(2));
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}		
+		return result;
 	}
 
 

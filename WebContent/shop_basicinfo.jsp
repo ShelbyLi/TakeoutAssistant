@@ -8,9 +8,6 @@
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -42,35 +39,35 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="<%=request.getContextPath() %>/ShopProductdetails">
+            <a class="nav-link" href="ShopProductdetails">
               <i class="material-icons">dashboard</i>
               <p>产品管理</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./typography.html">
+		    <a class="nav-link" href="ShopProductCategory">
 		      <i class="material-icons">library_books</i>
 		      <p>产品分类管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./tables.html">
+		    <a class="nav-link" href="ShopOrder">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看订单</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopCoupon">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>优惠券管理</p>
 		    </a>

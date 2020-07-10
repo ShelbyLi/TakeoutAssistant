@@ -144,13 +144,13 @@
 							<div class="form-group">
 								 <label for="inputEmail3" class="col-sm-2 control-label">登录名</label>
 								<div class="col-sm-10">
-									<input class="form-control" id="inputEmail3" name="username" required="required" />
+									<input class="form-control" id="inputEmail3" name="name" required="required" />
 								</div>
 							</div>
 							<div class="form-group">
 								 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-10">
-									<input type="password" class="form-control" id="inputPassword3" name="password" required="required"/>
+									<input type="password" class="form-control" id="inputPassword3" name="pwd" required="required"/>
 								</div>
 							</div>
 							<div class="form-group">

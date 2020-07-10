@@ -6,6 +6,7 @@ public class BeanOrderDetail extends BeanEntity {
 	private int product_id;
 	private int amount;
 	private double price;
+	private String product_name;
 	
 	public int getOrder_id() {
 		return order_id;
@@ -31,5 +32,12 @@ public class BeanOrderDetail extends BeanEntity {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	
 	
 }

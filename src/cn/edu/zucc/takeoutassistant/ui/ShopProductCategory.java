@@ -1,6 +1,9 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,23 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-
-import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.control.ProductcategoryManager;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopLogin
+ * Servlet implementation class ShopProductCategory
  */
-@WebServlet("/ShopLogin")
-public class ShopLogin extends HttpServlet {
+@WebServlet("/ShopProductCategory")
+public class ShopProductCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopLogin() {
+    public ShopProductCategory() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,20 +46,24 @@ public class ShopLogin extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		ShopManager sm = new ShopManager();
-		BeanShop shop = new BeanShop();
+		ProductcategoryManager pcm = new ProductcategoryManager();
+		List<BeanProductCategory> productcategorys = new ArrayList<BeanProductCategory>();
+		BeanShop cur_shop = new BeanShop();
+		cur_shop = (BeanShop) session.getAttribute("cur_shop");
+//		System.out.println(cur_shop);
 		try {
-			shop = (BeanShop) sm.login(request.getParameter("shop_name"), request.getParameter("shop_pwd"));
-			session.setAttribute("cur_shop", shop);
-			
-			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
+			String keyWord = request.getParameter("keyWord");
+			if (keyWord != null) {
+				// 模糊查找
+				productcategorys = pcm.fuzzySearch(keyWord, cur_shop.getShop_id());
+			} else {
+				productcategorys = pcm.loadAll(cur_shop.getShop_id());
+			}
+			request.setAttribute("productcategorys", productcategorys);
 		} catch (BaseException e) {
 			e.printStackTrace();
-			request.setAttribute("hint", e.getMessage());
-			request.getRequestDispatcher("shop_login.jsp").forward(request,response);
-
 		}
-		
+		request.getRequestDispatcher("shop_productcategory.jsp").forward(request, response);
 	}
 
 }
