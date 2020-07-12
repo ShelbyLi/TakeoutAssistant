@@ -172,4 +172,41 @@ public class CouponManager implements IEntityManager {
 		return result;
 	}
 
+	public List<BeanCoupon> loadAllAvailable(int user_id, int shop_id) throws BaseException {
+		List<BeanCoupon> result = new ArrayList<BeanCoupon>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT user_id, shop_id, coupon_id, coupon_count, discounted_amount\r\n" + 
+					"FROM userholdcouponsdetails\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND shop_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, user_id);
+			pst.setInt(2, shop_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanCoupon c = new BeanCoupon();
+				c.setUser_id(1);
+				c.setShop_id(2);
+				c.setCoupon_id(rs.getInt(3));
+				c.setCoupon_count(rs.getInt(4));
+				c.setCoupon_amount(rs.getDouble(5));
+				result.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
 }

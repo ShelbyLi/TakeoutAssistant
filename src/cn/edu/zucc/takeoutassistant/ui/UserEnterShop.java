@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.zucc.takeoutassistant.control.OrderDetailManager;
 import cn.edu.zucc.takeoutassistant.control.OrderManager;
 import cn.edu.zucc.takeoutassistant.control.ProductManager;
 import cn.edu.zucc.takeoutassistant.control.ProductcategoryManager;
 import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.model.BeanOrderDetail;
 import cn.edu.zucc.takeoutassistant.model.BeanOrderForm;
 import cn.edu.zucc.takeoutassistant.model.BeanProduct;
 import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
@@ -73,7 +75,7 @@ public class UserEnterShop extends HttpServlet {
 			} else {
 				productcategorys = pcm.loadAll(shop_id);
 			}
-			request.setAttribute("productcategorys", productcategorys);
+//			request.setAttribute("productcategorys", productcategorys);
 			
 			
 			// 建立该用户在这家店的购物车(订单 状态为ordering)
@@ -82,11 +84,20 @@ public class UserEnterShop extends HttpServlet {
 			order.setUser_id(cur_user.getUser_id());
 			order.setOrder_status(BeanOrderForm.ordering);
 			order.setShop_id(shop_id);
+			System.out.println(cur_user.getUser_id());
+			System.out.println(shop_id);
 			om.add(order);
 			
-			// 更新用户购物车
-//			OrderManager om = new OrderManager();
-//			om.updateShopId(cur_user.getUser_id(), shop_id);
+			// 设置当前购物车情况参数 传递给jsp
+			OrderDetailManager odm = new OrderDetailManager();
+			for (BeanProductCategory productcategory: productcategorys) {
+				for (BeanProduct product: productcategory.getProducts()) {
+					int cur_cart_amount = odm.searchAmount(cur_user.getUser_id(), product.getProduct_id());
+					product.setCur_cart_amount(cur_cart_amount);
+					System.out.println(cur_cart_amount);
+				}
+			}
+			request.setAttribute("productcategorys", productcategorys);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}

@@ -314,5 +314,8 @@ public class ProductManager implements IEntityManager {
 		return result;
 	}
 
+
+	
+
 	
 }

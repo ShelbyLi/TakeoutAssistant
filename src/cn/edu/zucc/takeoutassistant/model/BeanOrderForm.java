@@ -24,6 +24,10 @@ public class BeanOrderForm extends BeanEntity {
 	private String addr_detailed_addr;
 	private String addr_contact_person;
 	private String addr_contact_phone;
+	private double order_actual_vip_amount;
+	private double fullreduction_discounted_price;
+	private double coupon_amount;
+	private double final_amount;
 	
 	
 	public static final int waiting = 0;
@@ -152,6 +156,30 @@ public class BeanOrderForm extends BeanEntity {
 	}
 	public void setAddr_contact_phone(String addr_contact_phone) {
 		this.addr_contact_phone = addr_contact_phone;
+	}
+	public double getOrder_actual_vip_amount() {
+		return order_actual_vip_amount;
+	}
+	public void setOrder_actual_vip_amount(double order_actual_vip_amount) {
+		this.order_actual_vip_amount = order_actual_vip_amount;
+	}
+	public double getFullreduction_discounted_price() {
+		return fullreduction_discounted_price;
+	}
+	public void setFullreduction_discounted_price(double fullreduction_discounted_price) {
+		this.fullreduction_discounted_price = fullreduction_discounted_price;
+	}
+	public double getCoupon_amount() {
+		return coupon_amount;
+	}
+	public void setCoupon_amount(double coupon_amount) {
+		this.coupon_amount = coupon_amount;
+	}
+	public double getFinal_amount() {
+		return final_amount;
+	}
+	public void setFinal_amount(double final_amount) {
+		this.final_amount = final_amount;
 	}
 	
 	

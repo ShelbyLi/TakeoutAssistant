@@ -1,4 +1,4 @@
-package cn.edu.zucc.takeoutassistant.model;
+package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import cn.edu.zucc.takeoutassistant.control.OrderDetailManager;
 import cn.edu.zucc.takeoutassistant.control.OrderManager;
+import cn.edu.zucc.takeoutassistant.model.BeanOrderDetail;
+import cn.edu.zucc.takeoutassistant.model.BeanShop;
+import cn.edu.zucc.takeoutassistant.model.BeanUser;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
@@ -31,8 +34,7 @@ public class UserAddProduct extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -61,7 +63,7 @@ public class UserAddProduct extends HttpServlet {
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		
+		request.getRequestDispatcher("UserEnterShop?shop_id="+cur_entered_shop.getShop_id()).forward(request, response);
 		
 	}
 

@@ -11,7 +11,9 @@ import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
 import cn.edu.zucc.takeoutassistant.model.BeanEntity;
 import cn.edu.zucc.takeoutassistant.model.BeanOrderDetail;
 import cn.edu.zucc.takeoutassistant.model.BeanOrderForm;
+import cn.edu.zucc.takeoutassistant.model.BeanProduct;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
+import cn.edu.zucc.takeoutassistant.util.BusinessException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
 import cn.edu.zucc.takeoutassistant.util.DbException;
 
@@ -62,12 +64,13 @@ public class OrderDetailManager implements IEntityManager {
 		// TODO Auto-generated method stub
 		OrderDetailManager odm = new OrderDetailManager();
 		BeanOrderDetail orderdetail = new BeanOrderDetail();
-		orderdetail.setOrder_id(2);
-		orderdetail.setProduct_id(2);
-		orderdetail.setAmount(2);
-		orderdetail.setPrice(27);
+		orderdetail.setOrder_id(12);
+		orderdetail.setProduct_id(7);
+//		orderdetail.setAmount(2);
+//		orderdetail.setPrice(27);
 		try {
-			odm.add(orderdetail);
+//			odm.add(orderdetail);
+			odm.plusOne(orderdetail);
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,8 +165,8 @@ public class OrderDetailManager implements IEntityManager {
 				String sql1 = "INSERT INTO orderdetail (order_id, product_id, amount)\r\n" + 
 						"VALUES (?, ?, 1)";
 				PreparedStatement pst1 = conn.prepareStatement(sql1);
-				pst.setInt(1, orderdetail.getOrder_id());
-				pst.setInt(2, orderdetail.getProduct_id());
+				pst1.setInt(1, orderdetail.getOrder_id());
+				pst1.setInt(2, orderdetail.getProduct_id());
 				pst1.execute();
 				pst1.close();
 			} else {
@@ -192,4 +195,126 @@ public class OrderDetailManager implements IEntityManager {
 		}
 	}
 
+	public void minusOne(BeanOrderDetail orderdetail) throws BaseException {
+		Connection conn = null;
+		// 判断订购数量是否为0 即是否可删除
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT amount\r\n" + 
+					"FROM usercart\r\n" + 
+					"WHERE order_id = ?\r\n" + 
+					"AND product_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, orderdetail.getOrder_id());
+			pst.setInt(2, orderdetail.getProduct_id());
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) { // 没有记录1
+				throw new BusinessException("购物车中未添加 不可删除!");
+//				String sql1 = "INSERT INTO orderdetail (order_id, product_id, amount)\r\n" + 
+//						"VALUES (?, ?, 1)";
+//				PreparedStatement pst1 = conn.prepareStatement(sql1);
+//				pst1.setInt(1, orderdetail.getOrder_id());
+//				pst1.setInt(2, orderdetail.getProduct_id());
+//				pst1.execute();
+//				pst1.close();
+			} else { //可以减少
+				if (rs.getInt(1) == 0) {
+					throw new BusinessException("购物车中未添加 不可删除!");
+				}
+				String sql2 = "UPDATE orderdetail\r\n" + 
+						"SET amount = amount-1\r\n" + 
+						"WHERE order_id = ?\r\n" + 
+						"AND product_id = ?";
+				PreparedStatement pst2 = conn.prepareStatement(sql2);
+				pst2.setInt(1, orderdetail.getOrder_id());
+				pst2.setInt(2, orderdetail.getProduct_id());
+				pst2.execute();
+				pst2.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+	}
+
+	public int searchAmount(int user_id, int product_id) throws BaseException {
+		int result = 0;
+		Connection conn = null;
+		// 判断订购数量是否为0 即是否可删除
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT amount\r\n" + 
+					"FROM usercart\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND product_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, user_id);
+			pst.setInt(2, product_id);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public List<BeanOrderDetail> loadCart(int user_id, int shop_id) throws BaseException {
+		List<BeanOrderDetail> result = new ArrayList<BeanOrderDetail>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT order_id, user_id, shop_id, product_id, product_name, amount, product_price, product_discounted_price\r\n" + 
+					"FROM usercart\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND shop_id = ?\r\n" + 
+					"AND amount > 0";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, user_id);
+			pst.setInt(2, shop_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanOrderDetail od = new BeanOrderDetail();
+				od.setOrder_id(rs.getInt(1));
+				od.setProduct_id(rs.getInt(4));
+				od.setProduct_name(rs.getString(5));
+				od.setAmount(rs.getInt(6));
+				od.setPrice(rs.getDouble(7));
+				od.setDiscounted_price(rs.getDouble(8));
+				result.add(od);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
 }

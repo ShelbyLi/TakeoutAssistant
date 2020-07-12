@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> --%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>user-in the shop</title>
+<title>user-cart</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -153,211 +152,229 @@
 		        <div class="card-header card-header-tabs card-header-primary">
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
-		              <h4 class="card-title">欢迎光临 ${cur_entered_shop.shop_name }</h4>
+		              <h4 class="card-title">你在 ${cur_entered_shop.shop_name }的购物车</h4>
 		            </div>
 		          </div>
 		        </div>
 		        
 		        <div class="card-body">
-		          <div class="tab-content">
-		            <div class="tab-pane active" id="profile">
+		        <div class="tab-pane active" id="profile">
 		              <table class="table">
 		                <tbody>
 						  <tr>
-						  	<!-- <td>产品ID</td> -->
-							<td>产品类别</td>
-							<td>产品名称</td>
-							<td>价格</td>
-							<td>折扣价</td>
+	                        <td>商品名称</td>
+							<td>商品数量</td>
+	                        <td>单价</td>
+	                        <td>会员价</td>
 						  </tr>
 						  <%-- <tr><td>${hint }</td></tr> --%>
-						  <c:forEach items="${productcategorys }" var="item" varStatus="i">
-						  	<tr>
-						  		<%-- <td>${item.productcategory_name }</td>
-						  		<td> --%>
-						  			<%-- <td>${fn:length(productcategorys.products) }</td> --%>
-						  			<td rowspan = " ${item.products_cnt+1}">${item.productcategory_name }</td>
-						  			<c:forEach items="${item.products }" var="product" varStatus="j">
-						  			<tr>
-						  			<!-- <tr> -->
-									<td>${product.product_name }</td>
-									<td>${product.product_price }</td>
-									<td>${product.product_discounted_price }</td>
-				                    
-				                    <td class="td-actions text-right">
-				                      <a href="UserSubProduct?product_id=${product.product_id }">
-										<button type="button" rel="tooltip" title="-1" class="btn btn-primary btn-link btn-sm">
-											<i class="material-icons">remove</i>
-										</button>
-									  </a>
-									  <label class="bmd-label-floating">&nbsp;&nbsp;${product.cur_cart_amount }&nbsp;&nbsp;</label>
-									  <!-- <input value="0"> -->
-				                      <a href="UserAddProduct?product_id=${product.product_id }">
-				                      	<button type="button" rel="tooltip" title="+1" class="btn btn-danger btn-link btn-sm">
-				                        	<i class="material-icons">add</i>
-				                      	</button>
-				                      </a>
-				                    </td>
-				                    </tr>
-				                    </c:forEach>
-				                  </tr>
-				                  
-				                  <%-- </c:forEach> --%>
-				                  
-						  	<!-- 	</td>
-						  	</tr> -->
-						  	
-			                  
+						  <c:forEach items="${orderdetails }" var="item" varStatus="i">
+			                  <tr>
+			                  	<%-- <td>${item.order_id }</td> --%>
+								<td>${item.product_name }</td>
+								<td>${item.amount }</td>
+								<td>${item.price }</td>
+								<td>${item.discounted_price }</td>
+			                    
+			                    <%-- <td class="td-actions text-right">
+			                      <a href="UserRemoveAddr?address_id=${item.address_id }">
+			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
+			                        	<i class="material-icons">close</i>
+			                      	</button>
+			                      </a>
+			                    </td> --%>
+			                    
+			                  </tr>
 		                  </c:forEach>
 		                  
 		                  
 		                </tbody>
 		              </table>
 		            </div>
-		          <!--   <div class="tab-pane" id="messages">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		            <div class="tab-pane" id="settings">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		           -->
-		          
-		          </div>
-		        </div>
+		           </div>
 		      <!-- </div> -->
 		    </div>
 		   </div>
         
+        
+        <form action="UserBuy" method="post">
           <div class="row">
 		    <!-- <div class="col-lg-6 col-md-12"> -->
 		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <!-- <h4 class="card-title">注销</h4> -->
-		            <p class="card-category">挑选完毕?</p>
+		        <div class="card-header card-header-tabs card-header-primary">
+		          <div class="nav-tabs-navigation">
+		            <div class="nav-tabs-wrapper">
+		              <h4 class="card-title">选择你的配送地址</h4>
+		            </div>
 		          </div>
-		          <div class="card-body">
-		              <a href="UserCart">
-		              	<button type="submit" class="btn btn-primary pull-right">确认</button>
-		              </a>
-		          </div>
+		        </div>
+		        <div class="card-body">
+		        <div class="tab-pane active" id="profile">
+		              <table class="table">
+		                <tbody>
+						  <tr>
+	                        <td>地址ID</td>
+							<td>省</td>
+	                        <td>市</td>
+	                        <td>区/县级市/县</td>
+	                        <td>详细地址</td>
+	                        <td>联系人姓名</td>
+	                        <td>联系方式</td>
+						  </tr>
+						  <c:forEach items="${addrs }" var="item" varStatus="i">
+						  
+			                  <tr>
+			                  	<td>${item.address_id }</td>
+								<td>${item.addr_province }</td>
+								<td>${item.addr_city }</td>
+								<td>${item.addr_district }</td>
+								<td>${item.addr_detailed_addr }</td>
+								<td>${item.addr_contact_person }</td>
+								<td>${item.addr_contact_phone }</td>
+			                    
+			                    <td><input type="radio" name="addr_id" value="${item.address_id }"/></td>
+			                  </tr>
+		                  </c:forEach>
+		                  
+		                </tbody>
+		              </table>
+		            </div>
+		           </div>
 		    </div>
-		  </div>
-        
+		   </div>
+		   
+		   <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		        <div class="card-header card-header-tabs card-header-primary">
+		          <div class="nav-tabs-navigation">
+		            <div class="nav-tabs-wrapper">
+		              <h4 class="card-title">选择你的配送时间</h4>
+		            </div>
+		          </div>
+		        </div>
+		        <div class="card-body">
+		        <div class="tab-pane active" id="profile">
+		              <table class="table">
+		                <tbody>
+							<tr>
+							  <td></td>
+							  <td></td>
+							  <td></td>
+							  <td><input type="datetime-local" name="order_request_delivery_time" /></td>
+							  <!-- <td><input type="time" name="order_request_delivery_time" /></td> -->
+							  <td></td>
+							  <td></td>
+							  <td></td>
+							</tr>
+		                </tbody>
+		              </table>
+		            </div>
+		           </div>
+		    </div>
+		   </div>
+		   
+		   <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		        <div class="card-header card-header-tabs card-header-primary">
+		          <div class="nav-tabs-navigation">
+		            <div class="nav-tabs-wrapper">
+		              <h4 class="card-title">你的订单满减</h4>
+		            </div>
+		          </div>
+		        </div>
+		        <div class="card-body">
+		        <div class="tab-pane active" id="profile">
+		              <table class="table">
+		                <tbody>
+						  <tr>
+	                        <td>满减方案ID</td>
+							<td>满减金额</td>
+							<td>优惠金额</td>
+							<td>是否可与优惠券叠加</td>
+						  </tr>
+						  <%-- <c:forEach items="${fullreductions }" var="item" varStatus="i"> --%>
+						  
+			                  <tr>
+			                  	<td>${fullreduction.fullreduction_id }</td>
+								<td>${fullreduction.fullreduction_amount }</td>
+								<td>${fullreduction.fullreduction_discounted_price }</td>
+								<td>${fullreduction.fullreduction_can_superimposed_with_coupons }</td>
+			                    <%-- <td><input type="radio" name="fullreduction_id" value="${item.fullreduction_id }"/></td> --%>
+			                    <%-- <td class="td-actions text-right">
+			                      <a href="UserRemoveAddr?address_id=${item.fullreduction_id }">
+			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
+			                        	<i class="material-icons">check</i>
+			                      	</button>
+			                      </a>
+			                    </td> --%>
+			                  </tr>
+		                  <%-- </c:forEach> --%>
+		                  		
+		                </tbody>
+		              </table>
+		            </div>
+		           </div>
+		    </div>
+		   </div>
+		   
+		   <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		        <div class="card-header card-header-tabs card-header-primary">
+		          <div class="nav-tabs-navigation">
+		            <div class="nav-tabs-wrapper">
+		              <h4 class="card-title">${hint }</h4>
+		            </div>
+		          </div>
+		        </div>
+		        <div class="card-body">
+		        <div class="tab-pane active" id="profile">
+		              <table class="table">
+		                <tbody>
+						  <tr>
+	                        <td>优惠券类型ID</td>
+							<td>优惠券金额</td>
+							<td>拥有数量</td>
+						  </tr>
+						  <c:forEach items="${coupons }" var="item" varStatus="i">
+						  
+			                  <tr>
+			                  	<td>${item.coupon_id }</td>
+								<td>${item.coupon_amount }</td>
+								<td>${item.coupon_count }</td>
+								<td><input type="radio" name="coupon_id" value="${item.coupon_id }"/></td>
+			                    <%-- <td><input type="radio" name="fullreduction_id" value="${item.fullreduction_id }"/></td> --%>
+			                    <%-- <td class="td-actions text-right">
+			                      <a href="UserRemoveAddr?address_id=${item.fullreduction_id }">
+			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
+			                        	<i class="material-icons">check</i>
+			                      	</button>
+			                      </a>
+			                    </td> --%>
+			                  </tr>
+		                  </c:forEach>
+		                  		
+		                </tbody>
+		              </table>
+		            </div>
+		           </div>
+		    </div>
+		   </div>
+		   
+		   
+        <button type="submit" class="btn btn-primary pull-right">下单</button>
+	</form>
+	
+	
+	
         </div>
       </div>
+      
+      
+      
+      
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">

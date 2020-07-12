@@ -11,6 +11,9 @@ public class BeanCoupon extends BeanEntity {
 	private Date coupon_start_time;
 	private Date coupon_end_time;
 	private Date coupon_delete_time;
+	private int coupon_count;
+	private int user_id;
+	
 	public int getCoupon_id() {
 		return coupon_id;
 	}
@@ -53,4 +56,17 @@ public class BeanCoupon extends BeanEntity {
 	public void setCoupon_delete_time(Date coupon_delete_time) {
 		this.coupon_delete_time = coupon_delete_time;
 	}
+	public int getCoupon_count() {
+		return coupon_count;
+	}
+	public void setCoupon_count(int coupon_count) {
+		this.coupon_count = coupon_count;
+	}
+	public int getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+	
 }
