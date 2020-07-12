@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> --%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>admin-shop manage</title>
+<title>user-in the shop</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -19,6 +21,7 @@
   <link href="assets/demo/demo.css" rel="stylesheet" />
 </head>
 <body>
+
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
@@ -28,44 +31,51 @@
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
-          外卖小助手
+          	外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 管理员 ${cur_admin.admin_name }!
+          	你好 用户 ${cur_user.user_name }!
         </a>
       </div>
 	  
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item ">
-            <a class="nav-link" href="AdminUser">
+          <li class="nav-item active ">
+            <a class="nav-link" href="UserToShop">
               <i class="material-icons">dashboard</i>
-              <p>用户管理</p>
+              <p>去下单</p>
             </a>
           </li>
           <!-- your sidebar here -->
-		  <li class="nav-item active  ">
-		    <a class="nav-link" href="AdminShop">
-		      <i class="material-icons">library_books</i>
-		      <p>商家管理</p>
-		    </a>
-		  </li>
-		  
+		  		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopOrder">
+		    <a class="nav-link" href="#">
 		      <i class="material-icons">content_paste</i>
-		      <p>骑手管理</p>
+		      <p>查看我的订单</p>
+		    </a>
+		  </li>
+		  		  
+		  <li class="nav-item ">
+		    <a class="nav-link" href="UserCoupon">
+		      <i class="material-icons">bubble_chart</i>
+		      <p>我的优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="admin_basicinfo.jsp">
+		    <a class="nav-link" href="UserCoupon">
+		      <i class="material-icons">library_books</i>
+		      <p>我的地址管理</p>
+		    </a>
+		  </li>
+		  
+		  <li class="nav-item  ">
+		    <a class="nav-link" href="user_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
 		  </li>
-		  
 		  
         </ul>
       </div>
@@ -127,12 +137,12 @@
 		      <div class="card">
 		          <div class="card-header card-header-primary">
 		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">增加你的新产品类别吧</p>
+		            <p class="card-category">增加你的新产品吧</p>
 		          </div>
 		          <div class="card-body">
-		              <a href="shop_add_productcategory.jsp">
-		              	<button type="submit" class="btn btn-primary pull-left">添加产品类别</button>
-		              </a>
+		            <form>		              
+		              	<a href="shop_add_product.jsp"><button type="submit" class="btn btn-primary pull-left">添加产品</button></a>
+		            </form>
 		          </div>
 		    </div>
 		  </div> -->
@@ -143,50 +153,61 @@
 		        <div class="card-header card-header-tabs card-header-primary">
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
-		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
-		              <h4 class="card-title">商家</h4>
-
-					</div>
+		              <h4 class="card-title">欢迎光临 ${cur_entered_shop.shop_name }</h4>
+		            </div>
 		          </div>
 		        </div>
+		        
 		        <div class="card-body">
 		          <div class="tab-content">
 		            <div class="tab-pane active" id="profile">
 		              <table class="table">
 		                <tbody>
 						  <tr>
-						  	<td>商家ID</td>
-							<td>商家名</td>
-							<td>密码</td>
-							<td>星级</td>
-							<td>人均消费</td>
-							<td>累计订单数量</td>
+						  	<!-- <td>产品ID</td> -->
+							<td>产品类别</td>
+							<td>产品名称</td>
+							<td>价格</td>
+							<td>折扣价</td>
 						  </tr>
 						  <%-- <tr><td>${hint }</td></tr> --%>
-						  <c:forEach items="${shops }" var="item" varStatus="i">
-						  
-			                  <tr>
-			                  	<td>${item.shop_id }</td>
-								<td>${item.shop_name }</td>
-								<td>${item.shop_pwd }</td>
-								<td>${item.shop_level }</td>
-								<td>${item.shop_per_capita_consumption }</td>
-								<td>${item.shop_total_sales }</td>
-			                    <td class="td-actions text-right">
-			                      
-			                       <a href="AdminEditShopPwd?shop_id=${item.shop_id }&shop_old_pwd=${item.shop_pwd }">
-									<button type="button" rel="tooltip" title="重置该商家密码" class="btn btn-primary btn-link btn-sm">
-										<i class="material-icons">edit</i>
-									</button>
-								  </a>
-			                      <a href="AdminRemoveShop?shop_id=${item.shop_id }">
-			                      	<button type="button" rel="tooltip" title="删除该商家" class="btn btn-danger btn-link btn-sm">
-			                        	<i class="material-icons">close</i>
-			                      	</button>
-			                      </a>
-			                      
-			                    </td>
-			                  </tr>
+						  <c:forEach items="${productcategorys }" var="item" varStatus="i">
+						  	<tr>
+						  		<%-- <td>${item.productcategory_name }</td>
+						  		<td> --%>
+						  			<%-- <td>${fn:length(productcategorys.products) }</td> --%>
+						  			<td rowspan = " ${item.products_cnt+1}">${item.productcategory_name }</td>
+						  			<c:forEach items="${item.products }" var="product" varStatus="j">
+						  			<tr>
+						  			<!-- <tr> -->
+									<td>${product.product_name }</td>
+									<td>${product.product_price }</td>
+									<td>${product.product_discounted_price }</td>
+				                    
+				                    <td class="td-actions text-right">
+				                      <a href="UserAddProduct?product_id=${product.product_id }">
+										<button type="button" rel="tooltip" title="-1" class="btn btn-primary btn-link btn-sm">
+											<i class="material-icons">remove</i>
+										</button>
+									  </a>
+									  <label class="bmd-label-floating">&nbsp;&nbsp;0&nbsp;&nbsp;</label>
+									  <!-- <input value="0"> -->
+				                      <a href="UserAddProduct?product_id=${product.product_id }">
+				                      	<button type="button" rel="tooltip" title="+1" class="btn btn-danger btn-link btn-sm">
+				                        	<i class="material-icons">add</i>
+				                      	</button>
+				                      </a>
+				                    </td>
+				                    </tr>
+				                    </c:forEach>
+				                  </tr>
+				                  
+				                  <%-- </c:forEach> --%>
+				                  
+						  	<!-- 	</td>
+						  	</tr> -->
+						  	
+			                  
 		                  </c:forEach>
 		                  
 		                  
@@ -319,8 +340,6 @@
 		   </div>
         </div>
       </div>
-      
-      
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">

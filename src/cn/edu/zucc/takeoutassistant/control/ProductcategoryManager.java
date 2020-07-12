@@ -143,7 +143,6 @@ public class ProductcategoryManager implements IEntityManager {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ProductcategoryManager pcm = new ProductcategoryManager();
 		BeanProductCategory productcategory = new BeanProductCategory();
 		productcategory.setProductcategory_id(1);
@@ -155,7 +154,14 @@ public class ProductcategoryManager implements IEntityManager {
 			List<BeanProductCategory> productcategorys = new ArrayList<BeanProductCategory>();
 			productcategorys = pcm.loadAll(1);
 			for (BeanProductCategory item: productcategorys) {
-				System.out.println(item.getProductcategory_name());
+				System.out.println(item.getProducts_cnt());
+				
+//				ProductManager pm = new ProductManager();
+//				List<BeanProduct> products = new ArrayList<BeanProduct>();
+//				products = pm.loadAllByProductCategory(item.getProductcategory_id());
+//				for (BeanProduct item2: products) {
+//					System.out.println(item2.getProduct_name());
+//				}
 			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
@@ -181,6 +187,14 @@ public class ProductcategoryManager implements IEntityManager {
 				BeanProductCategory pc = new BeanProductCategory();
 				pc.setProductcategory_id(rs.getInt(1));
 				pc.setProductcategory_name(rs.getString(2));
+				
+				ProductManager pm = new ProductManager();
+				List<BeanProduct> products = new ArrayList<BeanProduct>();
+				products = pm.loadAllByProductCategory(rs.getInt(1));
+				pc.setProducts(products);
+				pc.setProducts_cnt(products.size());
+				
+				
 				result.add(pc);
 			}
 		} catch (SQLException e) {
@@ -192,7 +206,6 @@ public class ProductcategoryManager implements IEntityManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -215,6 +228,13 @@ public class ProductcategoryManager implements IEntityManager {
 				BeanProductCategory pc = new BeanProductCategory();
 				pc.setProductcategory_id(rs.getInt(1));
 				pc.setProductcategory_name(rs.getString(2));
+				
+				ProductManager pm = new ProductManager();
+				List<BeanProduct> products = new ArrayList<BeanProduct>();
+				products = pm.loadAllByProductCategory(rs.getInt(1));
+				pc.setProducts(products);
+				pc.setProducts_cnt(products.size());
+				
 				result.add(pc);
 			}
 		} catch (SQLException e) {
@@ -226,7 +246,6 @@ public class ProductcategoryManager implements IEntityManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}

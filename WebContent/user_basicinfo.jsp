@@ -16,7 +16,6 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <script src="./lib/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
   <div class="wrapper ">
@@ -39,7 +38,7 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="UserToShop">
               <i class="material-icons">dashboard</i>
               <p>去下单</p>
             </a>

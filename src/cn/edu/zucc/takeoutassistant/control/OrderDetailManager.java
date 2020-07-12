@@ -19,7 +19,6 @@ public class OrderDetailManager implements IEntityManager {
 
 	@Override
 	public void add(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
 		BeanOrderDetail orderdetail = (BeanOrderDetail) entity;
 		Connection conn = null;
 		try {
@@ -34,7 +33,6 @@ public class OrderDetailManager implements IEntityManager {
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -43,7 +41,6 @@ public class OrderDetailManager implements IEntityManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -145,6 +142,54 @@ public class OrderDetailManager implements IEntityManager {
 				}
 		}
 		return result;
+	}
+
+	
+	public void plusOne(BeanOrderDetail orderdetail) throws BaseException {
+		Connection conn = null;
+		// 查是否存在详情的记录 不存在先建立
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT *\r\n" + 
+					"FROM orderdetail\r\n" + 
+					"WHERE order_id = ?\r\n" + 
+					"AND product_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, orderdetail.getOrder_id());
+			pst.setInt(2, orderdetail.getProduct_id());
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) { // 没有
+				String sql1 = "INSERT INTO orderdetail (order_id, product_id, amount)\r\n" + 
+						"VALUES (?, ?, 1)";
+				PreparedStatement pst1 = conn.prepareStatement(sql1);
+				pst.setInt(1, orderdetail.getOrder_id());
+				pst.setInt(2, orderdetail.getProduct_id());
+				pst1.execute();
+				pst1.close();
+			} else {
+				String sql2 = "UPDATE orderdetail\r\n" + 
+						"SET amount = amount+1\r\n" + 
+						"WHERE order_id = ?\r\n" + 
+						"AND product_id = ?";
+				PreparedStatement pst2 = conn.prepareStatement(sql2);
+				pst2.setInt(1, orderdetail.getOrder_id());
+				pst2.setInt(2, orderdetail.getProduct_id());
+				pst2.execute();
+				pst2.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 
 }

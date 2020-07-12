@@ -107,7 +107,6 @@ public class ShopManager implements IPeopleManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -342,5 +341,41 @@ public class ShopManager implements IPeopleManager {
 		}
 		return result;
 	}
-
+	
+	public BeanShop getDetails(int id) throws BaseException {
+		BeanShop result = new BeanShop();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time, avg_amount, order_cnt\r\n" + 
+					"FROM shopinfodetails\r\n" + 
+					"WHERE shop_id = ?";
+			PreparedStatement pst = conn.prepareCall(sql);
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result.setShop_id(rs.getInt(1));
+			result.setShop_name(rs.getString(2));
+			result.setShop_pwd(rs.getString(3));
+			result.setShop_level(rs.getInt(4));
+			result.setShop_per_capita_consumption(rs.getDouble(6));
+			result.setShop_total_sales(rs.getInt(7));
+			rs.close();
+			pst.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		return result;
+	}
 }

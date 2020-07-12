@@ -14,6 +14,7 @@ import cn.edu.zucc.takeoutassistant.model.BeanEntity;
 import cn.edu.zucc.takeoutassistant.model.BeanFullReductionScheme;
 import cn.edu.zucc.takeoutassistant.model.BeanOrderForm;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
+import cn.edu.zucc.takeoutassistant.util.BusinessException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
 import cn.edu.zucc.takeoutassistant.util.DbException;
 
@@ -25,23 +26,44 @@ public class OrderManager implements IEntityManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "INSERT INTO orderform (shop_id, fullreduction_id, addr_id, user_id, coupon_id, order_original_amount, order_actual_amount, order_time, order_request_delivery_time, order_status, order_cancle_time) \r\n" + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
+			// 先查看购物车(order_status=-1)是否存在
+			String sql = "SELECT *\r\n" + 
+					"FROM usercart\r\n" + 
+					"WHERE user_id=?\r\n" + 
+					"AND shop_id=?\r\n" + 
+					"AND product_id IS NOT NULL";
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, order.getShop_id());
-			if (order.getFullreduction_id() != 0) pst.setInt(2, order.getFullreduction_id());
-			else pst.setNull(2, Types.INTEGER);
-			pst.setInt(3, order.getAddr_id());
-			pst.setInt(4, order.getUser_id());
-			if (order.getCoupon_id() != 0) pst.setInt(5, order.getCoupon_id());
-			else pst.setNull(5, Types.INTEGER);
-			pst.setDouble(6, order.getOrder_original_amount());
-			pst.setDouble(7, order.getOrder_actual_amount());
-			if (order.getOrder_request_delivery_time() != null) pst.setTimestamp(8, new Timestamp(order.getOrder_request_delivery_time().getTime()));
-			else pst.setNull(8, Types.TIMESTAMP);
-			pst.setInt(9, order.getOrder_status());
-			if (order.getOrder_cancle_time() != null) pst.setTimestamp(9, new Timestamp(order.getOrder_cancle_time().getTime()));
-			else pst.setNull(10, Types.TIMESTAMP);
+			pst.setInt(1, order.getUser_id());
+			pst.setInt(2, order.getShop_id());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				rs.close();
+				pst.close();
+				throw new BusinessException("该店的购物车已存在");
+			}
+			
+			String sql1 = "INSERT INTO orderform (shop_id, user_id, order_status)\r\n" + 
+					"VALUES (?, ?, ?)";
+			PreparedStatement pst1 = conn.prepareStatement(sql1);
+			pst1.setInt(1, order.getShop_id());
+			pst1.setInt(2, order.getUser_id());
+			pst1.setInt(3, order.getOrder_status());
+//			String sql = "INSERT INTO orderform (shop_id, fullreduction_id, addr_id, user_id, coupon_id, order_original_amount, order_actual_amount, order_time, order_request_delivery_time, order_status, order_cancle_time) \r\n" + 
+//			"VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
+//			pst.setInt(1, order.getShop_id());
+//			if (order.getFullreduction_id() != 0) pst.setInt(2, order.getFullreduction_id());
+//			else pst.setNull(2, Types.INTEGER);
+//			pst.setInt(3, order.getAddr_id());
+//			pst.setInt(4, order.getUser_id());
+//			if (order.getCoupon_id() != 0) pst.setInt(5, order.getCoupon_id());
+//			else pst.setNull(5, Types.INTEGER);
+//			pst.setDouble(6, order.getOrder_original_amount());
+//			pst.setDouble(7, order.getOrder_actual_amount());
+//			if (order.getOrder_request_delivery_time() != null) pst.setTimestamp(8, new Timestamp(order.getOrder_request_delivery_time().getTime()));
+//			else pst.setNull(8, Types.TIMESTAMP);
+//			pst.setInt(9, order.getOrder_status());
+//			if (order.getOrder_cancle_time() != null) pst.setTimestamp(9, new Timestamp(order.getOrder_cancle_time().getTime()));
+//			else pst.setNull(10, Types.TIMESTAMP);
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
@@ -272,6 +294,83 @@ public class OrderManager implements IEntityManager {
 					e.printStackTrace();
 				}
 		}
+	}
+
+	
+	public void updateShopId(int user_id, int shop_id) throws BaseException {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			// 先查看购物车(order_status=-1) 中是否有商品存在 有则清空
+			String sql = "SELECT *\r\n" + 
+					"FROM usercart\r\n" + 
+					"WHERE user_id=?\r\n" + 
+					"AND product_id IS NOT NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, user_id);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) { //购物车有商品  清空
+				String sql1 = "DELETE\r\n" + 
+						"FROM orderdetail\r\n" + 
+						"WHERE order_id = ?";
+				PreparedStatement pst1 = conn.prepareStatement(sql1);
+				pst1.execute();
+				pst1.close();
+			}
+			
+			String sql2 = "UPDATE orderform\r\n" + 
+					"SET shop_id = ?\r\n" + 
+					"WHERE user_id = ?";
+			PreparedStatement pst2 = conn.prepareStatement(sql2);
+			pst2.setInt(1, shop_id);
+			pst2.setInt(2, user_id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+	}
+
+	public int getCartId(int user_id, int shop_id) throws BaseException {
+		int result = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "SELECT order_id\r\n" + 
+					"FROM orderform\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND shop_id = ?\r\n" + 
+					"AND order_status = -1";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, user_id);
+			pst.setInt(2, shop_id);
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 }

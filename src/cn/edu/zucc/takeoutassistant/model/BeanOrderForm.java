@@ -30,6 +30,7 @@ public class BeanOrderForm extends BeanEntity {
 	public static final int delivering = 1;
 	public static final int arrived = 2;
 	public static final int timeout = 3;
+	public static final int ordering = -1;
 //	public static final int cancled = 3;
 	
 	public int getOrder_id() {

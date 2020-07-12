@@ -218,13 +218,18 @@ public class ProductManager implements IEntityManager {
 		product.setProduct_discounted_price(4);
 		product.setShop_id(1);
 		try {
-			pm.add(product);
+//			pm.add(product);
 //			List<BeanProduct> products = new ArrayList<BeanProduct>();
 //			products = pm.loadAll();
 //			for (BeanProduct item: products) {
 //				System.out.println(item.getProduct_name());
 //			}
 //			pm.update(product);
+			List<BeanProduct> products = new ArrayList<BeanProduct>();
+			products = pm.loadAllByProductCategory(6);
+			for (BeanProduct item: products) {
+				System.out.println(item.getProduct_name());
+			}
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
@@ -267,6 +272,46 @@ public class ProductManager implements IEntityManager {
 		}		
 		return result;
 		
+	}
+
+
+	public List<BeanProduct> loadAllByProductCategory(int productcategory_id) throws BaseException {
+		List<BeanProduct> result = new ArrayList<BeanProduct>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price\r\n" + 
+					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
+					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
+					"AND a.shop_id = c.shop_id\r\n" + 
+					"AND product_delete_time IS NULL\r\n" + 
+					"AND a.productcategory_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, productcategory_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanProduct p = new BeanProduct();
+				p.setProduct_id(rs.getInt(1));
+				p.setProductcategory_name(rs.getString(2));
+				p.setProduct_name(rs.getString(3));
+				p.setShop_name(rs.getString(4));
+				p.setProduct_price(rs.getDouble(5));
+				p.setProduct_discounted_price(rs.getDouble(6));
+				result.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 	

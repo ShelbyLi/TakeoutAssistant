@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>user-orders</title>
+<title>user-to shop</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -17,7 +17,6 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <!-- <script src="./lib/layui/layui.js" charset="utf-8"></script> -->
 </head>
 <body>
   <div class="wrapper ">
@@ -39,15 +38,15 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item ">
-            <a class="nav-link" href="#">
+          <li class="nav-item active ">
+            <a class="nav-link" href="UserToShop">
               <i class="material-icons">dashboard</i>
               <p>去下单</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  		  
-		  <li class="nav-item active ">
+		  <li class="nav-item ">
 		    <a class="nav-link" href="#">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看我的订单</p>
@@ -74,7 +73,6 @@
 		      <p>我</p>
 		    </a>
 		  </li>
-		  
 		  
         </ul>
       </div>
@@ -116,50 +114,42 @@
 				<div class="col-md-12">
 				  <div class="card card-plain">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title mt-0"> 查看订单</h4>
-                  <p class="card-category"></p>
+                  <h4 class="card-title mt-0">选择商家 </h4>
+                  <p class="card-category">进入你喜欢的商家吧</p>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead class="">
-                        <th>订单ID</th>
-                        <th>商家名称</th>
-                        <th>满减方案ID</th>
-                        <th>优惠券ID</th>
-                        <th>原价</th>
-                        <th>实付</th>
-                        <th>下单时间</th>
-                        <th>需要送达时间</th>
-                        <th>订单状态</th>
+                        <th>商家ID</th>
+                        <th>商家名</th>
+                        <th>星级</th>
+                        <th>人均消费</th>
+                        <th>累计订单数量</th>
                       </thead>
                       <tbody>			              
-			              <c:forEach items="${orders }" var="item" varStatus="i">
+			              <c:forEach items="${shops }" var="item" varStatus="i">
 			                  <tr>
-			                  	<td>${item.order_id }</td>
+			                  	<td>${item.shop_id }</td>
 								<td>${item.shop_name }</td>
-								<td>${item.fullreduction_id }</td>
-								<td>${item.coupon_id }</td>
-								<td>${item.order_original_amount }</td>
-								<td>${item.order_actual_amount }</td>
-								<td>${item.order_time }</td>
-								<td>${item.order_request_delivery_time }</td>
-								<td>${item.order_status }</td>
+								<td>${item.shop_level }</td>
+								<td>${item.shop_per_capita_consumption }</td>
+								<td>${item.shop_total_sales }</td>
 								
 			                    <td class="td-actions text-right">
-			                      <a href="UserOrderDetail?order_id=${item.order_id }&order_addr_id=${item.addr_id }">
-			                      	<button type="button" rel="tooltip" title="查看详情" class="btn btn-primary btn-link btn-sm">
+			                      <a href="UserEnterShop?shop_id=${item.shop_id }">
+			                      	<button type="button" rel="tooltip" title="进入该商家" class="btn btn-primary btn-link btn-sm">
 			                        	<i class="material-icons">search</i>
 			                      	</button>
 			                      </a>
-			                    </td>
+			                   <%--  </td>
 			                    <td class="td-actions text-right">
 			                      <a href="UserEvaluate?order_id=${item.order_id }">
 			                      	<button type="button" rel="tooltip" title="评价" class="btn btn-primary btn-link btn-sm">
 			                        	<i class="material-icons">edit</i>
 			                      	</button>
 			                      </a>
-			                    </td>
+			                    </td> --%>
 			                    
 			                  </tr>
 		                  </c:forEach>
@@ -167,8 +157,6 @@
                         <!-- </tr> -->
                       </tbody>
                     </table>
-                    
-                    
                     
                   </div>
                 </div>
