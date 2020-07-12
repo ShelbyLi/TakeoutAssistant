@@ -7,21 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.zucc.takeoutassistant.control.ShopManager;
-import cn.edu.zucc.takeoutassistant.model.BeanShop;
+import cn.edu.zucc.takeoutassistant.control.RiderManager;
+import cn.edu.zucc.takeoutassistant.model.BeanRider;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopRegister
+ * Servlet implementation class RiderRegister
  */
-@WebServlet("/ShopRegister")
-public class ShopRegister extends HttpServlet {
+@WebServlet("/RiderRegister")
+public class RiderRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopRegister() {
+    public RiderRegister() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,25 +40,23 @@ public class ShopRegister extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		if (!request.getParameter("shop_pwd").equals(request.getParameter("shop_pwd_check"))) {
+		if (!request.getParameter("rider_pwd").equals(request.getParameter("rider_pwd_check"))) {
 			request.setAttribute("hint", "两次密码输入不一致!");
-			request.getRequestDispatcher("shop_register.jsp").forward(request,response);
+			request.getRequestDispatcher("rider_register.jsp").forward(request,response);
 		} else {
-			BeanShop shop = new BeanShop();
-			shop.setShop_name(request.getParameter("shop_name"));
-			shop.setShop_pwd(request.getParameter("shop_pwd"));
-			shop.setShop_level(0);
+			BeanRider rider = new BeanRider();
+			rider.setRider_name(request.getParameter("rider_name"));
+			rider.setRider_pwd(request.getParameter("rider_pwd"));
 			
-			ShopManager sm = new ShopManager();
+			RiderManager rm = new RiderManager();
 			try {
-				sm.register(shop);
-				request.getRequestDispatcher("shop_login.jsp").forward(request,response);
+				rm.register(rider);
+				request.getRequestDispatcher("rider_login.jsp").forward(request,response);
 			} catch (BaseException e) {
 				e.printStackTrace();
-				request.getRequestDispatcher("shop_register.jsp").forward(request,response);
+				request.getRequestDispatcher("rider_register.jsp").forward(request,response);
 			}
 		}
-		
 	}
 
 }

@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
+import cn.edu.zucc.takeoutassistant.model.BeanCoupon;
 import cn.edu.zucc.takeoutassistant.model.BeanEntity;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.model.BeanUserHoldCoupons;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
@@ -88,17 +92,12 @@ public class UserHoldCouponsManager implements IEntityManager {
 	}
 
 	@Override
-	public void delete(BeanEntity entity) throws BaseException {
+	public void delete(int id) throws BaseException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public void load(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	public static void main(String[] args) {
 		UserHoldCouponsManager uhcm = new UserHoldCouponsManager();
 		BeanUserHoldCoupons userholdcoupons = new BeanUserHoldCoupons();
@@ -111,6 +110,46 @@ public class UserHoldCouponsManager implements IEntityManager {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public List<BeanUserHoldCoupons> loadAll(int user_id) throws BaseException {
+		List<BeanUserHoldCoupons> result = new ArrayList<BeanUserHoldCoupons>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT a.coupon_id, amount, shop_name, coupon_amount, coupon_ordered_number_requirement, coupon_start_time, coupon_end_time\r\n" + 
+					"FROM userholdcoupons a, couponinfo b, shopinfo c\r\n" + 
+					"WHERE a.coupon_id = b.coupon_id\r\n" + 
+					"AND b.shop_id = c.shop_id\r\n" + 
+					"AND user_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, user_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanUserHoldCoupons uhc = new BeanUserHoldCoupons();
+				uhc.setCoupon_id(rs.getInt(1));
+				uhc.setAmount(rs.getInt(2));
+				uhc.setShop_name(rs.getString(3));
+				uhc.setCoupon_amount(rs.getDouble(4));
+				uhc.setCoupon_ordered_number_requirement(rs.getInt(5));
+				uhc.setCoupon_start_time(rs.getDate(6));
+				uhc.setCoupon_end_time(rs.getDate(7));
+				result.add(uhc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 }

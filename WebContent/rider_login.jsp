@@ -25,8 +25,12 @@
 						<div class="alert alert-success alert-dismissable">
 							 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 							<h4>
-								你好 骑手! <%-- ${attention} --%>
+								你好 骑手! 
 							</h4> <strong>不是骑手? 请选择登录身份! </strong>若无账号 请 <a href="rider_register.jsp" class="alert-link">注册</a>
+						</div>
+						<div class="alert alert-success alert-dismissable">
+							 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<strong>${hint }</strong>&nbsp;&nbsp;&nbsp;&nbsp;若无账号 请 <a href="rider_register.jsp" class="alert-link">注册</a>
 						</div>
 						<div class="row clearfix">
 							<div class="col-md-2 column">
@@ -53,17 +57,17 @@
 								</div>
 							</div>
 						</div>
-						<form action="Login" method="post" class="form-horizontal" role="form">
+						<form action="RiderLogin" method="post" class="form-horizontal" role="form">
 							<div class="form-group">
 								 <label for="inputEmail3" class="col-sm-2 control-label">登录名</label>
 								<div class="col-sm-10">
-									<input class="form-control" id="inputEmail3" name="username" required="required" />
+									<input class="form-control" id="inputEmail3" name="rider_name" required="required" />
 								</div>
 							</div>
 							<div class="form-group">
 								 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-10">
-									<input type="password" class="form-control" id="inputPassword3" name="password" required="required"/>
+									<input type="password" class="form-control" id="inputPassword3" name="rider_pwd" required="required"/>
 								</div>
 							</div>
 							<div class="form-group">

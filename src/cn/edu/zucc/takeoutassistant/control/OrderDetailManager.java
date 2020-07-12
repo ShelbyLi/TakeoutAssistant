@@ -112,4 +112,39 @@ public class OrderDetailManager implements IEntityManager {
 		return result;
 	}
 
+	public List<BeanOrderDetail> loadAllByUser(int order_id) throws BaseException {
+		List<BeanOrderDetail> result = new ArrayList<BeanOrderDetail>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT a.product_id, product_name, amount, price\r\n" + 
+					"FROM orderdetail a, productdetails b\r\n" + 
+					"WHERE a.product_id = b.product_id\r\n" + 
+					"AND order_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, order_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanOrderDetail od = new BeanOrderDetail();
+				od.setProduct_id(rs.getInt(1));
+				od.setProduct_name(rs.getString(2));
+				od.setAmount(rs.getInt(3));
+				od.setPrice(rs.getDouble(4));
+				result.add(od);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
 }

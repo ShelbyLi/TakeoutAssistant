@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-basic info</title>
+<title>admin-shop manage</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -31,7 +32,7 @@
           外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 商家  ${cur_shop.shop_name }!
+          你好 管理员 ${cur_admin.admin_name }!
         </a>
       </div>
 	  
@@ -39,42 +40,28 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="ShopProductdetails">
+            <a class="nav-link" href="AdminUser">
               <i class="material-icons">dashboard</i>
-              <p>产品管理</p>
+              <p>用户管理</p>
             </a>
           </li>
           <!-- your sidebar here -->
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopProductCategory">
+		  <li class="nav-item active  ">
+		    <a class="nav-link" href="AdminShop">
 		      <i class="material-icons">library_books</i>
-		      <p>产品分类管理</p>
+		      <p>商家管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
 		    <a class="nav-link" href="ShopOrder">
 		      <i class="material-icons">content_paste</i>
-		      <p>查看订单</p>
+		      <p>骑手管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopFullReduction">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>满减方案管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopCoupon">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>优惠券管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item active  ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		    <a class="nav-link" href="admin_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -101,13 +88,32 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form" method="post">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search..." name="keyWord">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:;">
-                  <i class="material-icons">notifications</i> Notifications
+
+
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="#">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Log out</a>
+                </div>
               </li>
-              <!-- your navbar here -->
             </ul>
           </div>
         </div>
@@ -116,137 +122,206 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">基本信息</h4>
-		            <p class="card-category">完善你的信息</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopBasicinfoSubmitUpdate" method="post">
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家ID</label>
-		                    <input type="text" class="form-control" disabled name="shop_id" value="${cur_shop.shop_id }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家名称</label>
-		                    <input type="text" class="form-control" value="${cur_shop.shop_name }" name="shop_name">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">星级</label>
-		                    <input type="text" class="form-control" name="shop_level" value="${cur_shop.shop_level }">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row" >
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">地址</label>
-		                    <input type="text" class="form-control">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">人均消费</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_per_capita_consumption }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">总销量</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_sales }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">邮政编码</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label>简介</label>
-		                    <div class="form-group">
-		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
-		                      <textarea class="form-control" rows="5"></textarea>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
-		              
-					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
-		              
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		      </div>
-		      
-			  
-			  
-			  <!-- </div> -->
-		    </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">修改密码</h4>
-		            <p class="card-category">提高保密性</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopChangepwd" method="post">		              
-		              <div class="row">
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">旧密码</label>
-		                    <input type="password" class="form-control" name="old_pwd">
-		                  </div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">新密码</label>
-		                    <input type="password" class="form-control" name="new_pwd">
-		                  </div>
-		                </div>
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
+          
+          <!-- <div class="row">
+		    <div class="col-lg-6 col-md-12">
 		      <div class="card">
 		          <div class="card-header card-header-primary">
 		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
+		            <p class="card-category">增加你的新产品类别吧</p>
 		          </div>
 		          <div class="card-body">
-		            <form action="ShopLogout" method="post">		              
-		              <div class="row">
-		                
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
-		              <div class="clearfix"></div>
-		            </form>
+		              <a href="shop_add_productcategory.jsp">
+		              	<button type="submit" class="btn btn-primary pull-left">添加产品类别</button>
+		              </a>
 		          </div>
 		    </div>
-		  </div>
-		  
+		  </div> -->
+          
+		  <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		        <div class="card-header card-header-tabs card-header-primary">
+		          <div class="nav-tabs-navigation">
+		            <div class="nav-tabs-wrapper">
+		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
+		              <h4 class="card-title">商家</h4>
+
+					</div>
+		          </div>
+		        </div>
+		        <div class="card-body">
+		          <div class="tab-content">
+		            <div class="tab-pane active" id="profile">
+		              <table class="table">
+		                <tbody>
+						  <tr>
+						  	<td>商家ID</td>
+							<td>商家名</td>
+							<td>密码</td>
+							<td>星级</td>
+							<td>人均消费</td>
+							<td>订单数量</td>
+						  </tr>
+						  <%-- <tr><td>${hint }</td></tr> --%>
+						  <c:forEach items="${shops }" var="item" varStatus="i">
+						  
+			                  <tr>
+			                  	<td>${item.shop_id }</td>
+								<td>${item.shop_name }</td>
+								<td>${item.shop_pwd }</td>
+								<td>${item.shop_level }</td>
+								<td>${item.shop_per_capita_consumption }</td>
+								<td>${item.shop_total_sales }</td>
+			                    <td class="td-actions text-right">
+			                      
+			                       <a href="AdminEditShopPwd?shop_id=${item.shop_id }&shop_old_pwd=${item.shop_pwd }">
+									<button type="button" rel="tooltip" title="重置该商家密码" class="btn btn-primary btn-link btn-sm">
+										<i class="material-icons">edit</i>
+									</button>
+								  </a>
+			                      <a href="AdminRemoveShop?shop_id=${item.shop_id }">
+			                      	<button type="button" rel="tooltip" title="删除该商家" class="btn btn-danger btn-link btn-sm">
+			                        	<i class="material-icons">close</i>
+			                      	</button>
+			                      </a>
+			                      
+			                    </td>
+			                  </tr>
+		                  </c:forEach>
+		                  
+		                  
+		                </tbody>
+		              </table>
+		            </div>
+		            <div class="tab-pane" id="messages">
+		              <table class="table">
+		                <tbody>
+		                  <tr>
+		                    <td>
+		                      <div class="form-check">
+		                        <label class="form-check-label">
+		                          <input class="form-check-input" type="checkbox" value="" checked>
+		                          <span class="form-check-sign">
+		                            <span class="check"></span>
+		                          </span>
+		                        </label>
+		                      </div>
+		                    </td>
+		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+		                    </td>
+		                    <td class="td-actions text-right">
+		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+		                        <i class="material-icons">edit</i>
+		                      </button>
+		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+		                        <i class="material-icons">close</i>
+		                      </button>
+		                    </td>
+		                  </tr>
+		                  <tr>
+		                    <td>
+		                      <div class="form-check">
+		                        <label class="form-check-label">
+		                          <input class="form-check-input" type="checkbox" value="">
+		                          <span class="form-check-sign">
+		                            <span class="check"></span>
+		                          </span>
+		                        </label>
+		                      </div>
+		                    </td>
+		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
+		                    <td class="td-actions text-right">
+		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+		                        <i class="material-icons">edit</i>
+		                      </button>
+		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+		                        <i class="material-icons">close</i>
+		                      </button>
+		                    </td>
+		                  </tr>
+		                </tbody>
+		              </table>
+		            </div>
+		            <div class="tab-pane" id="settings">
+		              <table class="table">
+		                <tbody>
+		                  <tr>
+		                    <td>
+		                      <div class="form-check">
+		                        <label class="form-check-label">
+		                          <input class="form-check-input" type="checkbox" value="">
+		                          <span class="form-check-sign">
+		                            <span class="check"></span>
+		                          </span>
+		                        </label>
+		                      </div>
+		                    </td>
+		                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+		                    <td class="td-actions text-right">
+		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+		                        <i class="material-icons">edit</i>
+		                      </button>
+		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+		                        <i class="material-icons">close</i>
+		                      </button>
+		                    </td>
+		                  </tr>
+		                  <tr>
+		                    <td>
+		                      <div class="form-check">
+		                        <label class="form-check-label">
+		                          <input class="form-check-input" type="checkbox" value="" checked>
+		                          <span class="form-check-sign">
+		                            <span class="check"></span>
+		                          </span>
+		                        </label>
+		                      </div>
+		                    </td>
+		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+		                    </td>
+		                    <td class="td-actions text-right">
+		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+		                        <i class="material-icons">edit</i>
+		                      </button>
+		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+		                        <i class="material-icons">close</i>
+		                      </button>
+		                    </td>
+		                  </tr>
+		                  <tr>
+		                    <td>
+		                      <div class="form-check">
+		                        <label class="form-check-label">
+		                          <input class="form-check-input" type="checkbox" value="" checked>
+		                          <span class="form-check-sign">
+		                            <span class="check"></span>
+		                          </span>
+		                        </label>
+		                      </div>
+		                    </td>
+		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
+		                    <td class="td-actions text-right">
+		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+		                        <i class="material-icons">edit</i>
+		                      </button>
+		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+		                        <i class="material-icons">close</i>
+		                      </button>
+		                    </td>
+		                  </tr>
+		                </tbody>
+		              </table>
+		            </div>
+		          </div>
+		        </div>
+		      <!-- </div> -->
+		    </div>
+		   </div>
         </div>
+      </div>
+      
+      
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -271,53 +346,50 @@
     </div>
   </div>
 
-
-  </div>
 </body>
 
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/jquery.min.js"></script>
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script src="assets/js/core/jquery.min.js"></script>
+  <script src="assets/js/core/popper.min.js"></script>
+  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Plugin for the momentJs  -->
-  <script src="../assets/js/plugins/moment.min.js"></script>
+  <script src="assets/js/plugins/moment.min.js"></script>
   <!--  Plugin for Sweet Alert -->
-  <script src="../assets/js/plugins/sweetalert2.js"></script>
+  <script src="assets/js/plugins/sweetalert2.js"></script>
   <!-- Forms Validations Plugin -->
-  <script src="../assets/js/plugins/jquery.validate.min.js"></script>
+  <script src="assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-  <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>
+  <script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-  <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
+  <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
   <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-  <script src="../assets/js/plugins/bootstrap-tagsinput.js"></script>
+  <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-  <script src="../assets/js/plugins/jasny-bootstrap.min.js"></script>
+  <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
   <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-  <script src="../assets/js/plugins/fullcalendar.min.js"></script>
+  <script src="assets/js/plugins/fullcalendar.min.js"></script>
   <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-  <script src="../assets/js/plugins/jquery-jvectormap.js"></script>
+  <script src="assets/js/plugins/jquery-jvectormap.js"></script>
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="../assets/js/plugins/nouislider.min.js"></script>
+  <script src="assets/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
   <!-- Library for adding dinamically elements -->
-  <script src="../assets/js/plugins/arrive.min.js"></script>
+  <script src="assets/js/plugins/arrive.min.js"></script>
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chartist JS -->
-  <script src="../assets/js/plugins/chartist.min.js"></script>
+  <script src="assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
-  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
+  <script src="assets/demo/demo.js"></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -496,4 +568,5 @@
 
     });
   </script>
+
 </html>

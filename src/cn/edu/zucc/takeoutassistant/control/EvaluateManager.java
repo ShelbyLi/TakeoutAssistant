@@ -2,6 +2,7 @@ package cn.edu.zucc.takeoutassistant.control;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import cn.edu.zucc.takeoutassistant.itf.IEntityManager;
@@ -49,17 +50,30 @@ public class EvaluateManager implements IEntityManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "UPDATE evaluate\r\n" + 
-					"SET evaluate_content=?, evaluate_date=NOW(), evaluate_score=?, evaluate_photo=?\r\n" + 
-					"WHERE user_id = ? AND order_id";
+			// 判断表中是否已经有
+			String sql = "SELECT *\r\n" + 
+					"FROM evaluate\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND order_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, evaluate.getEvaluate_content());
-			pst.setInt(2, evaluate.getScore());
-			pst.setBytes(3, evaluate.getEvaluate_photo());
-			pst.setInt(5, evaluate.getUser_id());
-			pst.setInt(6, evaluate.getOrder_id());
-			pst.execute();
-			pst.close();
+			pst.setInt(1, evaluate.getUser_id());
+			pst.setInt(2, evaluate.getOrder_id());
+			ResultSet rs = pst.executeQuery();
+			if (!rs.next()) {
+				add(evaluate);
+			} else {
+				String sql2 = "UPDATE evaluate\r\n" + 
+						"SET evaluate_content=?, evaluate_date=NOW(), evaluate_score=?, evaluate_photo=?\r\n" + 
+						"WHERE user_id = ? AND order_id = ?";
+				PreparedStatement pst2 = conn.prepareStatement(sql2);
+				pst2.setString(1, evaluate.getEvaluate_content());
+				pst2.setInt(2, evaluate.getScore());
+				pst2.setBytes(3, evaluate.getEvaluate_photo());
+				pst2.setInt(4, evaluate.getUser_id());
+				pst2.setInt(5, evaluate.getOrder_id());
+				pst2.execute();
+				pst2.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);
@@ -75,26 +89,22 @@ public class EvaluateManager implements IEntityManager {
 	}
 
 	@Override
-	public void delete(BeanEntity entity) throws BaseException {
+	public void delete(int id) throws BaseException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public void load(BeanEntity entity) throws BaseException {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	public static void main(String[] args) {
 		EvaluateManager em = new EvaluateManager();
 		BeanEvaluate evaluate = new BeanEvaluate();
 		evaluate.setUser_id(1);
 		evaluate.setOrder_id(2);
-		evaluate.setEvaluate_content("good");
-		evaluate.setScore(5);
+		evaluate.setEvaluate_content("bbb");
+		evaluate.setScore(3);
 		try {
-			em.add(evaluate);
+//			em.add(evaluate);
+			em.update(evaluate);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}

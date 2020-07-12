@@ -1,27 +1,35 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.control.AdminManager;
+import cn.edu.zucc.takeoutassistant.control.ProductcategoryManager;
+import cn.edu.zucc.takeoutassistant.control.UserManager;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
+import cn.edu.zucc.takeoutassistant.model.BeanUser;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopRegister
+ * Servlet implementation class AdminUser
  */
-@WebServlet("/ShopRegister")
-public class ShopRegister extends HttpServlet {
+@WebServlet("/AdminUser")
+public class AdminUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopRegister() {
+    public AdminUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,28 +45,30 @@ public class ShopRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		if (!request.getParameter("shop_pwd").equals(request.getParameter("shop_pwd_check"))) {
-			request.setAttribute("hint", "两次密码输入不一致!");
-			request.getRequestDispatcher("shop_register.jsp").forward(request,response);
-		} else {
-			BeanShop shop = new BeanShop();
-			shop.setShop_name(request.getParameter("shop_name"));
-			shop.setShop_pwd(request.getParameter("shop_pwd"));
-			shop.setShop_level(0);
-			
-			ShopManager sm = new ShopManager();
-			try {
-				sm.register(shop);
-				request.getRequestDispatcher("shop_login.jsp").forward(request,response);
-			} catch (BaseException e) {
-				e.printStackTrace();
-				request.getRequestDispatcher("shop_register.jsp").forward(request,response);
-			}
-		}
+		UserManager um = new UserManager();
+		List<BeanUser> users = new ArrayList<BeanUser>();
 		
+//		BeanShop cur_shop = new BeanShop();
+//		cur_shop = (BeanShop) session.getAttribute("cur_shop");
+////		System.out.println(cur_shop);
+		try {
+			String keyWord = request.getParameter("keyWord");
+			if (keyWord != null) {
+//				// 模糊查找
+				users = um.fuzzySearch(keyWord);
+			} else {
+				users = um.loadAll();
+			}
+			request.setAttribute("users", users);
+		} catch (BaseException e) {
+			e.printStackTrace();
+		}
+		request.getRequestDispatcher("admin_user.jsp").forward(request, response);
+	
 	}
 
 }

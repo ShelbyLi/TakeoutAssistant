@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IPeopleManager;
 import cn.edu.zucc.takeoutassistant.model.BeanPeople;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
+import cn.edu.zucc.takeoutassistant.model.BeanUser;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 import cn.edu.zucc.takeoutassistant.util.BusinessException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
@@ -37,12 +40,12 @@ public class ShopManager implements IPeopleManager {
 				pst2.execute();
 				pst2.close();
 			} else {
-				String sql2 = "INSERT INTO shopinfo(shop_name, shop_pwd, shop_level) \r\n" + 
-						"VALUES (?, ?, ?)";
+				String sql2 = "INSERT INTO shopinfo(shop_name, shop_pwd) \r\n" + 
+						"VALUES (?, ?)";
 				PreparedStatement pst2 = conn.prepareStatement(sql2);
 				pst2.setString(1, shop.getShop_name());
 				pst2.setString(2, shop.getShop_pwd());
-				pst2.setInt(3, shop.getShop_level());
+//				pst2.setInt(3, shop.getShop_level());
 				pst2.execute();
 			}
 			pst.close();
@@ -65,13 +68,12 @@ public class ShopManager implements IPeopleManager {
 
 	@Override
 	public BeanPeople login(String name, String pwd) throws BaseException {
-		// TODO Auto-generated method stub
 		BeanShop result = new BeanShop();
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time \r\n" + 
-					"FROM shopinfo\r\n" + 
+			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time, avg_amount, order_cnt\r\n" + 
+					"FROM shopinfodetails\r\n" + 
 					"WHERE shop_name = ?";
 			PreparedStatement pst = conn.prepareCall(sql);
 			pst.setString(1, name);
@@ -86,11 +88,12 @@ public class ShopManager implements IPeopleManager {
 			if (!rs.getString("shop_pwd").equals(pwd)) {
 				throw new BusinessException("密码错误");
 			}
-			// 若后期有 用户登陆后不需要读取的信息 再注释掉
 			result.setShop_id(rs.getInt(1));
 			result.setShop_name(name);
 			result.setShop_pwd(pwd);
 			result.setShop_level(rs.getInt(4));
+			result.setShop_per_capita_consumption(rs.getDouble(6));
+			result.setShop_total_sales(rs.getInt(7));
 			rs.close();
 			pst.close();
 			
@@ -244,12 +247,12 @@ public class ShopManager implements IPeopleManager {
 			conn = DBUtil.getConnection();
 			// ....
 			String sql = "UPDATE shopinfo\r\n" + 
-					"SET shop_name=?, shop_level=? \r\n" + 
+					"SET shop_name=? \r\n" + 
 					"WHERE shop_id = ?\r\n";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, shop.getShop_name());
-			pst.setInt(2, shop.getShop_level());
-			pst.setInt(3, shop.getShop_id());
+//			pst.setInt(2, shop.getShop_level());
+			pst.setInt(2, shop.getShop_id());
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
@@ -266,6 +269,78 @@ public class ShopManager implements IPeopleManager {
 					e.printStackTrace();
 				}
 		}
+	}
+
+	public List<BeanShop> fuzzySearch(String keyWord) throws BaseException {
+		List<BeanShop> result = new ArrayList<BeanShop>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT shop_id, shop_name, shop_pwd, shop_level, avg_amount, order_cnt\r\n" + 
+					"FROM shopinfodetails\r\n" + 
+					"WHERE shop_logout_time IS NULL\r\n" + 
+					"AND shop_name LIKE ? ";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, "%"+keyWord+"%");
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanShop s = new BeanShop();
+				s.setShop_id(rs.getInt(1));
+				s.setShop_name(rs.getString(2));
+				s.setShop_pwd(rs.getString(3));
+				s.setShop_level(rs.getDouble(4));
+				s.setShop_per_capita_consumption(rs.getDouble(5));
+				s.setShop_total_sales(rs.getInt(6));
+				result.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public List<BeanShop> loadAll() throws BaseException {
+		List<BeanShop> result = new ArrayList<BeanShop>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT shop_id, shop_name, shop_pwd, shop_level, avg_amount, order_cnt\r\n" + 
+					"FROM shopinfodetails\r\n" + 
+					"WHERE shop_logout_time IS NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanShop s = new BeanShop();
+				s.setShop_id(rs.getInt(1));
+				s.setShop_name(rs.getString(2));
+				s.setShop_pwd(rs.getString(3));
+				s.setShop_level(rs.getDouble(4));
+				s.setShop_per_capita_consumption(rs.getDouble(5));
+				s.setShop_total_sales(rs.getInt(6));
+				result.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 }

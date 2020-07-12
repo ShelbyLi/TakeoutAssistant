@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-basic info</title>
+<title>user-evaluate</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -16,7 +17,7 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <script src="./lib/layui/layui.js" charset="utf-8"></script>
+  <!-- <script src="./lib/layui/layui.js" charset="utf-8"></script> -->
 </head>
 <body>
   <div class="wrapper ">
@@ -28,10 +29,10 @@
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
-          外卖小助手
+          	外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 商家  ${cur_shop.shop_name }!
+          	你好 用户 ${cur_user.user_name }!
         </a>
       </div>
 	  
@@ -39,42 +40,36 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="ShopProductdetails">
+            <a class="nav-link" href="#">
               <i class="material-icons">dashboard</i>
-              <p>产品管理</p>
+              <p>去下单</p>
             </a>
           </li>
           <!-- your sidebar here -->
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopProductCategory">
-		      <i class="material-icons">library_books</i>
-		      <p>产品分类管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopOrder">
+		  		  
+		  <li class="nav-item active ">
+		    <a class="nav-link" href="#">
 		      <i class="material-icons">content_paste</i>
-		      <p>查看订单</p>
+		      <p>查看我的订单</p>
+		    </a>
+		  </li>
+		  		  
+		  <li class="nav-item ">
+		    <a class="nav-link" href="UserCoupon">
+		      <i class="material-icons">bubble_chart</i>
+		      <p>我的优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopFullReduction">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>满减方案管理</p>
+		    <a class="nav-link" href="UserCoupon">
+		      <i class="material-icons">library_books</i>
+		      <p>我的地址管理</p>
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopCoupon">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>优惠券管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item active  ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		  <li class="nav-item  ">
+		    <a class="nav-link" href="user_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -116,135 +111,98 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-		  <div class="row">
+		   		  		  		  
+		   <div class="row">
 		    <!-- <div class="col-lg-6 col-md-12"> -->
 		      <div class="card">
 		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">基本信息</h4>
-		            <p class="card-category">完善你的信息</p>
+		            <h4 class="card-title">评价</h4>
+		            <p class="card-category">对商家和骑手的评价对我们很重要!</p>
 		          </div>
 		          <div class="card-body">
-		            <form action="ShopBasicinfoSubmitUpdate" method="post">
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家ID</label>
-		                    <input type="text" class="form-control" disabled name="shop_id" value="${cur_shop.shop_id }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家名称</label>
-		                    <input type="text" class="form-control" value="${cur_shop.shop_name }" name="shop_name">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">星级</label>
-		                    <input type="text" class="form-control" name="shop_level" value="${cur_shop.shop_level }">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row" >
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">地址</label>
-		                    <input type="text" class="form-control">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">人均消费</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_per_capita_consumption }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">总销量</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_sales }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">邮政编码</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		              </div>
+		          
+		            <form action="UserEvaluate" method="post">
 		              <div class="row">
 		                <div class="col-md-12">
 		                  <div class="form-group">
-		                    <label>简介</label>
+		                    <label>味道如何? 有什么感受? 有什么建议?</label>
 		                    <div class="form-group">
-		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
-		                      <textarea class="form-control" rows="5"></textarea>
+		                      <label class="bmd-label-floating">请输入评价内容 </label>
+		                      <textarea class="form-control" rows="5" name="evaluation"></textarea>
 		                    </div>
 		                  </div>
 		                </div>
 		              </div>
 		              
-					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
+		              <div class="row">
+		                <div class="col-md-12">
+		                  <div class="form-group">
+		                    <label>给商家评个分吧</label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">(0-5)</label>
+		                      <input type="text" class="form-control" name="evaluate_score">
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              <div class="row">
+		                <div class="col-md-12">
+		                  <div class="form-group">
+		                    <label>骑手如何? </label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">好评 / 差评</label>
+		                      <input type="text" class="form-control" name="deliver_user_rate">
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              
+					  <button type="submit" class="btn btn-primary pull-right">上传</button>
+		              
 		              
 		              <div class="clearfix"></div>
 		            </form>
 		          </div>
 		      </div>
-		      
-			  
 			  
 			  <!-- </div> -->
 		    </div>
 		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
+		   <!-- <div class="row">
+		    <div class="col-lg-6 col-md-12">
 		      <div class="card">
 		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">修改密码</h4>
-		            <p class="card-category">提高保密性</p>
+		            <h4 class="card-title">骑手评价</h4>
+		            <p class="card-category">对骑手有什么感受?</p>
 		          </div>
 		          <div class="card-body">
-		            <form action="ShopChangepwd" method="post">		              
+		          
+		            <form action="UserEvaluate" method="post">
 		              <div class="row">
-		                <div class="col-md-6">
+		                <div class="col-md-12">
 		                  <div class="form-group">
-		                    <label class="bmd-label-floating">旧密码</label>
-		                    <input type="password" class="form-control" name="old_pwd">
-		                  </div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">新密码</label>
-		                    <input type="password" class="form-control" name="new_pwd">
+		                    <label></label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">好评 / 差评</label>
+		                      <input type="text" class="form-control" name="evaluate_rider">
+		                    </div>
 		                  </div>
 		                </div>
 		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
+		              
+					  <button type="submit" class="btn btn-primary pull-right">上传</button>
+		              
+		              
 		              <div class="clearfix"></div>
 		            </form>
 		          </div>
+		      </div>
+			  
+			  </div>
 		    </div>
-		  </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopLogout" method="post">		              
-		              <div class="row">
-		                
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
+		   -->
 		  
         </div>
       <footer class="footer">
@@ -270,9 +228,7 @@
       </footer>
     </div>
   </div>
-
-
-  </div>
+	</div>
 </body>
 
   <!--   Core JS Files   -->

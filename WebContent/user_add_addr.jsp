@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-basic info</title>
+<title>shop-full reduction</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -20,7 +20,7 @@
 </head>
 <body>
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white">
+        <div class="sidebar" data-color="purple" data-background-color="white">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -28,10 +28,10 @@
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
-          外卖小助手
+          	外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 商家  ${cur_shop.shop_name }!
+          	你好 用户 ${cur_user.user_name }!
         </a>
       </div>
 	  
@@ -39,42 +39,36 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="ShopProductdetails">
+            <a class="nav-link" href="#">
               <i class="material-icons">dashboard</i>
-              <p>产品管理</p>
+              <p>去下单</p>
             </a>
           </li>
           <!-- your sidebar here -->
+		  		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopProductCategory">
-		      <i class="material-icons">library_books</i>
-		      <p>产品分类管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopOrder">
+		    <a class="nav-link" href="UserOrder">
 		      <i class="material-icons">content_paste</i>
-		      <p>查看订单</p>
+		      <p>查看我的订单</p>
+		    </a>
+		  </li>
+		  		  
+		  <li class="nav-item ">
+		    <a class="nav-link" href="UserCoupon">
+		      <i class="material-icons">bubble_chart</i>
+		      <p>我的优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopFullReduction">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>满减方案管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopCoupon">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>优惠券管理</p>
+		    <a class="nav-link" href="UserAddr">
+		      <i class="material-icons">library_books</i>
+		      <p>我的地址管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item active  ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		    <a class="nav-link" href="user_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -84,7 +78,6 @@
         </ul>
       </div>
     </div>
-	
 	
 	
     <div class="main-panel">
@@ -117,135 +110,87 @@
         <div class="container-fluid">
           <!-- your content here -->
 		  <div class="row">
+			  <div class="col-md-3">
+			      
+			    </div>
+			    <div class="col-md-6">
+			      
+				  <div class="card">
+				      <div class="card-header card-header-primary">
+				        <h4 class="card-title">添加地址</h4>
+				        <p class="card-category">Complete your profile</p>
+				      </div>
+				      <div class="card-body">
+				        
+				        <form action="UserAddAddr" method="post"> 
+				          
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">省</label>
+						        <input type="text" class="form-control" name="addr_province">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">市</label>
+						        <input type="text" class="form-control" name="addr_city">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">区/县级市/县</label>
+						        <input type="text" class="form-control" name="addr_district">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">详细地址</label>
+						        <input type="text" class="form-control" name="addr_detailed_addr">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">联系人姓名</label>
+						        <input type="text" class="form-control" name="addr_contact_person">
+						      </div>
+						    </div>
+						  </div>
+						  <div class="row">
+						    <div class="col-md-12">
+						      <div class="form-group">
+						        <label class="bmd-label-floating">联系方式</label>
+						        <input type="text" class="form-control" name="addr_contact_phone">
+						      </div>
+						    </div>
+						  </div>
+						  
+				          <button type="submit" class="btn btn-primary pull-right btn-block">添加</button>
+				          <div class="clearfix"></div>
+				        </form>
+				      </div>
+				  </div>
+				  
+				  
+				  
+			    </div>
+			    <div class="col-md-3">
+			      
+			  </div>
 		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">基本信息</h4>
-		            <p class="card-category">完善你的信息</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopBasicinfoSubmitUpdate" method="post">
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家ID</label>
-		                    <input type="text" class="form-control" disabled name="shop_id" value="${cur_shop.shop_id }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家名称</label>
-		                    <input type="text" class="form-control" value="${cur_shop.shop_name }" name="shop_name">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">星级</label>
-		                    <input type="text" class="form-control" name="shop_level" value="${cur_shop.shop_level }">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row" >
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">地址</label>
-		                    <input type="text" class="form-control">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">人均消费</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_per_capita_consumption }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">总销量</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_sales }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">邮政编码</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label>简介</label>
-		                    <div class="form-group">
-		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
-		                      <textarea class="form-control" rows="5"></textarea>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
-		              
-					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
-		              
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		      </div>
-		      
-			  
+		     
 			  
 			  <!-- </div> -->
 		    </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">修改密码</h4>
-		            <p class="card-category">提高保密性</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopChangepwd" method="post">		              
-		              <div class="row">
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">旧密码</label>
-		                    <input type="password" class="form-control" name="old_pwd">
-		                  </div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">新密码</label>
-		                    <input type="password" class="form-control" name="new_pwd">
-		                  </div>
-		                </div>
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
 		  </div>
-		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopLogout" method="post">		              
-		              <div class="row">
-		                
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
-		  
         </div>
       <footer class="footer">
         <div class="container-fluid">
@@ -269,9 +214,6 @@
         </div>
       </footer>
     </div>
-  </div>
-
-
   </div>
 </body>
 

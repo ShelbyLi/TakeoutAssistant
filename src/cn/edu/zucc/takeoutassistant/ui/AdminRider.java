@@ -1,27 +1,32 @@
 package cn.edu.zucc.takeoutassistant.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.edu.zucc.takeoutassistant.control.RiderManager;
 import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.model.BeanRider;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopRegister
+ * Servlet implementation class AdminRider
  */
-@WebServlet("/ShopRegister")
-public class ShopRegister extends HttpServlet {
+@WebServlet("/AdminRider")
+public class AdminRider extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopRegister() {
+    public AdminRider() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,25 +45,22 @@ public class ShopRegister extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		if (!request.getParameter("shop_pwd").equals(request.getParameter("shop_pwd_check"))) {
-			request.setAttribute("hint", "两次密码输入不一致!");
-			request.getRequestDispatcher("shop_register.jsp").forward(request,response);
-		} else {
-			BeanShop shop = new BeanShop();
-			shop.setShop_name(request.getParameter("shop_name"));
-			shop.setShop_pwd(request.getParameter("shop_pwd"));
-			shop.setShop_level(0);
-			
-			ShopManager sm = new ShopManager();
-			try {
-				sm.register(shop);
-				request.getRequestDispatcher("shop_login.jsp").forward(request,response);
-			} catch (BaseException e) {
-				e.printStackTrace();
-				request.getRequestDispatcher("shop_register.jsp").forward(request,response);
+		RiderManager rm = new RiderManager();
+		List<BeanRider> riders = new ArrayList<BeanRider>();
+		try {
+			String keyWord = request.getParameter("keyWord");
+			if (keyWord != null) {
+////				// 模糊查找
+				riders = rm.fuzzySearch(keyWord);
+			} else {
+				riders = rm.loadAll();
 			}
+			request.setAttribute("riders", riders);
+		} catch (BaseException e) {
+			e.printStackTrace();
 		}
-		
+		request.getRequestDispatcher("admin_rider.jsp").forward(request, response);
+	
 	}
 
 }

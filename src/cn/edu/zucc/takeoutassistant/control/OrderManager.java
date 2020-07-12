@@ -80,18 +80,20 @@ public class OrderManager implements IEntityManager {
 		order.setAddr_id(1);
 		order.setUser_id(1);
 		order.setOrder_original_amount(27);
-		order.setOrder_actual_amount(25);
-		order.setOrder_status(BeanOrderForm.delivering);
+		order.setOrder_actual_amount(11);
+		order.setOrder_status(BeanOrderForm.waiting);
 		
 		try {
-//			om.add(order);
-			List<BeanOrderForm> orders = new ArrayList<BeanOrderForm>();
-			orders = om.loadAll(1);
-			for (BeanOrderForm item: orders) {
-				System.out.println(item.getOrder_actual_amount());
-				System.out.println(item.getOrder_original_amount());
-				System.out.println(item.getOrder_time());
-			}
+			om.add(order);
+//			List<BeanOrderForm> orders = new ArrayList<BeanOrderForm>();
+//			orders = om.loadAll(1);
+//			for (BeanOrderForm item: orders) {
+//				System.out.println(item.getOrder_actual_amount());
+//				System.out.println(item.getOrder_original_amount());
+//				System.out.println(item.getOrder_time());
+//			}
+//			om.recieved(3);
+//			om.arrived(3);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
@@ -136,6 +138,140 @@ public class OrderManager implements IEntityManager {
 				}
 		}
 		return result;
+	}
+
+	public List<BeanOrderForm> loadAllByUser(int user_id) throws BaseException {
+		List<BeanOrderForm> result = new ArrayList<BeanOrderForm>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT order_id, shop_name, fullreduction_id, coupon_id, order_original_amount, order_actual_amount, order_time, order_request_delivery_time, order_status, addr_id\r\n" + 
+					"FROM orderform a, shopinfo b\r\n" + 
+					"WHERE a.shop_id = b.shop_id\r\n" + 
+					"AND user_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			pst.setInt(1, user_id);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanOrderForm o = new BeanOrderForm();
+				o.setOrder_id(rs.getInt(1));
+				o.setShop_name((rs.getString(2)));
+				o.setFullreduction_id(rs.getInt(3));
+				o.setCoupon_id(rs.getInt(4));
+				o.setOrder_original_amount(rs.getDouble(5));
+				o.setOrder_actual_amount(rs.getDouble(6));
+				o.setOrder_time(rs.getTimestamp(7));
+				o.setOrder_request_delivery_time(rs.getTimestamp(8));
+				o.setOrder_status(rs.getInt(9));
+				o.setAddr_id(rs.getInt(10));
+				result.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public void arrived(int order_id) throws BaseException {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE orderform\r\n" + 
+					"SET order_status = 2\r\n" + 
+					"WHERE order_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, order_id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+	}
+
+	public List<BeanOrderForm> loadAllByStatusWaiting() throws BaseException {
+		List<BeanOrderForm> result = new ArrayList<BeanOrderForm>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT order_id, shop_name, order_time, order_request_delivery_time, addr_province, addr_city, \r\n" + 
+					"addr_district, addr_detailed_addr, addr_contact_person, addr_contact_phone\r\n" + 
+					"FROM orderform a, deliveryaddr b, shopinfo c\r\n" + 
+					"WHERE a.addr_id = b.addr_id\r\n" + 
+					"AND a.shop_id = c.shop_id\r\n" + 
+					"AND order_status = 0\r\n" + 
+					"AND order_cancle_time IS NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanOrderForm o = new BeanOrderForm();
+				o.setOrder_id(rs.getInt(1));
+				o.setShop_name((rs.getString(2)));
+				o.setOrder_time(rs.getTimestamp(3));
+				o.setOrder_request_delivery_time(rs.getTimestamp(4));
+				o.setAddr_province(rs.getString(5));
+				o.setAddr_city(rs.getString(6));
+				o.setAddr_district(rs.getString(7));
+				o.setAddr_detailed_addr(rs.getString(8));
+				o.setAddr_contact_person(rs.getString(9));
+				o.setAddr_contact_phone(rs.getString(10));
+				result.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public void recieved(int order_id) throws BaseException {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE orderform\r\n" + 
+					"SET order_status = 1\r\n" + 
+					"WHERE order_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, order_id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 
 }

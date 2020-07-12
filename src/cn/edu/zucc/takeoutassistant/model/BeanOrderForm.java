@@ -17,11 +17,20 @@ public class BeanOrderForm extends BeanEntity {
 	private Date order_request_delivery_time;
 	private int order_status;
 	private Date order_cancle_time;
+	private String shop_name;
+	private String addr_province;
+	private String addr_city;
+	private String addr_district;
+	private String addr_detailed_addr;
+	private String addr_contact_person;
+	private String addr_contact_phone;
 	
-	public static final int delivering = 0;
-	public static final int timeout = 1;
+	
+	public static final int waiting = 0;
+	public static final int delivering = 1;
 	public static final int arrived = 2;
-	public static final int cancled = 3;
+	public static final int timeout = 3;
+//	public static final int cancled = 3;
 	
 	public int getOrder_id() {
 		return order_id;
@@ -100,6 +109,48 @@ public class BeanOrderForm extends BeanEntity {
 	}
 	public void setOrder_cancle_time(Date order_cancle_time) {
 		this.order_cancle_time = order_cancle_time;
+	}
+	public String getShop_name() {
+		return shop_name;
+	}
+	public void setShop_name(String shop_name) {
+		this.shop_name = shop_name;
+	}
+	public String getAddr_province() {
+		return addr_province;
+	}
+	public void setAddr_province(String addr_province) {
+		this.addr_province = addr_province;
+	}
+	public String getAddr_city() {
+		return addr_city;
+	}
+	public void setAddr_city(String addr_city) {
+		this.addr_city = addr_city;
+	}
+	public String getAddr_district() {
+		return addr_district;
+	}
+	public void setAddr_district(String addr_district) {
+		this.addr_district = addr_district;
+	}
+	public String getAddr_detailed_addr() {
+		return addr_detailed_addr;
+	}
+	public void setAddr_detailed_addr(String addr_detailed_addr) {
+		this.addr_detailed_addr = addr_detailed_addr;
+	}
+	public String getAddr_contact_person() {
+		return addr_contact_person;
+	}
+	public void setAddr_contact_person(String addr_contact_person) {
+		this.addr_contact_person = addr_contact_person;
+	}
+	public String getAddr_contact_phone() {
+		return addr_contact_phone;
+	}
+	public void setAddr_contact_phone(String addr_contact_phone) {
+		this.addr_contact_phone = addr_contact_phone;
 	}
 	
 	

@@ -11,11 +11,12 @@ public class BeanRider extends BeanPeople {
 	private int rider_identity;
 	private double rider_total_income;
 	private Date rider_logout_time;
+	private int deliver_cnt;
 	
 	// 骑手身份
-	public static final int newcomer = 1;
-	public static final int regularEmployee = 2;
-	public static final int king = 3;
+	public static final int newcomer = 1;  // 视图中算钱 新人有bonus
+	public static final int regularEmployee = 0;
+//	public static final int king = 0;
 	
 	public int getRider_id() {
 		return rider_id;
@@ -58,5 +59,11 @@ public class BeanRider extends BeanPeople {
 	}
 	public void setRider_logout_time(Date rider_logout_time) {
 		this.rider_logout_time = rider_logout_time;
+	}
+	public int getDeliver_cnt() {
+		return deliver_cnt;
+	}
+	public void setDeliver_cnt(int deliver_cnt) {
+		this.deliver_cnt = deliver_cnt;
 	}
 }

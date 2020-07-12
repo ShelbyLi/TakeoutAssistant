@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.edu.zucc.takeoutassistant.itf.IPeopleManager;
 import cn.edu.zucc.takeoutassistant.model.BeanPeople;
+import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.model.BeanUser;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
@@ -32,6 +35,8 @@ public class UserManager implements IPeopleManager {
 //			user = (BeanUser)um.login("test", "testpwd3");
 //			System.out.println(user);
 //			um.logout("test");
+//			um.loadAll();
+			um.fuzzySearch("test");
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,31 +257,31 @@ public class UserManager implements IPeopleManager {
 	public void changePwd(int id, String oldPwd, String newPwd) throws BaseException {
 		Connection conn = null;
 		try {
-//			conn = DBUtil.getConnection();
-//			String sql = "SELECT shop_pwd\r\n" + 
-//					"FROM shopinfo\r\n" + 
-//					"WHERE shop_id = ?";
-//			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-//			pst.setInt(1, id);
-//			java.sql.ResultSet rs = pst.executeQuery();
-////			if (!rs.next()) {
-////				throw new BusinessException("该商家不存在");
-////			}
-//			rs.next();
-//			if (!oldPwd.equals(rs.getString(1))) {
-//				throw new BusinessException("原密码错误");
+			conn = DBUtil.getConnection();
+			String sql = "SELECT user_pwd\r\n" + 
+					"FROM userinfo\r\n" + 
+					"WHERE user_id = ?";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			java.sql.ResultSet rs = pst.executeQuery();
+//			if (!rs.next()) {
+//				throw new BusinessException("该商家不存在");
 //			}
-//			rs.close();
-//			pst.close();
-//			
-//			sql = "UPDATE shopinfo\r\n" + 
-//					"SET shop_pwd = ?\r\n" + 
-//					"WHERE shop_id = ?";
-//			pst = conn.prepareStatement(sql);
-//			pst.setString(1, newPwd);
-//			pst.setInt(2, id);
-//			pst.execute();
-//			pst.close();
+			rs.next();
+			if (!oldPwd.equals(rs.getString(1))) {
+				throw new BusinessException("原密码错误");
+			}
+			rs.close();
+			pst.close();
+			
+			sql = "UPDATE userinfo\r\n" + 
+					"SET user_pwd = ?\r\n" + 
+					"WHERE user_id = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, newPwd);
+			pst.setInt(2, id);
+			pst.execute();
+			pst.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);
@@ -293,8 +298,29 @@ public class UserManager implements IPeopleManager {
 
 	@Override
 	public void logout(int id) throws BaseException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE userinfo\r\n" + 
+					"SET user_logout_time = NOW()\r\n" + 
+					"WHERE user_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 
 	@Override
@@ -333,6 +359,89 @@ public class UserManager implements IPeopleManager {
 					e.printStackTrace();
 				}
 		}
+	}
+
+	public List<BeanUser> fuzzySearch(String keyWord) throws BaseException {
+		List<BeanUser> result = new ArrayList<BeanUser>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT user_id, user_name, user_gender, user_pwd, user_phone_number, user_mail, user_city, user_registration_time, user_is_vip, user_vip_ddl\r\n" + 
+					"FROM userinfo\r\n" + 
+					"WHERE user_logout_time IS NULL\r\n" + 
+					"AND (user_name LIKE ? OR user_phone_number LIKE ? OR user_mail LIKE ? OR user_city LIKE ?)";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, "%"+keyWord+"%");
+			pst.setString(2, "%"+keyWord+"%");
+			pst.setString(3, "%"+keyWord+"%");
+			pst.setString(4, "%"+keyWord+"%");
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanUser u = new BeanUser();
+				u.setUser_id(rs.getInt(1));
+				u.setUser_name(rs.getString(2));
+				u.setUser_gender(rs.getInt(3));
+				u.setUser_pwd(rs.getString(4));
+				u.setUser_phone_number(rs.getString(5));
+				u.setUser_mail(rs.getString(6));
+				u.setUser_city(rs.getString(7));
+				u.setRegistration_time(rs.getDate(8));
+				u.setUser_is_vip(rs.getInt(9));
+				u.setUser_vip_ddl(rs.getDate(10));
+				result.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public List<BeanUser> loadAll() throws BaseException {
+		List<BeanUser> result = new ArrayList<BeanUser>();
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT user_id, user_name, user_gender, user_pwd, user_phone_number, user_mail, user_city, user_registration_time, user_is_vip, user_vip_ddl\r\n" + 
+					"FROM userinfo\r\n" + 
+					"WHERE user_logout_time IS NULL";
+			PreparedStatement pst = conn.prepareStatement(sql);	
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()){
+				BeanUser u = new BeanUser();
+				u.setUser_id(rs.getInt(1));
+				u.setUser_name(rs.getString(2));
+				u.setUser_gender(rs.getInt(3));
+				u.setUser_pwd(rs.getString(4));
+				u.setUser_phone_number(rs.getString(5));
+				u.setUser_mail(rs.getString(6));
+				u.setUser_city(rs.getString(7));
+				u.setRegistration_time(rs.getDate(8));
+				u.setUser_is_vip(rs.getInt(9));
+				u.setUser_vip_ddl(rs.getDate(10));
+				result.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 }

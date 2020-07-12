@@ -6,22 +6,25 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import cn.edu.zucc.takeoutassistant.control.AdminManager;
 import cn.edu.zucc.takeoutassistant.control.ShopManager;
+import cn.edu.zucc.takeoutassistant.model.BeanAdmin;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
 
 /**
- * Servlet implementation class ShopRegister
+ * Servlet implementation class AdminLogin
  */
-@WebServlet("/ShopRegister")
-public class ShopRegister extends HttpServlet {
+@WebServlet("/AdminLogin")
+public class AdminLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShopRegister() {
+    public AdminLogin() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,28 +40,22 @@ public class ShopRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		if (!request.getParameter("shop_pwd").equals(request.getParameter("shop_pwd_check"))) {
-			request.setAttribute("hint", "两次密码输入不一致!");
-			request.getRequestDispatcher("shop_register.jsp").forward(request,response);
-		} else {
-			BeanShop shop = new BeanShop();
-			shop.setShop_name(request.getParameter("shop_name"));
-			shop.setShop_pwd(request.getParameter("shop_pwd"));
-			shop.setShop_level(0);
-			
-			ShopManager sm = new ShopManager();
-			try {
-				sm.register(shop);
-				request.getRequestDispatcher("shop_login.jsp").forward(request,response);
-			} catch (BaseException e) {
-				e.printStackTrace();
-				request.getRequestDispatcher("shop_register.jsp").forward(request,response);
-			}
-		}
+		AdminManager am = new AdminManager();
+		BeanAdmin admin = new BeanAdmin();
 		
+		try {
+			admin = (BeanAdmin) am.login(request.getParameter("admin_name"), request.getParameter("admin_pwd"));
+			session.setAttribute("cur_admin", admin);
+			request.getRequestDispatcher("admin_basicinfo.jsp").forward(request,response);
+		} catch (BaseException e) {
+			e.printStackTrace();
+			request.setAttribute("hint", e.getMessage());
+			request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+		}
 	}
 
 }

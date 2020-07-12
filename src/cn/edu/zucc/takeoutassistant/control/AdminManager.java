@@ -72,7 +72,7 @@ public class AdminManager implements IPeopleManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT admin_id, admin_name, admin_pwd, admin_logout_time\r\n" + 
+			String sql = "SELECT admin_id, admin_name, admin_pwd, admin_logout_date\r\n" + 
 					"FROM admininfo\r\n" + 
 					"WHERE admin_name = ?";
 			PreparedStatement pst = conn.prepareCall(sql);
@@ -113,20 +113,21 @@ public class AdminManager implements IPeopleManager {
 	}
 
 	@Override
-	public void changePwd(String name, String oldPwd, String newPwd) throws BaseException {
+	public void changePwd(int id, String oldPwd, String newPwd) throws BaseException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			String sql = "SELECT admin_pwd\r\n" + 
 					"FROM admininfo\r\n" + 
-					"WHERE admin_name = ?";
+					"WHERE admin_id = ?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
+			pst.setInt(1, id);
 			java.sql.ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				throw new BusinessException("该管理员账号不存在");
-			}  // 登陆后才可改密码 因此不存在账号不存在的情况 nonono 管理员后台操作时需要
+//			if (!rs.next()) {
+//				throw new BusinessException("该管理员账号不存在");
+//			}
+			rs.next();
 			if (!oldPwd.equals(rs.getString(1))) {
 				throw new BusinessException("原密码错误");
 			}
@@ -135,10 +136,10 @@ public class AdminManager implements IPeopleManager {
 			
 			sql = "UPDATE admininfo\r\n" + 
 					"SET admin_pwd = ?\r\n" + 
-					"WHERE admin_name = ?";
+					"WHERE admin_id = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, newPwd);
-			pst.setString(2, name);
+			pst.setInt(2, id);
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
@@ -158,47 +159,47 @@ public class AdminManager implements IPeopleManager {
 	}
 
 	@Override
-	public void logout(String name) throws BaseException {
+	public void logout(int id) throws BaseException {
 		// TODO Auto-generated method stub
-		Connection conn = null;
-		try {
-			conn = DBUtil.getConnection();
-			String sql = "SELECT admin_name, admin_logout_time\r\n" + 
-					"FROM admininfo\r\n" + 
-					"WHERE admin_name = ?";
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
-			ResultSet rs = pst.executeQuery();
-			if (!rs.next()) {
-				throw new BusinessException("管理员不存在");
-			}
-			if (rs.getDate(2) != null) {
-				throw new BusinessException("管理员已注销");
-			}
-			rs.close();
-			pst.close();
-			
-			sql = "UPDATE admininfo\r\n" + 
-					"SET admin_logout_time = NOW()\r\n" + 
-					"WHERE admin_name = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, name);
-			pst.execute();
-			pst.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DbException(e);
-		}
-		finally{
-			if(conn!=null)
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
+//		Connection conn = null;
+//		try {
+//			conn = DBUtil.getConnection();
+//			String sql = "SELECT admin_name, admin_logout_time\r\n" + 
+//					"FROM admininfo\r\n" + 
+//					"WHERE admin_name = ?";
+//			PreparedStatement pst = conn.prepareStatement(sql);
+//			pst.setString(1, name);
+//			ResultSet rs = pst.executeQuery();
+//			if (!rs.next()) {
+//				throw new BusinessException("管理员不存在");
+//			}
+//			if (rs.getDate(2) != null) {
+//				throw new BusinessException("管理员已注销");
+//			}
+//			rs.close();
+//			pst.close();
+//			
+//			sql = "UPDATE admininfo\r\n" + 
+//					"SET admin_logout_time = NOW()\r\n" + 
+//					"WHERE admin_name = ?";
+//			pst = conn.prepareStatement(sql);
+//			pst.setString(1, name);
+//			pst.execute();
+//			pst.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			throw new DbException(e);
+//		}
+//		finally{
+//			if(conn!=null)
+//				try {
+//					conn.close();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		}
 	}
 
 	public static void main(String[] args) {
@@ -208,14 +209,23 @@ public class AdminManager implements IPeopleManager {
 		admin.setAdmin_name("testadmin");
 		admin.setAdmin_pwd("testpwd");
 		try {
-			am.register(admin);
-//			am.login("testadmin", "testpwd");
+//			am.register(admin);
+			am.login("w", "w");
 //			am.changePwd("testadmin", "testpwd", "testpwd2");
 //			am.logout("testadmin");
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	
+
+
+	@Override
+	public void updateInfo(BeanPeople people) throws BaseException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

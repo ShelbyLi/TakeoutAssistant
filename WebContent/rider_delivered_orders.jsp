@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-basic info</title>
+<title>rider-delivered orders</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -31,7 +32,7 @@
           外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 商家  ${cur_shop.shop_name }!
+          你好 骑手  ${cur_rider.rider_name } !
         </a>
       </div>
 	  
@@ -39,42 +40,28 @@
         <ul class="nav">
 			
           <li class="nav-item ">
-            <a class="nav-link" href="ShopProductdetails">
-              <i class="material-icons">dashboard</i>
-              <p>产品管理</p>
+            <a class="nav-link" href="RiderToReceive">
+              <i class="material-icons">content_paste</i>
+              <p>去接单</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopProductCategory">
+            <a class="nav-link" href="RiderToDeliver">
+              <i class="material-icons">dashboard</i>
+              <p>去送单</p>
+            </a>
+          </li>
+		  
+		  <li class="nav-item  active  ">
+		    <a class="nav-link" href="RiderDeliveredOrder">
 		      <i class="material-icons">library_books</i>
-		      <p>产品分类管理</p>
+		      <p>查看已送订单</p>
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopOrder">
-		      <i class="material-icons">content_paste</i>
-		      <p>查看订单</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopFullReduction">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>满减方案管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopCoupon">
-		      <i class="material-icons">bubble_chart</i>
-		      <p>优惠券管理</p>
-		    </a>
-		  </li>
-		  
-		  <li class="nav-item active  ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		  <li class="nav-item">
+		    <a class="nav-link" href="rider_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -116,135 +103,60 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">基本信息</h4>
-		            <p class="card-category">完善你的信息</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopBasicinfoSubmitUpdate" method="post">
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家ID</label>
-		                    <input type="text" class="form-control" disabled name="shop_id" value="${cur_shop.shop_id }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">商家名称</label>
-		                    <input type="text" class="form-control" value="${cur_shop.shop_name }" name="shop_name">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">星级</label>
-		                    <input type="text" class="form-control" name="shop_level" value="${cur_shop.shop_level }">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row" >
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">地址</label>
-		                    <input type="text" class="form-control">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">人均消费</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_per_capita_consumption }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">总销量</label>
-		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_sales }">
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">邮政编码</label>
-		                    <input type="text" class="form-control" disabled="disabled">
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="row">
-		                <div class="col-md-12">
-		                  <div class="form-group">
-		                    <label>简介</label>
-		                    <div class="form-group">
-		                      <label class="bmd-label-floating">介绍一下自己吧 </label>
-		                      <textarea class="form-control" rows="5"></textarea>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
-		              
-					  <button type="submit" class="btn btn-primary pull-right">上传修改</button>
-		              
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		      </div>
-		      
-			  
-			  
-			  <!-- </div> -->
-		    </div>
 		  
 		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">修改密码</h4>
-		            <p class="card-category">提高保密性</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopChangepwd" method="post">		              
-		              <div class="row">
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">旧密码</label>
-		                    <input type="password" class="form-control" name="old_pwd">
-		                  </div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <label class="bmd-label-floating">新密码</label>
-		                    <input type="password" class="form-control" name="new_pwd">
-		                  </div>
-		                </div>
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="changpwd">修改密码</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
+				<div class="col-md-12">
+				  <div class="card card-plain">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title mt-0"> 查看已送达订单</h4>
+                  <p class="card-category">用户好评有提成哦! (为保护用户隐私 联系方式和地址送达后不可查看) </p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>订单ID</th>
+                        <th>商家ID</th>
+                        <th>订购时间</th>
+                        <th>订单要求送达时间</th>
+                        <th>地址ID</th>
+                        <th>省</th>
+                        <th>市</th>
+                        <th>区</th>
+                        <th>送达时间</th>
+                        <th>用户评分</th>
+                        <th>提成</th>
+                      </thead>
+                      <tbody>
+			              <c:forEach items="${riderdeliverorders }" var="item" varStatus="i">
+			                  <tr>
+			                  	<td>${item.order_id }</td>
+								<td>${item.shop_id }</td>
+								<td>${item.order_time }</td>
+								<td>${item.order_request_delivery_time }</td>
+								<td>${item.addr_id }</td>
+								<td>${item.addr_province }</td>
+								<td>${item.addr_city }</td>
+								<td>${item.addr_district }</td>
+								<td>${item.deliver_time }</td>
+								<td>${item.deliver_user_rate }</td>
+								<td>${item.push_money }</td>
+			                  </tr>
+		                  </c:forEach>
+                          
+                        <!-- </tr> -->
+                      </tbody>
+                    </table>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
 		  
-		  <div class="row">
-		    <!-- <div class="col-lg-6 col-md-12"> -->
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">你确定要离开外卖小助手吗? 🙁</p>
-		          </div>
-		          <div class="card-body">
-		            <form action="ShopLogout" method="post">		              
-		              <div class="row">
-		                
-		              </div>
-		              <button type="submit" class="btn btn-primary pull-right" name="logout">注销</button>
-		              <div class="clearfix"></div>
-		            </form>
-		          </div>
-		    </div>
-		  </div>
 		  
         </div>
       <footer class="footer">
@@ -270,9 +182,7 @@
       </footer>
     </div>
   </div>
-
-
-  </div>
+	</div>
 </body>
 
   <!--   Core JS Files   -->

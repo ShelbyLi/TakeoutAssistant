@@ -7,9 +7,9 @@ public class BeanShop extends BeanPeople{
 	private int shop_id;
 	private String shop_name;
 	private String shop_pwd;
-	private int shop_level;
+	private double shop_level;
 	private double shop_per_capita_consumption;
-	private double shop_total_sales;
+	private int shop_total_sales;
 	private Date shop_logout_time;
 	
 	public String getShop_pwd() {
@@ -30,10 +30,10 @@ public class BeanShop extends BeanPeople{
 	public void setShop_name(String shop_name) {
 		this.shop_name = shop_name;
 	}
-	public int getShop_level() {
+	public double getShop_level() {
 		return shop_level;
 	}
-	public void setShop_level(int shop_level) {
+	public void setShop_level(double shop_level) {
 		this.shop_level = shop_level;
 	}
 	public double getShop_per_capita_consumption() {
@@ -42,10 +42,10 @@ public class BeanShop extends BeanPeople{
 	public void setShop_per_capita_consumption(double shop_per_capita_consumption) {
 		this.shop_per_capita_consumption = shop_per_capita_consumption;
 	}
-	public double getShop_total_sales() {
+	public int getShop_total_sales() {
 		return shop_total_sales;
 	}
-	public void setShop_total_sales(double shop_total_sales) {
+	public void setShop_total_sales(int shop_total_sales) {
 		this.shop_total_sales = shop_total_sales;
 	}
 	public Date getShop_logout_time() {
