@@ -79,14 +79,24 @@ public class AdminManager implements IPeopleManager {
 			pst.setString(1, name);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
-				throw new BusinessException("管理员不存在");
+//				throw new BusinessException("管理员不存在");
+				// 注册初始管理员
+				String sql1 = "INSERT INTO admininfo(admin_name, admin_pwd) \r\n" + 
+						"VALUES (?, ?)";
+				PreparedStatement pst1 = conn.prepareStatement(sql1);
+				pst1.setString(1, name);
+				pst1.setString(2, pwd);
+				pst1.execute();
+				login(name, pwd);
+			} else {
+				if (rs.getDate(4) != null) {
+					throw new BusinessException("管理员已注销");
+				}
+				if (!rs.getString("admin_pwd").equals(pwd)) {
+					throw new BusinessException("密码错误");
+				}
 			}
-			if (rs.getDate(4) != null) {
-				throw new BusinessException("管理员已注销");
-			}
-			if (!rs.getString("admin_pwd").equals(pwd)) {
-				throw new BusinessException("密码错误");
-			}
+
 			// 若后期有 用户登陆后不需要读取的信息 再注释掉
 			result.setAdmin_id(rs.getInt(1));
 			result.setAdmin_name(name);

@@ -138,8 +138,8 @@ public class RiderDeliverOrderManager implements IEntityManager {
 				rdo.setAddr_city(rs.getString(11));
 				rdo.setAddr_district(rs.getString(12));
 				rdo.setAddr_detailed_addr(rs.getString(13));
-				rdo.setAddr_contact_person(rs.getString(13));
-				rdo.setAddr_contact_phone(rs.getString(14));
+				rdo.setAddr_contact_person(rs.getString(14));
+				rdo.setAddr_contact_phone(rs.getString(15));
 				result.add(rdo);
 			}
 		} catch (SQLException e) {

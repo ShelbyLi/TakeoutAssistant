@@ -11,6 +11,7 @@ public class BeanShop extends BeanPeople{
 	private double shop_per_capita_consumption;
 	private int shop_total_sales;
 	private Date shop_logout_time;
+	private double shop_total_amount;
 	
 	public String getShop_pwd() {
 		return shop_pwd;
@@ -53,6 +54,12 @@ public class BeanShop extends BeanPeople{
 	}
 	public void setShop_logout_time(Date shop_logout_time) {
 		this.shop_logout_time = shop_logout_time;
+	}
+	public double getShop_total_amount() {
+		return shop_total_amount;
+	}
+	public void setShop_total_amount(double shop_total_amount) {
+		this.shop_total_amount = shop_total_amount;
 	}
 	
 

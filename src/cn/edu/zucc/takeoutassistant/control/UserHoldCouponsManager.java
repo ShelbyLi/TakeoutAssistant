@@ -104,7 +104,12 @@ public class UserHoldCouponsManager implements IEntityManager {
 //		userholdcoupons.setUser_id(1);
 //		userholdcoupons.setCoupon_id(3);
 		try {
-			uhcm.update(12, 1);
+//			uhcm.update(12, 1);
+			List<BeanUserHoldCoupons> result = new ArrayList<BeanUserHoldCoupons>();
+			result = uhcm.loadAll(13);
+			for (BeanUserHoldCoupons item: result) {
+				System.out.println(item.getAmount());
+			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,7 +126,8 @@ public class UserHoldCouponsManager implements IEntityManager {
 					"FROM userholdcoupons a, couponinfo b, shopinfo c\r\n" + 
 					"WHERE a.coupon_id = b.coupon_id\r\n" + 
 					"AND b.shop_id = c.shop_id\r\n" + 
-					"AND user_id = ?";
+					"AND user_id = ?\r\n" + 
+					"AND a.amount > 0";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, user_id);
 			ResultSet rs=pst.executeQuery();

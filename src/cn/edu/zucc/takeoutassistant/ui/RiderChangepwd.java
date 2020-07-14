@@ -44,17 +44,21 @@ public class RiderChangepwd extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		BeanRider rider = new BeanRider();
-		RiderManager rm = new RiderManager();
-		rider = (BeanRider) session.getAttribute("cur_rider");
-		int id = rider.getRider_id();
-		try {
-			rm.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
-		} catch (BaseException e) {
-			e.printStackTrace();
+		if (!request.getParameter("new_pwd").equals(request.getParameter("new_pwd_check"))) {
+			request.setAttribute("hint", "两次密码输入不一致!");
+			request.getRequestDispatcher("user_basicinfo.jsp").forward(request,response);
+		} else {
+			BeanRider rider = new BeanRider();
+			RiderManager rm = new RiderManager();
+			rider = (BeanRider) session.getAttribute("cur_rider");
+			int id = rider.getRider_id();
+			try {
+				rm.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
+			} catch (BaseException e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("rider_basicinfo.jsp").forward(request,response);
 		}
-		request.getRequestDispatcher("rider_basicinfo.jsp").forward(request,response);
-	
 	}
 
 }

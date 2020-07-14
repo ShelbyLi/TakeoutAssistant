@@ -87,7 +87,7 @@ public class ShopManager implements IPeopleManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time, avg_amount, order_cnt\r\n" + 
+			String sql = "SELECT shop_id, shop_name, shop_pwd, shop_level, shop_logout_time, avg_amount, order_cnt, total_amount\r\n" + 
 					"FROM shopinfodetails\r\n" + 
 					"WHERE shop_name = ?";
 			PreparedStatement pst = conn.prepareCall(sql);
@@ -106,9 +106,10 @@ public class ShopManager implements IPeopleManager {
 			result.setShop_id(rs.getInt(1));
 			result.setShop_name(name);
 			result.setShop_pwd(pwd);
-			result.setShop_level(rs.getInt(4));
+			result.setShop_level(rs.getDouble(4));
 			result.setShop_per_capita_consumption(rs.getDouble(6));
 			result.setShop_total_sales(rs.getInt(7));
+			result.setShop_total_amount(rs.getDouble(8));
 			rs.close();
 			pst.close();
 			
@@ -327,7 +328,8 @@ public class ShopManager implements IPeopleManager {
 			conn=DBUtil.getConnection();
 			String sql="SELECT shop_id, shop_name, shop_pwd, shop_level, avg_amount, order_cnt\r\n" + 
 					"FROM shopinfodetails\r\n" + 
-					"WHERE shop_logout_time IS NULL";
+					"WHERE shop_logout_time IS NULL\r\n" + 
+					"ORDER BY shop_level DESC";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()){

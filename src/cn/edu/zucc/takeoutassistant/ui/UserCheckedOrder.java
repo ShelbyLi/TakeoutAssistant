@@ -47,13 +47,14 @@ public class UserCheckedOrder extends HttpServlet {
 		BeanUser cur_user = (BeanUser) session.getAttribute("cur_user");
 		BeanShop cur_entered_shop = (BeanShop) session.getAttribute("cur_entered_shop");
 		
-		// 更新订单状态 下单时间(下单)
+		// 更新订单状态 下单时间(下单) 若用户使用优惠券 减少一张优惠券数量
 		OrderManager om = new OrderManager();
 		try {
 			om.ordered(cur_user.getUser_id(), cur_entered_shop.getShop_id());
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
+		
 		
 		// 更新用户集单表
 		UserHoldCouponsManager uhcm = new UserHoldCouponsManager();

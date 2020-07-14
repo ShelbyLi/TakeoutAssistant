@@ -11,6 +11,11 @@ public class BeanProduct extends BeanEntity {
 	private String shop_name;
 	private String productcategory_name;
 	private int cur_cart_amount;
+	private int recommend;
+	
+	public static final int ISRECOMMEND = 1;
+	public static final int ISNOTRECOMMEND = 0;
+	
 	
 	public int getShop_id() {
 		return shop_id;
@@ -65,6 +70,12 @@ public class BeanProduct extends BeanEntity {
 	}
 	public void setCur_cart_amount(int cur_cart_amount) {
 		this.cur_cart_amount = cur_cart_amount;
+	}
+	public int getRecommend() {
+		return recommend;
+	}
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
 	}
 	
 }

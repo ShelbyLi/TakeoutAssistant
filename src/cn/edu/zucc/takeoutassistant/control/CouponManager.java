@@ -180,7 +180,8 @@ public class CouponManager implements IEntityManager {
 			String sql="SELECT user_id, shop_id, coupon_id, coupon_count, discounted_amount\r\n" + 
 					"FROM userholdcouponsdetails\r\n" + 
 					"WHERE user_id = ?\r\n" + 
-					"AND shop_id = ?";
+					"AND shop_id = ?\r\n" + 
+					"AND coupon_count > 0";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, user_id);
 			pst.setInt(2, shop_id);

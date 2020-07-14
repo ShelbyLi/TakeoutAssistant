@@ -104,7 +104,9 @@ public class EvaluateManager implements IEntityManager {
 		evaluate.setScore(3);
 		try {
 //			em.add(evaluate);
-			em.update(evaluate);
+//			em.update(evaluate);
+			evaluate = em.search(46);
+			System.out.println(evaluate.getEvaluate_content());
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
@@ -123,12 +125,14 @@ public class EvaluateManager implements IEntityManager {
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setInt(1, order_id);
 			ResultSet rs = pst.executeQuery();
-			rs.next();
-			result.setUser_id(rs.getInt(1));
-			result.setOrder_id(rs.getInt(2));
-			result.setEvaluate_content(rs.getString(3));
-			result.setEvaluate_date(rs.getTimestamp(4));
-			result.setScore(rs.getInt(5));
+			if(rs.next()) {
+				result.setUser_id(rs.getInt(1));
+				result.setOrder_id(rs.getInt(2));
+				result.setEvaluate_content(rs.getString(3));
+				result.setEvaluate_date(rs.getTimestamp(4));
+				result.setScore(rs.getInt(5));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DbException(e);

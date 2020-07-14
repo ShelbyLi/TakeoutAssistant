@@ -69,6 +69,7 @@
 							<div class="card-header card-header-primary">
 								<h4 class="card-title">管理员登录</h4>
 								<p class="card-category">Admin Login</p>
+								<p class="card-category">管理员只有一个哦! 若首次登录请牢记你的账号密码  之后不要告诉别人!</p>
 								<p class="card-category"> ${hint }</p>
 							</div>
 							<div class="card-body">

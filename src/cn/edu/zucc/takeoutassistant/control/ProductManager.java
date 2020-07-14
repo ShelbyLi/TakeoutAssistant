@@ -280,7 +280,7 @@ public class ProductManager implements IEntityManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price\r\n" + 
+			String sql="SELECT product_id, productcategory_name, product_name, shop_name, product_price, product_discounted_price, a.shop_id\r\n" + 
 					"FROM productdetails a, productcategory b, shopinfo c\r\n" + 
 					"WHERE a.productcategory_id=b.productcategory_id\r\n" + 
 					"AND a.shop_id = c.shop_id\r\n" + 
@@ -289,6 +289,8 @@ public class ProductManager implements IEntityManager {
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, productcategory_id);
 			ResultSet rs=pst.executeQuery();
+			
+			
 			while(rs.next()){
 				BeanProduct p = new BeanProduct();
 				p.setProduct_id(rs.getInt(1));
@@ -297,6 +299,20 @@ public class ProductManager implements IEntityManager {
 				p.setShop_name(rs.getString(4));
 				p.setProduct_price(rs.getDouble(5));
 				p.setProduct_discounted_price(rs.getDouble(6));
+				
+				String sql1 = "SELECT product_id, total_sales, shop_id\r\n" + 
+						"FROM productsalescalculate1\r\n" + 
+						"WHERE shop_id = ?\r\n" + 
+						"ORDER BY total_sales DESC LIMIT 2";
+				PreparedStatement pst1 = conn.prepareStatement(sql1);
+				pst1.setInt(1, rs.getInt(7));
+				ResultSet rs1 = pst1.executeQuery();
+				while (rs1.next()) {
+					if (p.getProduct_id() == rs1.getInt(1)) {
+						p.setRecommend(BeanProduct.ISRECOMMEND);
+					}
+				}
+				
 				result.add(p);
 			}
 		} catch (SQLException e) {

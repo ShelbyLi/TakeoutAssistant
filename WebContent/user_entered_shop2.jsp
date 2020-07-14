@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>user-in the shop</title>
+<title>外卖小助手 - user-in the shop</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -21,21 +21,11 @@
   <link href="assets/demo/demo.css" rel="stylesheet" />
 </head>
 <body>
-
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
-          	外卖小助手
-        </a>
-        <a href="#" class="simple-text logo-normal">
-          	你好 用户 ${cur_user.user_name }!
-        </a>
+        <a href="#" class="simple-text logo-mini">外卖小助手</a>
+        <a href="#" class="simple-text logo-normal">你好! 用户 ${cur_user.user_name }</a>
       </div>
 	  
       <div class="sidebar-wrapper">
@@ -50,7 +40,7 @@
           <!-- your sidebar here -->
 		  		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="#">
+		    <a class="nav-link" href="UserOrder">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看我的订单</p>
 		    </a>
@@ -64,7 +54,7 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="UserCoupon">
+		    <a class="nav-link" href="UserAddr">
 		      <i class="material-icons">library_books</i>
 		      <p>我的地址管理</p>
 		    </a>
@@ -77,6 +67,7 @@
 		    </a>
 		  </li>
 		  
+		  
         </ul>
       </div>
     </div>
@@ -88,7 +79,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <!-- <a class="navbar-brand" href="javascript:;">Dashboard</a> -->
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -117,10 +108,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="user_basicinfo.jsp">我</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="user_login.jsp">退出</a>
                 </div>
               </li>
             </ul>
@@ -183,6 +173,12 @@
 									<td>${product.product_name }</td>
 									<td>${product.product_price }</td>
 									<td>${product.product_discounted_price }</td>
+									<c:if test="${product.recommend==1 }">
+									<td><i class="material-icons">👍</i></td>
+									</c:if>
+									<c:if test="${product.recommend==0 }">
+									<td></td>
+									</c:if>
 				                    
 				                    <td class="td-actions text-right">
 				                      <a href="UserSubProduct?product_id=${product.product_id }">
@@ -359,29 +355,39 @@
         </div>
       </div>
       <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
-    </div>
-  </div>
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS1801 ZUCC
+				</div>
+			</div>
+		</footer>
 
+	  </div>
+	  </div>
+  </div>
 </body>
 
   <script src="assets/js/core/jquery.min.js"></script>
@@ -413,7 +419,7 @@
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
   <script src="assets/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
   <script src="assets/js/plugins/arrive.min.js"></script>
   <!--  Google Maps Plugin    -->

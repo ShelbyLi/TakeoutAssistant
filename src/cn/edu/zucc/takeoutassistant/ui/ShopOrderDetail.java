@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.edu.zucc.takeoutassistant.control.EvaluateManager;
 import cn.edu.zucc.takeoutassistant.control.OrderDetailManager;
+import cn.edu.zucc.takeoutassistant.model.BeanEvaluate;
 import cn.edu.zucc.takeoutassistant.model.BeanOrderDetail;
 import cn.edu.zucc.takeoutassistant.model.BeanShop;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
@@ -48,18 +50,17 @@ public class ShopOrderDetail extends HttpServlet {
 		
 		OrderDetailManager odm = new OrderDetailManager();
 		List<BeanOrderDetail> orderdetails = new ArrayList<BeanOrderDetail>();
-//		for (BeanOrderForm item: orders) {
-//			System.out.println(item.getOrder_actual_amount());
-//			System.out.println(item.getOrder_original_amount());
-//			System.out.println(item.getOrder_time());
-//		}
-//		BeanShop cur_shop = new BeanShop();
-//		cur_shop = (BeanShop) session.getAttribute("cur_shop");
+		BeanEvaluate evaluate = new BeanEvaluate();
+		EvaluateManager em = new EvaluateManager();
 		try {
 			System.out.println(request.getParameter("order_id"));
 //			orderdetails = odm.loadAll(Integer.parseInt(request.getParameter("order_id")));
-			orderdetails = odm.loadAllByUser(Integer.parseInt(request.getParameter("order_id")));
+			int order_id = Integer.parseInt(request.getParameter("order_id"));
+			orderdetails = odm.loadAllByUser(order_id);
+			evaluate = em.search(order_id);
 			request.setAttribute("orderdetails", orderdetails);
+			request.setAttribute("evaluate", evaluate);
+			System.out.println("score"+evaluate.getScore());
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}

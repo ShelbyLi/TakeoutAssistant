@@ -53,17 +53,19 @@ public class UserEditBasicInfo extends HttpServlet {
 		cur_user = (BeanUser) session.getAttribute("cur_user");
 		user.setUser_id(cur_user.getUser_id());
 		user.setUser_name(request.getParameter("user_name"));
-		if ("女".equals(request.getParameter("user_gender"))) 
-			user.setUser_gender(BeanUser.FEMALE);
-		else
-			user.setUser_gender(BeanUser.MALE);
+//		if ("女".equals(request.getParameter("user_gender"))) 
+//			user.setUser_gender(BeanUser.FEMALE);
+//		else
+//			user.setUser_gender(BeanUser.MALE);
+		user.setUser_gender(Integer.parseInt(request.getParameter("user_gender")));
 		user.setUser_phone_number(request.getParameter("user_phone_number"));
 		user.setUser_mail(request.getParameter("user_mail"));
 		user.setUser_city(request.getParameter("user_city"));
-		if ("是".equals(request.getParameter("user_is_vip"))) 
-			user.setUser_is_vip(BeanUser.ISVIP);
-		else
-			user.setUser_is_vip(BeanUser.ISNOTVIP);
+//		if ("是".equals(request.getParameter("user_is_vip"))) 
+//			user.setUser_is_vip(BeanUser.ISVIP);
+//		else
+//			user.setUser_is_vip(BeanUser.ISNOTVIP);
+		user.setUser_is_vip(Integer.parseInt(request.getParameter("user_is_vip")));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			user.setUser_vip_ddl(sdf.parse(request.getParameter("user_vip_ddl")));

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DBUtil {
-	private static final String jdbcUrl="jdbc:mysql://localhost:3306/takeoutassistant2?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai";
+	private static final String jdbcUrl="jdbc:mysql://localhost:3306/takeoutassistant_test?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai";
 	private static final String dbUser="root";
 	private static final String dbPwd="tmrrwbBTT37";
 	static{

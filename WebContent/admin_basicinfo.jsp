@@ -32,7 +32,7 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
 			
-          <li class="nav-item active  ">
+          <li class="nav-item ">
             <a class="nav-link" href="AdminUser">
               <i class="material-icons">dashboard</i>
               <p>用户管理</p>
@@ -53,7 +53,7 @@
 		    </a>
 		  </li>
 		  
-		  <li class="nav-item ">
+		  <li class="nav-item active  ">
 		    <a class="nav-link" href="admin_basicinfo.jsp">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
@@ -79,7 +79,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form" method="post">
+            <!-- <form class="navbar-form" method="post">
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search..." name="keyWord">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -87,7 +87,7 @@
                   <div class="ripple-container"></div>
                 </button>
               </div>
-            </form>
+            </form> -->
             <ul class="navbar-nav">
 
 

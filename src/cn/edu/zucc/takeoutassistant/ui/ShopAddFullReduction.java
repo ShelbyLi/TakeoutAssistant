@@ -53,12 +53,12 @@ public class ShopAddFullReduction extends HttpServlet {
 		fullreduction.setShop_id(cur_shop.getShop_id());
 		fullreduction.setFullreduction_amount(Double.parseDouble(request.getParameter("fullreduction_amount")));
 		fullreduction.setFullreduction_discounted_price(Double.parseDouble(request.getParameter("fullreduction_discounted_price")));
-		if ("ÊÇ".equals(request.getParameter("fullreduction_can_superimposed_with_coupons"))) {
-			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.can_superimosed_with_coupons);
-		} else {
-			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.cannot_superimosed_with_coupons);
-		}
-		
+//		if ("ÊÇ".equals(request.getParameter("fullreduction_can_superimposed_with_coupons"))) {
+//			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.can_superimosed_with_coupons);
+//		} else {
+//			fullreduction.setFullreduction_can_superimposed_with_coupons(BeanFullReductionScheme.cannot_superimosed_with_coupons);
+//		}
+		fullreduction.setFullreduction_can_superimposed_with_coupons(Integer.parseInt(request.getParameter("fullreduction_can_superimposed_with_coupons")));
 		try {
 			frm.add(fullreduction);
 			request.getRequestDispatcher("ShopFullReduction").forward(request, response);

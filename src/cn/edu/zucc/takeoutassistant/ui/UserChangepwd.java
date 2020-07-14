@@ -44,16 +44,22 @@ public class UserChangepwd extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		BeanUser user = new BeanUser();
-		UserManager um = new UserManager();
-		user = (BeanUser) session.getAttribute("cur_user");
-		int id = user.getUser_id();
-		try {
-			um.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
-		} catch (BaseException e) {
-			e.printStackTrace();
+		if (!request.getParameter("new_pwd").equals(request.getParameter("new_pwd_check"))) {
+			request.setAttribute("hint", "两次密码输入不一致!");
+			request.getRequestDispatcher("user_basicinfo.jsp").forward(request,response);
+		} else {
+			BeanUser user = new BeanUser();
+			UserManager um = new UserManager();
+			user = (BeanUser) session.getAttribute("cur_user");
+			int id = user.getUser_id();
+			try {
+				um.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
+			} catch (BaseException e) {
+				request.setAttribute("hint", e.getMessage());
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("user_basicinfo.jsp").forward(request,response);
 		}
-		request.getRequestDispatcher("user_basicinfo.jsp").forward(request,response);
 	}
 
 }

@@ -91,7 +91,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form" method="post">
+            <!-- <form class="navbar-form" method="post">
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search..." name="keyWord">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -99,7 +99,7 @@
                   <div class="ripple-container"></div>
                 </button>
               </div>
-            </form>
+            </form> -->
             <ul class="navbar-nav">
 
 
@@ -162,16 +162,22 @@
 		                </div>
 		              </div>
 		              <div class="row">
-		                <div class="col-md-6">
+		                <div class="col-md-4">
 		                  <div class="form-group">
 		                    <label class="bmd-label-floating">人均消费</label>
 		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_per_capita_consumption }">
 		                  </div>
 		                </div>
-		                <div class="col-md-6">
+		                <div class="col-md-4">
 		                  <div class="form-group">
 		                    <label class="bmd-label-floating">总销量</label>
 		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_sales }">
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group">
+		                    <label class="bmd-label-floating">总收入</label>
+		                    <input type="text" class="form-control" disabled="disabled"  value="${cur_shop.shop_total_amount }">
 		                  </div>
 		                </div>
 		              </div>

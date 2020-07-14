@@ -103,8 +103,9 @@ public class OrderManager implements IEntityManager {
 //			}
 //			om.recieved(3);
 //			om.arrived(3);
-			om.loadAllByUser(12);
-			om.SearchCheckOutInfo(12, 1);
+//			om.loadAllByUser(12);
+//			om.SearchCheckOutInfo(12, 1);
+			om.ordered(12, 6);
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
@@ -518,6 +519,28 @@ public class OrderManager implements IEntityManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
+			// 不能先更新订单状态 否则查询时会出错
+			String sql1 = "SELECT coupon_id\r\n" + 
+					"FROM orderform\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND shop_id = ?\r\n" + 
+					"AND order_status = -1";
+			PreparedStatement pst1 = conn.prepareStatement(sql1);
+			pst1.setInt(1, user_id);
+			pst1.setInt(2, shop_id);
+			ResultSet rs1 = pst1.executeQuery();
+			if (rs1.next()) { //用了优惠券
+				String sql2 = "UPDATE userholdcoupons\r\n" + 
+						"SET amount = amount - 1\r\n" + 
+						"WHERE user_id = ?\r\n" + 
+						"AND coupon_id = ?";
+				PreparedStatement pst2 = conn.prepareStatement(sql2);
+				pst2.setInt(1, user_id);
+				System.out.println(rs1.getInt(1));
+				pst2.setInt(2, rs1.getInt(1));
+				pst2.execute();
+			}
+			
 			String sql = "UPDATE orderform\r\n" + 
 					"SET order_status = 0, order_time=NOW()\r\n" + 
 					"WHERE user_id = ?\r\n" + 
@@ -580,6 +603,36 @@ public class OrderManager implements IEntityManager {
 				}
 		}
 		return order;
+	}
+
+	public void setCouponIdNull(int user_id, int shop_id) throws BaseException  {
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "UPDATE orderform\r\n" + 
+					"SET coupon_id = NULL\r\n" + 
+					"WHERE user_id = ?\r\n" + 
+					"AND shop_id = ?\r\n" + 
+					"AND order_status = -1";
+			PreparedStatement pst = conn.prepareStatement(sql);
+//			pst.setInt(1, coupon_id);
+			pst.setInt(1, user_id);
+			pst.setInt(2, shop_id);
+			pst.execute();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+
 	}
 
 	

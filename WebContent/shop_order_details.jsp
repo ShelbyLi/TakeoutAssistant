@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-order details</title>
+<title>外卖小助手 - shop-order details</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -19,20 +19,11 @@
   <link href="assets/demo/demo.css" rel="stylesheet" />
 </head>
 <body>
-  <div class="wrapper ">
+<div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
-          外卖小助手
-        </a>
-        <a href="#" class="simple-text logo-normal">
-          你好 商家!
-        </a>
+        <a href="#" class="simple-text logo-mini">外卖小助手</a>
+        <a href="#" class="simple-text logo-normal">你好! 商家  ${cur_shop.shop_name }</a>
       </div>
 	  
       <div class="sidebar-wrapper">
@@ -46,7 +37,7 @@
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./typography.html">
+		    <a class="nav-link" href="ShopProductCategory">
 		      <i class="material-icons">library_books</i>
 		      <p>产品分类管理</p>
 		    </a>
@@ -60,21 +51,21 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopCoupon">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		    <a class="nav-link" href="ShopBasicInfo">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -92,7 +83,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <!-- <a class="navbar-brand" href="javascript:;">Dashboard</a> -->
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -101,13 +92,31 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
+           <!--  <form class="navbar-form" method="post">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search..." name="keyWord">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form> -->
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:;">
-                  <i class="material-icons">notifications</i> Notifications
+
+
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="ShopBasicInfo">我</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="shop_login.jsp">退出</a>
+                </div>
               </li>
-              <!-- your navbar here -->
             </ul>
           </div>
         </div>
@@ -128,10 +137,11 @@
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead class="">
-                        <th>产品ID</th>
+                        <!-- <th>产品ID</th> -->
                         <th>产品名称</th>
                         <th>订购数量</th>
                         <th>价格</th>
+                        <th>小计</th>
                       </thead>
                       <tbody>			              
 			              <c:forEach items="${orderdetails }" var="item" varStatus="i">
@@ -153,79 +163,161 @@
               </div>
             </div>
           </div>
-       
+       	  
+       	  
+       	  <div class="row">
+		    <!-- <div class="col-lg-6 col-md-12"> -->
+		      <div class="card">
+		          <div class="card-header card-header-primary">
+		            <h4 class="card-title">评价</h4>
+		            <p class="card-category">根据用户的评价提升自己吧!</p>
+		          </div>
+		          <div class="card-body">
+		          
+		            <form action="UserEvaluate" method="post">
+		              <div class="row">
+		                <div class="col-md-12">
+		                  <div class="form-group">
+		                    <label>味道如何? 有什么感受? 有什么建议?</label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">用户的评价内容 </label>
+		                      <textarea class="form-control" rows="5" name="evaluation">${evaluate.evaluate_content }</textarea>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              <div class="row">
+		                <div class="col-md-12">
+		                  <div class="form-group">
+		                    <label>用户给你的评分</label>
+		                    <div class="form-group">
+		                      <label class="bmd-label-floating">(1-5)</label>
+		                      <!-- <input type="text" class="form-control" name="evaluate_score"> -->
+		                      <table class="table">
+		                		<tbody>
+		                		<tr>
+		                			<td></td>
+		                			<td></td>
+		                			<td></td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="1" <c:if test="${evaluate.score==1 }">checked="checked"</c:if>/>
+										<i class="material-icons">⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="2" <c:if test="${evaluate.score==2 }">checked="checked"</c:if>/>
+		                				<i class="material-icons">⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="3" <c:if test="${evaluate.score==3 }">checked="checked"</c:if>/>
+		                				<i class="material-icons">⭐⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="4" <c:if test="${evaluate.score==4 }">checked="checked"</c:if>/>
+		                				<i class="material-icons">⭐⭐⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="5" <c:if test="${evaluate.score==5 }">checked="checked"</c:if>/>
+		                				<i class="material-icons">⭐⭐⭐⭐⭐</i>
+		                			</td>
+		                			
+			                  	</tr>
+		                		</tbody>
+		                	  </table>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+					  <!-- <button type="submit" class="btn btn-primary pull-right">上传</button> -->
+		              <div class="clearfix"></div>
+		            </form>
+		          </div>
+		      </div>
+			  
+			  <!-- </div> -->
+		    </div>
+		  
 		  
 		  
         </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
-    </div>
+     <footer class="footer">
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS1801 ZUCC
+				</div>
+			</div>
+		</footer>
+
+	  </div>
+	  </div>
   </div>
-	</div>
 </body>
 
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/jquery.min.js"></script>
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script src="assets/js/core/jquery.min.js"></script>
+  <script src="assets/js/core/popper.min.js"></script>
+  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Plugin for the momentJs  -->
-  <script src="../assets/js/plugins/moment.min.js"></script>
+  <script src="assets/js/plugins/moment.min.js"></script>
   <!--  Plugin for Sweet Alert -->
-  <script src="../assets/js/plugins/sweetalert2.js"></script>
+  <script src="assets/js/plugins/sweetalert2.js"></script>
   <!-- Forms Validations Plugin -->
-  <script src="../assets/js/plugins/jquery.validate.min.js"></script>
+  <script src="assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-  <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>
+  <script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-  <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
+  <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
   <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-  <script src="../assets/js/plugins/bootstrap-tagsinput.js"></script>
+  <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-  <script src="../assets/js/plugins/jasny-bootstrap.min.js"></script>
+  <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
   <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-  <script src="../assets/js/plugins/fullcalendar.min.js"></script>
+  <script src="assets/js/plugins/fullcalendar.min.js"></script>
   <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-  <script src="../assets/js/plugins/jquery-jvectormap.js"></script>
+  <script src="assets/js/plugins/jquery-jvectormap.js"></script>
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="../assets/js/plugins/nouislider.min.js"></script>
+  <script src="assets/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
-  <script src="../assets/js/plugins/arrive.min.js"></script>
+  <script src="assets/js/plugins/arrive.min.js"></script>
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chartist JS -->
-  <script src="../assets/js/plugins/chartist.min.js"></script>
+  <script src="assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
-  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
+  <script src="assets/demo/demo.js"></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -404,4 +496,5 @@
 
     });
   </script>
+
 </html>

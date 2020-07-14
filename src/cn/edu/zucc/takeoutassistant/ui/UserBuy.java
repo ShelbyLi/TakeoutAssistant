@@ -57,9 +57,12 @@ public class UserBuy extends HttpServlet {
 			om.updateAddrID(cur_user.getUser_id(), cur_entered_shop.getShop_id(), addr_id);
 			
 			// 如果使用优惠券 则更新优惠券id
+			System.out.println(request.getParameter("coupon_id"));
 			if (request.getParameter("coupon_id") != null) {
 				int coupon_id = Integer.parseInt(request.getParameter("coupon_id"));
 				om.updateCouponId(cur_user.getUser_id(), cur_entered_shop.getShop_id(), coupon_id);
+			} else {
+				om.setCouponIdNull(cur_user.getUser_id(), cur_entered_shop.getShop_id()); //去置空
 			}
 			
 			// 更新需要送达的时间
