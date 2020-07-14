@@ -103,6 +103,7 @@ public class OrderManager implements IEntityManager {
 //			}
 //			om.recieved(3);
 //			om.arrived(3);
+			om.loadAllByUser(12);
 			om.SearchCheckOutInfo(12, 1);
 		} catch (BaseException e) {
 			e.printStackTrace();
@@ -115,24 +116,27 @@ public class OrderManager implements IEntityManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT order_id, user_id, fullreduction_id, coupon_id, order_original_amount, order_actual_amount, order_time, order_request_delivery_time, order_status\r\n" + 
-					"FROM orderform\r\n" + 
-					"WHERE shop_id = ?\r\n" + 
-					"AND order_cancle_time IS NULL";
+			String sql="SELECT order_id, user_id, shop_name, fullreduction_discounted_price, coupon_amount, original_amount, actual_amount, \r\n" + 
+					"actual_vip_amount, final_amount, order_time, order_request_delivery_time, order_status, addr_id\r\n" + 
+					"FROM orderformcalculate4 a, shopinfo b\r\n" + 
+					"WHERE a.shop_id = b.shop_id\r\n" + 
+					"AND order_status >= 0\r\n" + 
+					"AND a.shop_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, shop_id);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()){
 				BeanOrderForm o = new BeanOrderForm();
 				o.setOrder_id(rs.getInt(1));
-				o.setUser_id(rs.getInt(2));
-				o.setFullreduction_id(rs.getInt(3));
-				o.setCoupon_id(rs.getInt(4));
-				o.setOrder_original_amount(rs.getDouble(5));
-				o.setOrder_actual_amount(rs.getDouble(6));
-				o.setOrder_time(rs.getTimestamp(7));
-				o.setOrder_request_delivery_time(rs.getTimestamp(8));
-				o.setOrder_status(rs.getInt(9));
+				o.setShop_name((rs.getString(3)));
+				o.setFullreduction_discounted_price(rs.getDouble(4));
+				o.setCoupon_amount(rs.getDouble(5));
+				o.setOrder_original_amount(rs.getDouble(6));
+				o.setFinal_amount(rs.getDouble(9));
+				o.setOrder_time(rs.getTimestamp(10));
+				o.setOrder_request_delivery_time(rs.getTimestamp(11));
+				o.setOrder_status(rs.getInt(12));
+				o.setAddr_id(rs.getInt(13));
 				result.add(o);
 			}
 		} catch (SQLException e) {
@@ -155,9 +159,11 @@ public class OrderManager implements IEntityManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT order_id, shop_name, fullreduction_id, coupon_id, order_original_amount, order_actual_amount, order_time, order_request_delivery_time, order_status, addr_id\r\n" + 
-					"FROM orderform a, shopinfo b\r\n" + 
+			String sql="SELECT order_id, user_id, shop_name, fullreduction_discounted_price, coupon_amount, original_amount, actual_amount, \r\n" + 
+					"actual_vip_amount, final_amount, order_time, order_request_delivery_time, order_status, addr_id\r\n" + 
+					"FROM orderformcalculate4 a, shopinfo b\r\n" + 
 					"WHERE a.shop_id = b.shop_id\r\n" + 
+					"AND order_status >= 0\r\n" + 
 					"AND user_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, user_id);
@@ -165,15 +171,15 @@ public class OrderManager implements IEntityManager {
 			while(rs.next()){
 				BeanOrderForm o = new BeanOrderForm();
 				o.setOrder_id(rs.getInt(1));
-				o.setShop_name((rs.getString(2)));
-				o.setFullreduction_id(rs.getInt(3));
-				o.setCoupon_id(rs.getInt(4));
-				o.setOrder_original_amount(rs.getDouble(5));
-				o.setOrder_actual_amount(rs.getDouble(6));
-				o.setOrder_time(rs.getTimestamp(7));
-				o.setOrder_request_delivery_time(rs.getTimestamp(8));
-				o.setOrder_status(rs.getInt(9));
-				o.setAddr_id(rs.getInt(10));
+				o.setShop_name((rs.getString(3)));
+				o.setFullreduction_discounted_price(rs.getDouble(4));
+				o.setCoupon_amount(rs.getDouble(5));
+				o.setOrder_original_amount(rs.getDouble(6));
+				o.setFinal_amount(rs.getDouble(9));
+				o.setOrder_time(rs.getTimestamp(10));
+				o.setOrder_request_delivery_time(rs.getTimestamp(11));
+				o.setOrder_status(rs.getInt(12));
+				o.setAddr_id(rs.getInt(13));
 				result.add(o);
 			}
 		} catch (SQLException e) {
@@ -513,7 +519,7 @@ public class OrderManager implements IEntityManager {
 		try {
 			conn = DBUtil.getConnection();
 			String sql = "UPDATE orderform\r\n" + 
-					"SET order_status = 0\r\n" + 
+					"SET order_status = 0, order_time=NOW()\r\n" + 
 					"WHERE user_id = ?\r\n" + 
 					"AND shop_id = ?\r\n" + 
 					"AND order_status = -1";

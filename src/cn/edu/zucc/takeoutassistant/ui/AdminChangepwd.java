@@ -44,17 +44,22 @@ public class AdminChangepwd extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		BeanAdmin admin = new BeanAdmin();
-		AdminManager am = new AdminManager();
-		admin = (BeanAdmin) session.getAttribute("cur_admin");
-		int id = admin.getAdmin_id();
-		try {
-			am.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
-		} catch (BaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!request.getParameter("new_pwd").equals(request.getParameter("new_pwd_check"))) {
+			request.setAttribute("hint", "两次密码输入不一致!");
+			request.getRequestDispatcher("admin_basicinfo.jsp").forward(request,response);
+		} else {
+			BeanAdmin admin = new BeanAdmin();
+			AdminManager am = new AdminManager();
+			admin = (BeanAdmin) session.getAttribute("cur_admin");
+			int id = admin.getAdmin_id();
+			try {
+				am.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
+			} catch (BaseException e) {
+				request.setAttribute("hint", e.getMessage());
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("admin_basicinfo.jsp").forward(request,response);
 		}
-		request.getRequestDispatcher("admin_basicinfo.jsp").forward(request,response);
 	}
 
 }

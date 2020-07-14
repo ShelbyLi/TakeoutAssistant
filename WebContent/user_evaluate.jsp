@@ -117,7 +117,7 @@
 		      <div class="card">
 		          <div class="card-header card-header-primary">
 		            <h4 class="card-title">评价</h4>
-		            <p class="card-category">对商家和骑手的评价对我们很重要!</p>
+		            <p class="card-category">你对商家和骑手的评价对我们很重要!</p>
 		          </div>
 		          <div class="card-body">
 		          
@@ -128,7 +128,7 @@
 		                    <label>味道如何? 有什么感受? 有什么建议?</label>
 		                    <div class="form-group">
 		                      <label class="bmd-label-floating">请输入评价内容 </label>
-		                      <textarea class="form-control" rows="5" name="evaluation"></textarea>
+		                      <textarea class="form-control" rows="5" name="evaluation">${evaluate.evaluate_content }</textarea>
 		                    </div>
 		                  </div>
 		                </div>
@@ -139,8 +139,38 @@
 		                  <div class="form-group">
 		                    <label>给商家评个分吧</label>
 		                    <div class="form-group">
-		                      <label class="bmd-label-floating">(0-5)</label>
-		                      <input type="text" class="form-control" name="evaluate_score">
+		                      <label class="bmd-label-floating">(1-5)</label>
+		                      <!-- <input type="text" class="form-control" name="evaluate_score"> -->
+		                      <table class="table">
+		                		<tbody>
+		                		<tr>
+		                			<td></td>
+		                			<td></td>
+		                			<td></td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="1"/>
+										<i class="material-icons">⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="2"/>
+		                				<i class="material-icons">⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="3"/>
+		                				<i class="material-icons">⭐⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="4"/>
+		                				<i class="material-icons">⭐⭐⭐⭐</i>
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="evaluate_score" value="5"/>
+		                				<i class="material-icons">⭐⭐⭐⭐⭐</i>
+		                			</td>
+		                			
+			                  	</tr>
+		                		</tbody>
+		                	  </table>
 		                    </div>
 		                  </div>
 		                </div>
@@ -152,7 +182,28 @@
 		                    <label>骑手如何? </label>
 		                    <div class="form-group">
 		                      <label class="bmd-label-floating">好评 / 差评</label>
-		                      <input type="text" class="form-control" name="deliver_user_rate">
+		                      <!-- <input type="radio" name="deliver_user_rate">好
+		                      <input type="radio" name="deliver_user_rate">差 -->
+		              			<table class="table">
+		                		<tbody>
+		                		<tr>
+		                			<td></td>
+		                			<td></td>
+		                			<td></td>
+		                			<td>
+		                				<input type="radio" name="deliver_user_rate" value="1"/>
+		                				<!-- <button type="button" rel="tooltip" title="-1" class="btn btn-primary btn-link btn-sm"> -->
+											<i class="material-icons">👍</i>
+										<!-- </button> -->
+		                			</td>
+		                			<td>
+		                				<input type="radio" name="deliver_user_rate" value="2"/>
+		                				<i class="material-icons">👎</i>
+		                			</td>
+			                  	</tr>
+		                  
+		                		</tbody>
+		                		</table>
 		                    </div>
 		                  </div>
 		                </div>

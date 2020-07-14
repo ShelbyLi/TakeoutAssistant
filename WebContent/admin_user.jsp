@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>admin-basic info</title>
+<title>外卖小助手 - admin - user mannager</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -17,22 +17,16 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <script src="./lib/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
           外卖小助手
         </a>
         <a href="#" class="simple-text logo-normal">
-          你好 管理员 ${cur_admin.admin_name }!
+          你好! 管理员 ${cur_admin.admin_name }
         </a>
       </div>
 	  
@@ -40,21 +34,21 @@
         <ul class="nav">
 			
           <li class="nav-item active  ">
-            <a class="nav-link" href="ShopProductdetails">
+            <a class="nav-link" href="AdminUser">
               <i class="material-icons">dashboard</i>
               <p>用户管理</p>
             </a>
           </li>
           <!-- your sidebar here -->
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopProductCategory">
+		    <a class="nav-link" href="AdminShop">
 		      <i class="material-icons">library_books</i>
 		      <p>商家管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="ShopOrder">
+		    <a class="nav-link" href="AdminRider">
 		      <i class="material-icons">content_paste</i>
 		      <p>骑手管理</p>
 		    </a>
@@ -67,11 +61,9 @@
 		    </a>
 		  </li>
 		  
-		  
         </ul>
       </div>
     </div>
-	
 	
 	
     <div class="main-panel">
@@ -79,7 +71,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <!-- <a class="navbar-brand" href="javascript:;">Dashboard</a> -->
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -108,10 +100,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="admin_basicinfo.jsp">我</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="admin_login.jsp">退出</a>
                 </div>
               </li>
             </ul>
@@ -123,21 +114,6 @@
         <div class="container-fluid">
           <!-- your content here -->
           
-          <!-- <div class="row">
-		    <div class="col-lg-6 col-md-12">
-		      <div class="card">
-		          <div class="card-header card-header-primary">
-		            <h4 class="card-title">注销</h4>
-		            <p class="card-category">增加你的新产品类别吧</p>
-		          </div>
-		          <div class="card-body">
-		              <a href="shop_add_productcategory.jsp">
-		              	<button type="submit" class="btn btn-primary pull-left">添加产品类别</button>
-		              </a>
-		          </div>
-		    </div>
-		  </div> -->
-          
 		  <div class="row">
 		    <!-- <div class="col-lg-6 col-md-12"> -->
 		      <div class="card">
@@ -145,7 +121,7 @@
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
 		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
-		              <h4 class="card-title">用户</h4>
+		              <h4 class="card-title">用户信息</h4>
 
 					</div>
 		          </div>
@@ -173,13 +149,23 @@
 			                  <tr>
 			                  	<td>${item.user_id }</td>
 								<td>${item.user_name }</td>
-								<td>${item.user_gender }</td>
+								<c:if test="${item.user_gender==0 }">
+									<td>男</td>
+								</c:if>
+								<c:if test="${item.user_gender==1 }">
+									<td>女</td>
+								</c:if>
 								<td>${item.user_pwd }</td>
 								<td>${item.user_phone_number }</td>
 								<td>${item.user_mail }</td>
 								<td>${item.user_city }</td>
 								<td>${item.registration_time }</td>
-								<td>${item.user_is_vip }</td>
+								<c:if test="${item.user_is_vip==0 }">
+									<td>否</td>
+								</c:if>
+								<c:if test="${item.user_is_vip==1 }">
+									<td>是</td>
+								</c:if>
 								<td>${item.user_vip_ddl }</td>
 			                    <td class="td-actions text-right">
 			                      
@@ -202,128 +188,8 @@
 		                </tbody>
 		              </table>
 		            </div>
-		            <div class="tab-pane" id="messages">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		            <div class="tab-pane" id="settings">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		          </div>
+		           </div>
 		        </div>
-		      <!-- </div> -->
 		    </div>
 		   </div>
         </div>
@@ -331,29 +197,38 @@
       
       
       <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
-    </div>
-  </div>
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS1801 ZUCC
+				</div>
+			</div>
+		</footer>
 
+	</div>
+  </div>
 </body>
 
   <script src="assets/js/core/jquery.min.js"></script>

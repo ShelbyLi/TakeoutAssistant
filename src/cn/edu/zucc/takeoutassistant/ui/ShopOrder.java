@@ -50,11 +50,11 @@ public class ShopOrder extends HttpServlet {
 		
 		OrderManager om = new OrderManager();
 		List<BeanOrderForm> orders = new ArrayList<BeanOrderForm>();
-		for (BeanOrderForm item: orders) {
-			System.out.println(item.getOrder_actual_amount());
-			System.out.println(item.getOrder_original_amount());
-			System.out.println(item.getOrder_time());
-		}
+//		for (BeanOrderForm item: orders) {
+//			System.out.println(item.getOrder_actual_amount());
+//			System.out.println(item.getOrder_original_amount());
+//			System.out.println(item.getOrder_time());
+//		}
 		BeanShop cur_shop = new BeanShop();
 		cur_shop = (BeanShop) session.getAttribute("cur_shop");
 		try {

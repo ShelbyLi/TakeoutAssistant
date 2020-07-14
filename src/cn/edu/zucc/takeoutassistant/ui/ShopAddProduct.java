@@ -46,8 +46,8 @@ public class ShopAddProduct extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		BeanShop cur_shop = new BeanShop();
-		BeanProductCategory productcategory = new BeanProductCategory();
-		ProductcategoryManager pcm = new ProductcategoryManager();
+//		BeanProductCategory productcategory = new BeanProductCategory();
+//		ProductcategoryManager pcm = new ProductcategoryManager();
 
 		BeanProduct product = new BeanProduct();
 		cur_shop = (BeanShop) session.getAttribute("cur_shop");
@@ -55,10 +55,11 @@ public class ShopAddProduct extends HttpServlet {
 		product.setProduct_name(request.getParameter("product_name"));
 		product.setProduct_price(Double.parseDouble(request.getParameter("product_price")));
 		product.setProduct_discounted_price(Double.parseDouble(request.getParameter("product_discounted_price")));
+		product.setProductcategory_id(Integer.parseInt(request.getParameter("productcategory_id")));
 		ProductManager pm = new ProductManager();
 		try {
-			productcategory = pcm.search(request.getParameter("productcategory_name"));
-			product.setProductcategory_id(productcategory.getProductcategory_id());
+//			productcategory = pcm.search(request.getParameter("productcategory_name"));
+//			product.setProductcategory_id(productcategory.getProductcategory_id());
 			pm.add(product);
 			request.getRequestDispatcher("ShopProductdetails").forward(request, response);
 		} catch (BaseException e) {

@@ -60,7 +60,7 @@
 		  </li>
 		  
 		  <li class="nav-item active  ">
-		    <a class="nav-link" href="rider_basicinfo.jsp">
+		    <a class="nav-link" href="RiderBasicInfo">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>

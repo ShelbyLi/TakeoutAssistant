@@ -125,8 +125,8 @@
                       <thead class="">
                         <th>订单ID</th>
                         <th>商家名称</th>
-                        <th>满减方案ID</th>
-                        <th>优惠券ID</th>
+                        <th>满减金额</th>
+                        <th>优惠券金额</th>
                         <th>原价</th>
                         <th>实付</th>
                         <th>下单时间</th>
@@ -138,13 +138,22 @@
 			                  <tr>
 			                  	<td>${item.order_id }</td>
 								<td>${item.shop_name }</td>
-								<td>${item.fullreduction_id }</td>
-								<td>${item.coupon_id }</td>
+								<td>${item.fullreduction_discounted_price }</td>
+								<td>${item.coupon_amount }</td>
 								<td>${item.order_original_amount }</td>
-								<td>${item.order_actual_amount }</td>
+								<td>${item.final_amount }</td>
 								<td>${item.order_time }</td>
 								<td>${item.order_request_delivery_time }</td>
-								<td>${item.order_status }</td>
+								<c:if test="${item.order_status==0 }">
+									<td>等待骑手接单</td>
+								</c:if>
+								<c:if test="${item.order_status==1 }">
+									<td>等待骑手送达</td>
+								</c:if>
+								<c:if test="${item.order_status==2 }">
+									<td>已送达</td>
+								</c:if>
+								<%-- <td>${item.order_status }</td> --%>
 								
 			                    <td class="td-actions text-right">
 			                      <a href="UserOrderDetail?order_id=${item.order_id }&order_addr_id=${item.addr_id }">

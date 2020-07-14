@@ -17,7 +17,6 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <script src="./lib/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
   <div class="wrapper ">
@@ -140,14 +139,7 @@
 			                  	<td>${item.product_name }</td>
 								<td>${item.amount }</td>
 								<td>${item.price }</td>								
-			                    <%-- <td class="td-actions text-right">
-			                      <a href="ShopRemoveCoupon?order_id=${item.order_id }">
-			                      	<button type="button" rel="tooltip" title="查看详情" class="btn btn-primary btn-link btn-sm">
-			                        	<i class="material-icons">search</i>
-			                      	</button>
-			                      </a>
-			                    </td> --%>
-			                    
+			                    <td>${item.amount * item.price }</td>
 			                  </tr>
 		                  </c:forEach>
                           

@@ -36,8 +36,23 @@ public class UserEvaluate extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		HttpSession session = request.getSession();
+		request.setCharacterEncoding("utf-8");	//设置请求的字符集
+		response.setContentType("text/html;charset=utf-8");		//设置文本类型
+//		BeanUser cur_user = (BeanUser) session.getAttribute("cur_user");
+		
 		order_id = Integer.parseInt(request.getParameter("order_id"));
-		System.out.println("**"+order_id);
+//		System.out.println("**"+order_id);
+		BeanEvaluate evaluate = new BeanEvaluate();
+		EvaluateManager em = new EvaluateManager();
+		try {
+			evaluate = em.search(order_id);
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.setAttribute("evaluate", evaluate);
+		
 		request.getRequestDispatcher("user_evaluate.jsp").forward(request, response);
 //		doPost(request, response);
 	}
@@ -58,14 +73,17 @@ public class UserEvaluate extends HttpServlet {
 		evaluation.setUser_id(cur_user.getUser_id());
 		evaluation.setOrder_id(order_id);
 		evaluation.setEvaluate_content(request.getParameter("evaluation"));
-		evaluation.setScore(Integer.parseInt(request.getParameter("evaluate_score")));
-		System.out.println(order_id);
-		
-		int user_rate;
-		if ("差评".equals(request.getParameter("deliver_user_rate")))
-			user_rate = BeanRiderDeliverOrder.BADREVIEW;
-		else
-			user_rate = BeanRiderDeliverOrder.GOODREVIEW;
+		if (request.getParameter("evaluate_score") != null)
+			evaluation.setScore(Integer.parseInt(request.getParameter("evaluate_score")));
+//		else
+//			evaluation.setScore(3);  //默认三星
+		int user_rate = 0;
+		if (request.getParameter("deliver_user_rate") != null)
+			user_rate = Integer.parseInt(request.getParameter("deliver_user_rate"));
+//		if ("差评".equals(request.getParameter("deliver_user_rate")))
+//			user_rate = BeanRiderDeliverOrder.BADREVIEW;
+//		else
+//			user_rate = BeanRiderDeliverOrder.GOODREVIEW;
 		
 		EvaluateManager em = new EvaluateManager();
 		RiderDeliverOrderManager rdom = new RiderDeliverOrderManager();

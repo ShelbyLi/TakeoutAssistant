@@ -166,6 +166,7 @@
 						  	<td>商家名称</td>
 							<td>优惠券金额</td>
 							<td>用户订购多少订单可获得</td>
+							<td>拥有数量</td>
 							<td>开始时间</td>
 							<td>结束时间</td>
 						  </tr>
@@ -174,19 +175,19 @@
 						  
 			                  <tr>
 			                  	<td>${item.coupon_id }</td>
-			                  	<td>${item.amount }</td>
 			                  	<td>${item.shop_name }</td>
 								<td>${item.coupon_amount }</td>
 								<td>${item.coupon_ordered_number_requirement }</td>
+								<td>${item.amount }</td>
 								<td>${item.coupon_start_time }</td>
 								<td>${item.coupon_end_time }</td>
 			                    <td class="td-actions text-right">
 			                      
-			                      <a href="ShopRemoveCoupon?coupon_id=${item.coupon_id }">
+			                      <%-- <a href="ShopRemoveCoupon?coupon_id=${item.coupon_id }">
 			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
 			                        	<i class="material-icons">close</i>
 			                      	</button>
-			                      </a>
+			                      </a> --%>
 			                      
 			                    </td>
 			                  </tr>

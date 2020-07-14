@@ -84,11 +84,13 @@ public class UserCart extends HttpServlet {
 		double original_amount = 0;
 		try {
 			original_amount = om.searchOriginalAmount(cur_user.getUser_id(), cur_entered_shop.getShop_id());
-			System.out.println(original_amount);
+			System.out.println("original amount" + original_amount);
 		} catch (BaseException e1) {
 			e1.printStackTrace();
 		}
-		
+		System.out.println("*********"+cur_user.getUser_id());
+		System.out.println(cur_entered_shop.getShop_id());
+//		System.out.println(fullreduction.getFullreduction_id());
 		FullreductionSchemeManager frm = new FullreductionSchemeManager();
 		List<BeanFullReductionScheme> fullreductions1 = new ArrayList<BeanFullReductionScheme>();
 		BeanFullReductionScheme fullreduction = new BeanFullReductionScheme();
@@ -99,16 +101,21 @@ public class UserCart extends HttpServlet {
 					fullreduction = item;  // 找出符合满减方案的最大金额
 				}
 			}
-			om.updateFullreductionID(cur_user.getUser_id(), cur_entered_shop.getShop_id(), fullreduction.getFullreduction_id());
-			// 计算出满减方案后直接更新数据库
-			request.setAttribute("fullreduction", fullreduction);
+//			System.out.println("*********"+cur_user.getUser_id());
+//			System.out.println(cur_entered_shop.getShop_id());
+			System.out.println(fullreduction.getFullreduction_id());
+			if (fullreduction.getFullreduction_id() > 0) {
+				om.updateFullreductionID(cur_user.getUser_id(), cur_entered_shop.getShop_id(), fullreduction.getFullreduction_id());
+				// 计算出满减方案后直接更新数据库
+				request.setAttribute("fullreduction", fullreduction);
+			} 
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
 		
 		
 		// 能和优惠券叠加使用 则加载
-		if (fullreduction.getFullreduction_can_superimposed_with_coupons() == BeanFullReductionScheme.can_superimosed_with_coupons) {
+		if (fullreduction.getFullreduction_id() == 0 || fullreduction.getFullreduction_can_superimposed_with_coupons() == BeanFullReductionScheme.can_superimosed_with_coupons) {
 			request.setAttribute("hint", "还能使用优惠券! 如果没有可以集单送券哦");
 			
 			CouponManager cm = new CouponManager();

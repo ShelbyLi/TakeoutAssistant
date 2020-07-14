@@ -18,7 +18,7 @@ import cn.edu.zucc.takeoutassistant.util.BaseException;
 /**
  * Servlet implementation class RegisterFrm1
  */
-@WebServlet("/Login")
+@WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

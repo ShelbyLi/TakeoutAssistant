@@ -12,6 +12,7 @@ import cn.edu.zucc.takeoutassistant.model.BeanEntity;
 import cn.edu.zucc.takeoutassistant.model.BeanProduct;
 import cn.edu.zucc.takeoutassistant.model.BeanProductCategory;
 import cn.edu.zucc.takeoutassistant.util.BaseException;
+import cn.edu.zucc.takeoutassistant.util.BusinessException;
 import cn.edu.zucc.takeoutassistant.util.DBUtil;
 import cn.edu.zucc.takeoutassistant.util.DbException;
 
@@ -86,6 +87,19 @@ public class ProductcategoryManager implements IEntityManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
+			// 先查找该类别下是否有相关商品
+			String sql1 = "SELECT *\r\n" + 
+					"FROM productcategory a, productdetails b\r\n" + 
+					"WHERE a.productcategory_id = b.productcategory_id\r\n" + 
+					"AND a.productcategory_id = ?";
+			PreparedStatement pst1 = conn.prepareStatement(sql1);
+			pst1.setInt(1, id);
+			ResultSet rs = pst1.executeQuery();
+			if (rs.next()) { // 该类别下有商品
+				throw new BusinessException("该类别下有商品, 不可删除!");
+			}
+			
+			
 			String sql = "UPDATE productcategory\r\n" + 
 					"SET productcategory_delete_time = NOW()\r\n" + 
 					"WHERE productcategory_id = ?";

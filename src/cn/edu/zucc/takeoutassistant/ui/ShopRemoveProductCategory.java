@@ -37,10 +37,11 @@ public class ShopRemoveProductCategory extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("productcategory_id"));
 		try {
 			pcm.delete(id);
-			request.getRequestDispatcher("ShopProductCategory").forward(request, response);
 		} catch (BaseException e) {
 			e.printStackTrace();
+			request.setAttribute("hint", e.getMessage());
 		}
+		request.getRequestDispatcher("ShopProductCategory").forward(request, response);
 	}
 
 	/**

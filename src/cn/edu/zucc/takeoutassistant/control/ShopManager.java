@@ -25,32 +25,48 @@ public class ShopManager implements IPeopleManager {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "SELECT shop_logout_time\r\n" + 
+			String sql = "SELECT shop_id, shop_logout_time\r\n" + 
 					"FROM shopinfo\r\n" + 
 					"WHERE shop_name = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, shop.getShop_name());
 			ResultSet rs = pst.executeQuery();
-			if (rs.next()) {  // 注销过
-				String sql2 = "UPDATE shopinfo\r\n" + 
+			if (rs.next()) { // 有记录
+				if (rs.getDate(2) == null) { //且没注销 
+					throw new BusinessException("该名称已被注册!");
+				}
+				// 有记录 已注销
+				// 判断密码是否正确
+				String sql3 = "SELECT shop_id, shop_name, shop_pwd\r\n" + 
+						"FROM shopinfo\r\n" + 
+						"WHERE shop_name = ?";
+				PreparedStatement pst3 = conn.prepareStatement(sql3);
+				pst3.setString(1, shop.getShop_name());
+				ResultSet rs3 = pst3.executeQuery();
+				rs3.next();
+				if (!rs3.getString("shop_pwd").equals(shop.getShop_pwd())) {
+					throw new BusinessException("注销商家密码错误! ");
+				}
+				
+				// 密码正确则使注销时间为null
+				String sql1 = "UPDATE shopinfo\r\n" + 
 						"SET shop_logout_time = null\r\n" + 
 						"WHERE shop_name = ?";
-				PreparedStatement pst2 = conn.prepareStatement(sql2);
-				pst2.setString(1, shop.getShop_name());
-				pst2.execute();
-				pst2.close();
-			} else {
+				PreparedStatement pst1 = conn.prepareStatement(sql1);
+				pst1.setString(1, shop.getShop_name());
+				pst1.execute();
+				pst1.close();
+			} else { // insert
 				String sql2 = "INSERT INTO shopinfo(shop_name, shop_pwd) \r\n" + 
 						"VALUES (?, ?)";
 				PreparedStatement pst2 = conn.prepareStatement(sql2);
 				pst2.setString(1, shop.getShop_name());
 				pst2.setString(2, shop.getShop_pwd());
-//				pst2.setInt(3, shop.getShop_level());
 				pst2.execute();
+				pst2.close();
 			}
 			pst.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -59,7 +75,6 @@ public class ShopManager implements IPeopleManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -79,14 +94,14 @@ public class ShopManager implements IPeopleManager {
 			pst.setString(1, name);
 			ResultSet rs = pst.executeQuery();
 			if (!rs.next()) {
-				throw new BusinessException("商家不存在");
+				throw new BusinessException("该商家不存在! ");
 			}
 //			rs.next();
 			if (rs.getDate(5) != null) {
-				throw new BusinessException("商家已注销");
+				throw new BusinessException("商家已注销! 可使用原密码重新注册恢复");
 			}
 			if (!rs.getString("shop_pwd").equals(pwd)) {
-				throw new BusinessException("密码错误");
+				throw new BusinessException("密码错误! ");
 			}
 			result.setShop_id(rs.getInt(1));
 			result.setShop_name(name);
@@ -98,7 +113,6 @@ public class ShopManager implements IPeopleManager {
 			pst.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DbException(e);
 		}
@@ -205,13 +219,12 @@ public class ShopManager implements IPeopleManager {
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ShopManager sp = new ShopManager();
 		BeanShop shop = new BeanShop();
-		shop.setShop_id(2);
-		shop.setShop_name("qwe");
-		shop.setShop_pwd("w");
-		shop.setShop_level(1);
+//		shop.setShop_id(2);
+		shop.setShop_name("Marsa");
+		shop.setShop_pwd("wer");
+//		shop.setShop_level(1);
 //		
 //		BeanProductCategory productcategory = new BeanProductCategory();
 //		productcategory.setShop_id(2);
@@ -224,9 +237,9 @@ public class ShopManager implements IPeopleManager {
 //		product.setProduct_name("testproduct");
 //		product.setProduct_price(27.1);
 		try {
-//			sp.register(shop);
+			sp.register(shop);
 //			shop = (BeanShop)sp.login("q", "w");
-			sp.changePwd(2, "w", "e");
+//			sp.changePwd(2, "w", "e");
 //			sp.logout("testshop");
 //			sp.addProductCategory(productcategory);
 //			sp.addProduct(product);

@@ -5,14 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-productcategory</title>
+<title>外卖小助手 - shop-productcategory</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -21,24 +18,13 @@
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-  <script src="./lib/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
-
-  <div class="wrapper ">
+<div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
-          外卖小助手
-        </a>
-        <a href="#" class="simple-text logo-normal">
-          你好 商家!
-        </a>
+        <a href="#" class="simple-text logo-mini">外卖小助手</a>
+        <a href="#" class="simple-text logo-normal">你好! 商家  ${cur_shop.shop_name }</a>
       </div>
 	  
       <div class="sidebar-wrapper">
@@ -59,28 +45,28 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./tables.html">
+		    <a class="nav-link" href="ShopOrder">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看订单</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopCoupon">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		    <a class="nav-link" href="ShopBasicInfo">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -98,7 +84,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <!-- <a class="navbar-brand" href="javascript:;">Dashboard</a> -->
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -127,10 +113,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="ShopBasicInfo">我</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="shop_login.jsp">退出</a>
                 </div>
               </li>
             </ul>
@@ -167,8 +152,8 @@
 		          <div class="nav-tabs-navigation">
 		            <div class="nav-tabs-wrapper">
 		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
-		              <h4 class="card-title">产品详情</h4>
-
+		              <h4 class="card-title">产品类别详情</h4>
+					  <p class="card-category"> ${hint }</p>
 					</div>
 		          </div>
 		        </div>
@@ -208,125 +193,7 @@
 		                </tbody>
 		              </table>
 		            </div>
-		            <div class="tab-pane" id="messages">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		            <div class="tab-pane" id="settings">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
+		           
 		          </div>
 		        </div>
 		      <!-- </div> -->
@@ -337,29 +204,39 @@
       
       
       <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
-    </div>
-  </div>
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS1801 ZUCC
+				</div>
+			</div>
+		</footer>
 
+	  </div>
+	  </div>
+  </div>
 </body>
 
   <script src="assets/js/core/jquery.min.js"></script>
@@ -391,7 +268,7 @@
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
   <script src="assets/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
   <script src="assets/js/plugins/arrive.min.js"></script>
   <!--  Google Maps Plugin    -->

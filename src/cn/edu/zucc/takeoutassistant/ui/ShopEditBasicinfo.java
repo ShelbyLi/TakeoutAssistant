@@ -15,7 +15,7 @@ import cn.edu.zucc.takeoutassistant.util.BaseException;
 /**
  * Servlet implementation class ShopBasicinfoSubmitUpdate
  */
-@WebServlet("/ShopBasicinfoSubmitUpdate")
+@WebServlet("/ShopEditBasicinfo")
 public class ShopEditBasicinfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,26 +45,17 @@ public class ShopEditBasicinfo extends HttpServlet {
 		BeanShop shop = new BeanShop();
 		BeanShop cur_shop = new BeanShop();
 		
-//		System.out.println("hrhrhr " + cur_shop.getShop_id());
-//		System.out.println(cur_shop.getShop_name());
-//		System.out.println(cur_shop.getShop_level());
-		
 		cur_shop = (BeanShop) session.getAttribute("cur_shop");
 		shop.setShop_id(cur_shop.getShop_id());
 		shop.setShop_name(request.getParameter("shop_name"));
-		shop.setShop_level(Integer.parseInt(request.getParameter("shop_level")));
+//		shop.setShop_level(Integer.parseInt(request.getParameter("shop_level")));
 		
-		
-//		System.out.println("hrhrhr " + shop.getShop_id());
-//		System.out.println(shop.getShop_name());
-//		System.out.println(shop.getShop_level());
 		ShopManager sm = new ShopManager();
 		try {
 			sm.updateInfo(shop);
 			session.setAttribute("cur_shop", shop);
 			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request, response);
 		} catch (BaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

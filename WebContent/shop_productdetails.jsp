@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>shop-products</title>
+<title>外卖小助手 - shop-products</title>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -20,21 +20,11 @@
   <link href="assets/demo/demo.css" rel="stylesheet" />
 </head>
 <body>
-
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
-          外卖小助手
-        </a>
-        <a href="#" class="simple-text logo-normal">
-          你好 商家!
-        </a>
+        <a href="#" class="simple-text logo-mini">外卖小助手</a>
+        <a href="#" class="simple-text logo-normal">你好! 商家  ${cur_shop.shop_name }</a>
       </div>
 	  
       <div class="sidebar-wrapper">
@@ -55,28 +45,28 @@
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./tables.html">
+		    <a class="nav-link" href="ShopOrder">
 		      <i class="material-icons">content_paste</i>
 		      <p>查看订单</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopFullReduction">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>满减方案管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="./icons.html">
+		    <a class="nav-link" href="ShopCoupon">
 		      <i class="material-icons">bubble_chart</i>
 		      <p>优惠券管理</p>
 		    </a>
 		  </li>
 		  
 		  <li class="nav-item ">
-		    <a class="nav-link" href="shop_basicinfo.jsp">
+		    <a class="nav-link" href="ShopBasicInfo">
 		      <i class="material-icons">person</i>
 		      <p>我</p>
 		    </a>
@@ -94,7 +84,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+            <!-- <a class="navbar-brand" href="javascript:;">Dashboard</a> -->
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -123,10 +113,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="ShopBasicInfo">我</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" href="shop_login.jsp">退出</a>
                 </div>
               </li>
             </ul>
@@ -146,14 +135,8 @@
 		            <p class="card-category">增加你的新产品吧</p>
 		          </div>
 		          <div class="card-body">
-		            <!-- <form> -->		              
-		              
-		              	<a href="shop_add_product.jsp"><button type="submit" class="btn btn-primary pull-left">添加产品</button></a>
-					
-		            <!-- </form> -->
+		              	<a href="ShopAddProductPrepare"><button type="submit" class="btn btn-primary pull-left">添加产品</button></a>
 		          </div>
-		          
-		          
 		          
 		    </div>
 		  </div>
@@ -166,27 +149,7 @@
 		            <div class="nav-tabs-wrapper">
 		              <!-- <span class="nav-tabs-title">产品详情:</span> -->
 		              <h4 class="card-title">产品详情</h4>
-		              <!-- <ul class="nav nav-tabs" data-tabs="tabs">
-		                <li class="nav-item">
-		                  <a class="nav-link active" href="#profile" data-toggle="tab">
-		                    <i class="material-icons">bug_report</i> Bugs
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		                <li class="nav-item">
-		                  <a class="nav-link" href="#messages" data-toggle="tab">
-		                    <i class="material-icons">code</i> Website
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		                <li class="nav-item">
-		                  <a class="nav-link" href="#settings" data-toggle="tab">
-		                    <i class="material-icons">cloud</i> Server
-		                    <div class="ripple-container"></div>
-		                  </a>
-		                </li>
-		              </ul>
-		            --></div>
+		             </div>
 		          </div>
 		        </div>
 		        <div class="card-body">
@@ -211,107 +174,15 @@
 								<td>${item.product_price }</td>
 								<td>${item.product_discounted_price }</td>
 			                    <td class="td-actions text-right">
-			                      <%-- <a href="ShopEditProduct?product_id=${item.product_id }"> --%>
-			                      <!-- <a href="ShopEditProduct">
-			                      	<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">	
-			                        	<i class="material-icons">edit</i>
-			                      	</button>
-			                      </a> -->
 			                      
-			                     <a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }">
+			                     <a href="ShopEditProductPrepare?product_id=${item.product_id }">
 									<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">
 										<i class="material-icons">edit</i>
 									</button>
 								</a>
 								
-								
-			                      <%-- <a id="modal-${item.product_id }" href="#modal-container-${item.product_id }" role="button"  data-toggle="modal">
-			                      	<button type="button" rel="tooltip" title="编辑" class="btn btn-primary btn-link btn-sm">	
-			                        	<i class="material-icons">edit</i>
-			                      	</button>
-			                      </a> --%>
-			
-									<%-- <div class="modal fade" id="modal-container-${item.product_id }" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												</div>
-												<!-- <div class="modal-body"> -->
-												<div>
-												
-												
-													<div class="card">
-												      <div class="card-header card-header-primary">
-												        <h4 class="card-title">编辑产品</h4>
-												        <p class="card-category">Complete your profile</p>
-												      </div>
-												      <div class="card-body">
-												        
-												        <form action="ShopEditProduct" method="get"> 
-												          <div class="row">
-												            <div class="col-md-12">
-												              <div class="form-group">
-												                <label>所属类别</label>
-												                <input type="text" class="form-control" value=${item.productcategory_name }  name="productcategory_name_${item.product_id }">
-												              </div>
-												            </div>
-												          </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>产品名称</label>
-														        <input type="text" class="form-control" value=${item.product_name } name="product_name">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>产品价格</label>
-														        <input type="text" class="form-control" value=${item.product_price } name="product_price">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-														    <div class="col-md-12">
-														      <div class="form-group">
-														        <label>优惠价格</label>
-														        <input type="text" class="form-control"  value=${item.product_discounted_price } name = "product_discounted_price">
-														      </div>
-														    </div>
-														  </div>
-														  <div class="row">
-															  <button type="submit" class="btn btn-primary pull-right btn-block">修改</button>
-																<a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }&pro">
-																	<button type="submit" class="btn btn-primary pull-left">保存</button>
-																</a>
-														  </div>
-														  
-								
-												        </form>
-												      </div>
-												  </div>
-												</div>
-												<div class="modal-footer">
-													<div class="row">
-														<a href="<%=request.getContextPath() %>/ShopEditProduct?product_id=${item.product_id }">
-															<button type="submit" class="btn btn-primary pull-left">保存</button>
-														</a>
-													</div>
-													<div class="row">
-														<button type="submit" class="btn btn-primary pull-left" data-dismiss="modal">bu关闭</button>
-														<button type="submit" class="btn btn-primary pull-left" data-dismiss="modal">关闭</button>
-													</div>
-												</div>
-											</div>
-											
-										</div>
-										
-									</div> --%>
 			                      
-			                      
-			                      <a href="<%=request.getContextPath() %>/ShopRemoveProduct?product_id=${item.product_id }">
+			                      <a href="ShopRemoveProduct?product_id=${item.product_id }">
 			                      	<button type="button" rel="tooltip" title="删除" class="btn btn-danger btn-link btn-sm">
 			                        	<i class="material-icons">close</i>
 			                      	</button>
@@ -324,156 +195,50 @@
 		                </tbody>
 		              </table>
 		            </div>
-		            <div class="tab-pane" id="messages">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		            <div class="tab-pane" id="settings">
-		              <table class="table">
-		                <tbody>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="">
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-		                    </td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                  <tr>
-		                    <td>
-		                      <div class="form-check">
-		                        <label class="form-check-label">
-		                          <input class="form-check-input" type="checkbox" value="" checked>
-		                          <span class="form-check-sign">
-		                            <span class="check"></span>
-		                          </span>
-		                        </label>
-		                      </div>
-		                    </td>
-		                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-		                    <td class="td-actions text-right">
-		                      <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-		                        <i class="material-icons">edit</i>
-		                      </button>
-		                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-		                        <i class="material-icons">close</i>
-		                      </button>
-		                    </td>
-		                  </tr>
-		                </tbody>
-		              </table>
-		            </div>
-		          </div>
+		           
+		           </div>
 		        </div>
 		      <!-- </div> -->
 		    </div>
 		   </div>
         </div>
       </div>
+      
+      
       <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
-    </div>
-  </div>
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS1801 ZUCC
+				</div>
+			</div>
+		</footer>
 
+	  </div>
+	  </div>
+  </div>
 </body>
 
   <script src="assets/js/core/jquery.min.js"></script>
@@ -505,7 +270,7 @@
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
   <script src="assets/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
   <script src="assets/js/plugins/arrive.min.js"></script>
   <!--  Google Maps Plugin    -->

@@ -257,9 +257,9 @@ public class RiderManager implements IPeopleManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT rider_id, rider_name, rider_pwd, rider_entry_date, rider_identity, deliver_cnt, total_income\r\n" + 
-					"FROM riderdetails\r\n" + 
-					"WHERE rider_logout_date IS NULL";
+			String sql="SELECT a.rider_id, a.rider_name, a.rider_pwd, a.rider_entry_date, a.rider_identity, deliver_cnt, total_income\r\n" + 
+					"FROM riderinfo a LEFT OUTER JOIN riderdetails b ON (a.rider_id=b.rider_id)\r\n" + 
+					"WHERE a.rider_logout_date IS NULL";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()){
@@ -293,10 +293,10 @@ public class RiderManager implements IPeopleManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT rider_id, rider_name, rider_pwd, rider_entry_date, rider_identity, deliver_cnt, total_income\r\n" + 
-					"FROM riderdetails\r\n" + 
-					"WHERE rider_logout_date IS NULL\r\n" + 
-					"AND rider_name LIKE ?";
+			String sql="SELECT a.rider_id, a.rider_name, a.rider_pwd, a.rider_entry_date, a.rider_identity, deliver_cnt, total_income\r\n" + 
+					"FROM riderinfo a LEFT OUTER JOIN riderdetails b ON (a.rider_id=b.rider_id)\r\n" + 
+					"WHERE a.rider_logout_date IS NULL\r\n" + 
+					"AND a.rider_name LIKE ?";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setString(1, "%"+keyWord+"%");
 			ResultSet rs=pst.executeQuery();

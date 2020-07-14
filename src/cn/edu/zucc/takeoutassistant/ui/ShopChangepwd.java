@@ -42,17 +42,22 @@ public class ShopChangepwd extends HttpServlet {
 		request.setCharacterEncoding("utf-8");	//设置请求的字符集
 		response.setContentType("text/html;charset=utf-8");		//设置文本类型
 		
-		BeanShop shop = new BeanShop();
-		ShopManager sm = new ShopManager();
-		shop = (BeanShop) session.getAttribute("cur_shop");
-		int id = shop.getShop_id();
-		try {
-			sm.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
-		} catch (BaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!request.getParameter("new_pwd").equals(request.getParameter("new_pwd_check"))) {
+			request.setAttribute("hint", "两次密码输入不一致!");
+			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
+		} else {
+			BeanShop shop = new BeanShop();
+			ShopManager sm = new ShopManager();
+			shop = (BeanShop) session.getAttribute("cur_shop");
+			int id = shop.getShop_id();
+			try {
+				sm.changePwd(id, request.getParameter("old_pwd"), request.getParameter("new_pwd"));
+			} catch (BaseException e) {
+				request.setAttribute("hint", e.getMessage());
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
 		}
-		request.getRequestDispatcher("shop_basicinfo.jsp").forward(request,response);
 	}
 
 }

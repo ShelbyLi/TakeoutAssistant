@@ -61,7 +61,7 @@ public class RiderDeliveryRecieve extends HttpServlet {
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("rider_to_receive.jsp").forward(request, response);
+		request.getRequestDispatcher("RiderToReceive").forward(request, response);
 	}
 
 }

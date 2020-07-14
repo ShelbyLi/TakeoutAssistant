@@ -55,6 +55,7 @@ public class ShopRegister extends HttpServlet {
 				request.getRequestDispatcher("shop_login.jsp").forward(request,response);
 			} catch (BaseException e) {
 				e.printStackTrace();
+				request.setAttribute("hint", e.getMessage());
 				request.getRequestDispatcher("shop_register.jsp").forward(request,response);
 			}
 		}

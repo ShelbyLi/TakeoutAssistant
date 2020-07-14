@@ -1,196 +1,348 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>用户登录</title>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css"/>
-	<script src="jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-12 column">
-				<div class="jumbotron">
-					<h1>
-						Hello, world!
-					</h1>
-					<p>
-						This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-					</p>
-					<p>
-						 <a class="btn btn-primary btn-large" href="#">Learn more</a>
-					</p>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+		<link rel="icon" type="image/png" href="assets/img/favicon.png">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>
+			外卖小助手 - 用户登录
+		</title>
+		<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+		<!--     Fonts and icons     -->
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+		<!-- CSS Files -->
+		<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+		<!-- CSS Just for demo purpose, don't include it in your project -->
+		<link href="assets/demo/demo.css" rel="stylesheet" />
+	</head>
+
+	<body class="offline-doc">
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+			<div class="container-fluid">
+				<div class="navbar-wrapper">
+					<a class="navbar-brand" href="javascript:;">外卖小助手</a>
 				</div>
-				<nav class="navbar navbar-default" role="navigation">
-					<div class="navbar-header">
-						 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
-					</div>
-					
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							<li class="active">
-								 <a href="#">Link</a>
-							</li>
-							<li>
-								 <a href="#">Link</a>
-							</li>
-							<li class="dropdown">
-								 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#">Action</a>
-									</li>
-									<li>
-										 <a href="#">Another action</a>
-									</li>
-									<li>
-										 <a href="#">Something else here</a>
-									</li>
-									<li class="divider">
-									</li>
-									<li>
-										 <a href="#">Separated link</a>
-									</li>
-									<li class="divider">
-									</li>
-									<li>
-										 <a href="#">One more separated link</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<form class="navbar-form navbar-left" role="search">
-							<div class="form-group">
-								<input type="text" class="form-control" />
-							</div> <button type="submit" class="btn btn-default">Submit</button>
-						</form>
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								 <a href="#">Link</a>
-							</li>
-							<li class="dropdown">
-								 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#">Action</a>
-									</li>
-									<li>
-										 <a href="#">Another action</a>
-									</li>
-									<li>
-										 <a href="#">Something else here</a>
-									</li>
-									<li class="divider">
-									</li>
-									<li>
-										 <a href="#">Separated link</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-					
-				</nav>
-				<!-- ------------------------------------页头------------------------ -->
-				
-				<div class="row clearfix">
-					<div class="col-md-3 column">
-					</div>
-					<div class="col-md-6 column">
-						<div class="page-header">
-							<h1>
-								Example page header <small>Subtext for header</small>
-							</h1>
-						</div>
-						
-						
-						
-						<div class="alert alert-success alert-dismissable">
-							 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-							<h4>
-								你好 用户!
-							</h4> <strong>不是用户? 请选择登录身份!</strong>若无账号 请 <a href="user_register.jsp" class="alert-link">注册</a>
-						</div>
-						<div class="row clearfix">
-							<div class="col-md-2 column">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+				 aria-label="Toggle navigation">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="navbar-toggler-icon icon-bar"></span>
+					<span class="navbar-toggler-icon icon-bar"></span>
+					<span class="navbar-toggler-icon icon-bar"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-end">
+
+					<ul class="navbar-nav">
+
+						<li class="nav-item dropdown">
+							<a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true"
+							 aria-expanded="false">
+								<i class="material-icons">person</i>
+								<p class="d-lg-none d-md-block">
+									Account
+								</p>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+								<a class="dropdown-item" href="shop_login.jsp">商家登录</a>
+								<a class="dropdown-item" href="rider_login.jsp">骑手登录</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="admin_login.jsp">管理员登录</a>
 							</div>
-							<div class="col-md-10 column">
-								<div class="btn-group">
-									 <button class="btn btn-default">用户</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-									<ul class="dropdown-menu">
-										<li>
-											 <a href="shop_login.jsp">商家</a>
-										</li>
-										<li>
-											 <a href="rider_login.jsp">骑手</a>
-										</li>
-										<!-- <li class="disabled">
-											 <a href="#">另一操作</a>
-										</li> -->
-										<li class="divider">
-										</li>
-										<li>
-											 <a href="admin_login.jsp">管理员</a>
-										</li>
-									</ul>
-								</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End Navbar -->
+		<div class="page-header clear-filter">
+			<div class="page-header-image" style="background-image: url('assets/img/cover.jpg');"></div>
+			<div class="content-center">
+				<div class="col-md-8 ml-auto mr-auto">
+					<div class="brand">
+						<div class="card">
+							<div class="card-header card-header-primary">
+								<h4 class="card-title">用户登录</h4>
+								<p class="card-category">User Login</p>
+								<p class="card-category"> ${hint }</p>
 							</div>
-						</div>
-						<form action="Login" method="post" class="form-horizontal" role="form">
-							<div class="form-group">
-								 <label for="inputEmail3" class="col-sm-2 control-label">登录名</label>
-								<div class="col-sm-10">
-									<input class="form-control" id="inputEmail3" name="name" required="required" />
-								</div>
-							</div>
-							<div class="form-group">
-								 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" id="inputPassword3" name="pwd" required="required"/>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<div class="checkbox">
-										 <label><input type="checkbox" />Remember me</label>
+							<div class="card-body">
+
+								<form action="UserLogin" method="post">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="bmd-label-floating">登录名</label>
+												<input type="text" class="form-control" name="name" required="required">
+											</div>
+										</div>
 									</div>
-								</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="bmd-label-floating">密码</label>
+												<input type="password" class="form-control" name="pwd" required="required">
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary pull-right  btn-block">登录</button>
+									<a href="user_register.jsp"><button type="button" class="btn btn-primary pull-right  btn-block">去注册</button></a>
+									<div class="clearfix"></div>
+								</form>
 							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									 <button type="submit" class="btn btn-default">登录</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="col-md-3 column">
-					</div>
-				</div>
-				
-				
-				<!-- ------------------------------------页尾------------------------ -->
-				<div class="page-header">
-					<h1>
-						Example page header <small>Subtext for header</small>
-					</h1>
-				</div>
-				<div class="row clearfix">
-					<div class="col-md-6 column">
-						<p>
-							 <em>Git</em> 是一个分布式的版本控制系统，最初由 <strong>Linus Torvalds</strong> 编写，用作Linux内核代码的管理。在推出后，Git在其它项目中也取得了很大成功，尤其是在 <small>Ruby</small> 社区中。
-						</p>
-					</div>
-					<div class="col-md-6 column">
-						 <address> <strong>Twitter, Inc.</strong><br /> 795 Folsom Ave, Suite 600<br /> San Francisco, CA 94107<br /> <abbr title="Phone">P:</abbr> (123) 456-7890</address>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-		
-</body>
+		<footer class="footer">
+			<div class="container-fluid">
+				<nav class="float-left">
+					<ul>
+						<li>
+							<a href="#">
+								About Us
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Github
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright float-right">
+					&copy;
+					<script>
+						document.write(new Date().getFullYear())
+					</script>, made with <i class="material-icons">favorite</i> by
+					<a href="#" target="_blank">Shelby Li</a> CS 1801 ZUCC
+				</div>
+			</div>
+		</footer>
+		<!--   Core JS Files   -->
+		<script src="assets/js/core/jquery.min.js"></script>
+		<script src="assets/js/core/popper.min.js"></script>
+		<script src="assets/js/core/bootstrap-material-design.min.js"></script>
+		<script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+		<!-- Plugin for the momentJs  -->
+		<script src="assets/js/plugins/moment.min.js"></script>
+		<!--  Plugin for Sweet Alert -->
+		<script src="assets/js/plugins/sweetalert2.js"></script>
+		<!-- Forms Validations Plugin -->
+		<script src="assets/js/plugins/jquery.validate.min.js"></script>
+		<!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+		<script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+		<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+		<script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
+		<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+		<script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+		<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+		<script src="assets/js/plugins/jquery.dataTables.min.js"></script>
+		<!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+		<script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
+		<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+		<script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
+		<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+		<script src="assets/js/plugins/fullcalendar.min.js"></script>
+		<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+		<script src="assets/js/plugins/jquery-jvectormap.js"></script>
+		<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+		<script src="assets/js/plugins/nouislider.min.js"></script>
+		<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+		<!-- Library for adding dinamically elements -->
+		<script src="assets/js/plugins/arrive.min.js"></script>
+		<!--  Google Maps Plugin    -->
+		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
+		<!-- Chartist JS -->
+		<script src="assets/js/plugins/chartist.min.js"></script>
+		<!--  Notifications Plugin    -->
+		<script src="assets/js/plugins/bootstrap-notify.js"></script>
+		<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+		<script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+		<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+		<script src="assets/demo/demo.js"></script>
+		<script>
+			$(document).ready(function() {
+				$().ready(function() {
+					$sidebar = $('.sidebar');
+
+					$sidebar_img_container = $sidebar.find('.sidebar-background');
+
+					$full_page = $('.full-page');
+
+					$sidebar_responsive = $('body > .navbar-collapse');
+
+					window_width = $(window).width();
+
+					fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+					if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+						if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+							$('.fixed-plugin .dropdown').addClass('open');
+						}
+
+					}
+
+					$('.fixed-plugin a').click(function(event) {
+						// Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+						if ($(this).hasClass('switch-trigger')) {
+							if (event.stopPropagation) {
+								event.stopPropagation();
+							} else if (window.event) {
+								window.event.cancelBubble = true;
+							}
+						}
+					});
+
+					$('.fixed-plugin .active-color span').click(function() {
+						$full_page_background = $('.full-page-background');
+
+						$(this).siblings().removeClass('active');
+						$(this).addClass('active');
+
+						var new_color = $(this).data('color');
+
+						if ($sidebar.length != 0) {
+							$sidebar.attr('data-color', new_color);
+						}
+
+						if ($full_page.length != 0) {
+							$full_page.attr('filter-color', new_color);
+						}
+
+						if ($sidebar_responsive.length != 0) {
+							$sidebar_responsive.attr('data-color', new_color);
+						}
+					});
+
+					$('.fixed-plugin .background-color .badge').click(function() {
+						$(this).siblings().removeClass('active');
+						$(this).addClass('active');
+
+						var new_color = $(this).data('background-color');
+
+						if ($sidebar.length != 0) {
+							$sidebar.attr('data-background-color', new_color);
+						}
+					});
+
+					$('.fixed-plugin .img-holder').click(function() {
+						$full_page_background = $('.full-page-background');
+
+						$(this).parent('li').siblings().removeClass('active');
+						$(this).parent('li').addClass('active');
+
+
+						var new_image = $(this).find("img").attr('src');
+
+						if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+							$sidebar_img_container.fadeOut('fast', function() {
+								$sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+								$sidebar_img_container.fadeIn('fast');
+							});
+						}
+
+						if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+							var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+							$full_page_background.fadeOut('fast', function() {
+								$full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+								$full_page_background.fadeIn('fast');
+							});
+						}
+
+						if ($('.switch-sidebar-image input:checked').length == 0) {
+							var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+							var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+							$sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+							$full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+						}
+
+						if ($sidebar_responsive.length != 0) {
+							$sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+						}
+					});
+
+					$('.switch-sidebar-image input').change(function() {
+						$full_page_background = $('.full-page-background');
+
+						$input = $(this);
+
+						if ($input.is(':checked')) {
+							if ($sidebar_img_container.length != 0) {
+								$sidebar_img_container.fadeIn('fast');
+								$sidebar.attr('data-image', '#');
+							}
+
+							if ($full_page_background.length != 0) {
+								$full_page_background.fadeIn('fast');
+								$full_page.attr('data-image', '#');
+							}
+
+							background_image = true;
+						} else {
+							if ($sidebar_img_container.length != 0) {
+								$sidebar.removeAttr('data-image');
+								$sidebar_img_container.fadeOut('fast');
+							}
+
+							if ($full_page_background.length != 0) {
+								$full_page.removeAttr('data-image', '#');
+								$full_page_background.fadeOut('fast');
+							}
+
+							background_image = false;
+						}
+					});
+
+					$('.switch-sidebar-mini input').change(function() {
+						$body = $('body');
+
+						$input = $(this);
+
+						if (md.misc.sidebar_mini_active == true) {
+							$('body').removeClass('sidebar-mini');
+							md.misc.sidebar_mini_active = false;
+
+							$('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+						} else {
+
+							$('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+							setTimeout(function() {
+								$('body').addClass('sidebar-mini');
+
+								md.misc.sidebar_mini_active = true;
+							}, 300);
+						}
+
+						// we simulate the window Resize so the charts will get updated in realtime.
+						var simulateWindowResize = setInterval(function() {
+							window.dispatchEvent(new Event('resize'));
+						}, 180);
+
+						// we stop the simulation of Window Resize after the animations are completed
+						setTimeout(function() {
+							clearInterval(simulateWindowResize);
+						}, 1000);
+
+					});
+				});
+			});
+		</script>
+	</body>
+
 </html>

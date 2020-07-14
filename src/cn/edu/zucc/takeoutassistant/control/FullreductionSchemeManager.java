@@ -157,9 +157,9 @@ public class FullreductionSchemeManager implements IEntityManager {
 //			fsm.add(fullreduction);
 //			fsm.update(fullreduction);
 			List<BeanFullReductionScheme> fullreductions = new ArrayList<BeanFullReductionScheme>();
-			fullreductions = fsm.loadAll(2);
+			fullreductions = fsm.loadAll(1);
 			for (BeanFullReductionScheme item: fullreductions) {
-				System.out.println(item.getFullreduction_id());
+				System.out.println(item.getFullreduction_amount());
 			}
 		} catch (BaseException e) {
 			// TODO Auto-generated catch block

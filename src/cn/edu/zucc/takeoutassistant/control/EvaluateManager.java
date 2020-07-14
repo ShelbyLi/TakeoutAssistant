@@ -111,4 +111,37 @@ public class EvaluateManager implements IEntityManager {
 		
 	}
 
+	public BeanEvaluate search(int order_id) throws BaseException {
+		BeanEvaluate result = new BeanEvaluate();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			// 判断表中是否已经有
+			String sql = "SELECT user_id, order_id, evaluate_content, evaluate_date, evaluate_score\r\n" + 
+					"FROM evaluate\r\n" + 
+					"WHERE order_id = ?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, order_id);
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result.setUser_id(rs.getInt(1));
+			result.setOrder_id(rs.getInt(2));
+			result.setEvaluate_content(rs.getString(3));
+			result.setEvaluate_date(rs.getTimestamp(4));
+			result.setScore(rs.getInt(5));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
 }

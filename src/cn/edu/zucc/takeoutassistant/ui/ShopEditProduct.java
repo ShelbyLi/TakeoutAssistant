@@ -67,12 +67,13 @@ public class ShopEditProduct extends HttpServlet {
 		product.setProduct_name(request.getParameter("product_name"));
 		product.setProduct_price(Double.parseDouble(request.getParameter("product_price")));
 		product.setProduct_discounted_price(Double.parseDouble(request.getParameter("product_discounted_price")));
+		product.setProductcategory_id(Integer.parseInt(request.getParameter("productcategory_id")));
 		
-		BeanProductCategory productcategory = new BeanProductCategory();
-		ProductcategoryManager pcm = new ProductcategoryManager();
+//		BeanProductCategory productcategory = new BeanProductCategory();
+//		ProductcategoryManager pcm = new ProductcategoryManager();
 		try {
-			productcategory = pcm.search(request.getParameter("productcategory_name"));
-			product.setProductcategory_id(productcategory.getProductcategory_id());
+//			productcategory = pcm.search(request.getParameter("productcategory_name"));
+//			product.setProductcategory_id(productcategory.getProductcategory_id());
 			pm.update(product);
 			request.getRequestDispatcher("ShopProductdetails").forward(request, response);
 		} catch (BaseException e) {

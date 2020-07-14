@@ -117,9 +117,10 @@ public class OrderDetailManager implements IEntityManager {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT a.product_id, product_name, amount, price\r\n" + 
+			String sql="SELECT a.product_id, product_name, amount, product_price, product_discounted_price\r\n" + 
 					"FROM orderdetail a, productdetails b\r\n" + 
 					"WHERE a.product_id = b.product_id\r\n" + 
+					"AND amount > 0\r\n" + 
 					"AND order_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);	
 			pst.setInt(1, order_id);
@@ -130,6 +131,7 @@ public class OrderDetailManager implements IEntityManager {
 				od.setProduct_name(rs.getString(2));
 				od.setAmount(rs.getInt(3));
 				od.setPrice(rs.getDouble(4));
+				od.setDiscounted_price(rs.getDouble(5));
 				result.add(od);
 			}
 		} catch (SQLException e) {
